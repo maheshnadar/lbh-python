@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO, join_room, emit
 # from codenames import game
@@ -12,6 +13,7 @@ import datetime
 import os
 import pymongo
 import json
+from config_update import user_got_connected,user_got_disconnected
 # def mongo_connection():
 con = pymongo.MongoClient()
 collection = con.lbh
@@ -32,23 +34,12 @@ def home():
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
+		
 		try:
 			f = collection.agentchat.find_one({'user1':session['user_Name'],'disconnected':False})
-			hist = {'agent':f['user1']}
-			# print hist
-			hist['firstmessage'] =  f['contexts'][0]['msg']['Text']
-			# hist['firstmessage'] = f['contexts'][0]['msg']
-			# print f['contexts'][1]['msg']
-			# hist['firstmessagetime'] = f['contexts'][0]['curTime']
-			hist['secondmessage'] = f['contexts'][1]['msg']
-			# hist['secondmessagetime'] = f['contexts'][1]['curTime']
-			# hist['thirdmessagetime'] = f['contexts'][2]['curTime']
-
-			hist['thirdmessage'] = f['contexts'][2]['msg']['Text']
-			newhist = json.dumps(hist)
-			user ={'user':session['user_Name'],'agent':session['agent'],'history':newhist}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f}
 		except:
-			user ={'user':session['user_Name'],'agent':session['agent'],'history':""}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
 		return render_template('index.html',data = user)
 #agents area
 @app.route('/agentlogin')
@@ -57,9 +48,14 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		
+		# print "hello"
+		# f = collection.agentchat.find({'user2':session['agent_Email'],'disconnected':False})
+		# for i in f:
+		# 	print i,"#########"
+		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':False}))
+		print hist
 		data = {'agentname':session['agent_Email']}
-		print "hello"
+
 		return render_template('Agentindex.html',data=data)
 #agents area
 @app.route("/agentlogin", methods=["GET", "POST"])
@@ -72,6 +68,7 @@ def agent_login():
 			print "got find"
 			session['agent_logged_in'] = True
 			session['agent_Email'] = request.form['Email']
+			session['agent_name'] = find['user_name']
 			session.permanent = False	
 			# try:
 			# 	idleidfind = collection.agentloggedin.find_one(sort=[("idleid", -1)])
@@ -79,7 +76,7 @@ def agent_login():
 			# except:
 			# 	idleid =1
 			user = {'Email':request.form['Email'],"SID":"sid","connectedagentname":"lol",
-					'updatedat':datetime.datetime.now(),'Chatlimit':find['chatlimit'],'break':False,'room':True}
+					'updatedat':datetime.datetime.now(),'agentname':find['user_name'],'Chatlimit':find['chatlimit'],'break':False,'room':True}
 			collection.agentloggedin.insert_one(user)
 			return redirect(url_for('agenthome'))
 	else:
@@ -128,6 +125,7 @@ def user_logout():
 	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
 	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
 	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$pull':{'chatingwith':session['user_Name']}})
+	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$set':{'room':True}})					
 	session.pop('user_Name',None)
 	session.pop('user_Email',None)
 	return redirect(url_for('home'))
@@ -136,9 +134,19 @@ def user_logout():
 @app.route("/agentlogout")
 # @login_required
 def agent_logout():
-
+	f = collection.agentloggedin.find_one({'Email':session['agent_Email']})
+	try:
+		for i in f['chatingwith']:
+			emit('new_private_message', {'message':'disconnected','username':i,'agent':session['agent_Email']}, broadcast=True)
+			print i,"############"
+	except Exception as e:
+		pass
+	
 	collection.agentloggedin.delete_many({'Email':session['agent_Email']})
+
 	session.pop('agent_logged_in',None)
+	session.pop('agent_Email',None)
+	
 	return redirect(url_for('agenthome'))
 # initialize Flask
 
@@ -198,6 +206,19 @@ def AgentConnection():
 	user = {'SID':request.sid}
 	collection.agentloggedin.update({'Email':session['agent_Email']},{"$set":user},upsert=True)
 
+@socketio.on('endChat',namespace='/private')
+def endChat(payload):
+	print 'Endchat'
+	if payload['type'] == 'agent':
+		message={'message':'Chat Ended by agent','agentname':payload['agentname'],'username':payload['username']}
+		emit('end_chat_message', message, broadcast=True)
+
+@socketio.on('break_message',namespace='/private')
+def break_message(payload):
+	
+	print "Inside break message"
+	collection.agentloggedin.update({'Email':session['agent_Email']},{"$set":{'break':True}},upsert=False)
+
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
 	if payload['type'] == 'user':
@@ -215,96 +236,101 @@ def second_private_message(payload):
 
 @socketio.on('private_message', namespace='/private')
 def private_message(payload):
+	print "private_message"
 	if payload['type'] == 'user':
 		message = {'message': payload['message']}
 		message['username'] = payload['username']
-		message['type'] = "user"
-		print "###Inside User"
-		# if session['agent']:
-		print "##### Inside session agent"
+		message['useremail'] = payload['useremail']
+
+
 		idleidfind = collection.agentloggedin.find_one({'break':False,'room':True},sort=[("updatedat", 1)],limit=1)		
-		#finding an agent
-		# import pdb
-		# pdb.set_trace()
-		try:
+		print idleidfind,"@@@@@@@@@@@@@@"
+
+		if idleidfind:
+
+			print "########## found an agent"
+			session['agent'] = idleidfind['Email']	
+			message['agent'] = idleidfind['Email']
+			# session['connected'] = True
+			print "after sesion"
+							
+		
 			if idleidfind:
-				if idleidfind:
-					print "########## found an agent"
-					# recipient_session_id = idleidfind['SID']
-					session['agent'] = idleidfind['Email']
-					session['connected'] = True
-					# print session['username']
-					message['agent'] = idleidfind['Email']
-					print session['agent']
-					print "agentname"
-					
-				
-					collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['username']}},upsert=False)
-					collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
-					# print recipient_session_id
-					if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
-						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
-					print "dataupdated"
-					timeint = datetime.datetime.now()
-					agenthistory = {
-							"createdAt": timeint,
-							"updatedAt": timeint,
-							"socketid1": "",
-							"socketid2": "",
-							"disconnected": "False",
-							"user1": payload['username'],
-							"user2": idleidfind['Email'],
-							"session_id": "null",
-							"contexts": [{
-									"curTime": timeint,
-									"position": "left",
-									"msg": {
-										"type": "SYS_FIRST",
-										"Text": "Hi "+payload['username'] +"! Welcome to Ross-Simons live chat support. What can we help you with?"
-									},
-									"id": "id"
-								},
-								{
-									"curTime": timeint,
-									"position": "right",
-									"msg": payload['message'],
-									"id": "id"
-								},
-								{
-									"curTime": timeint,
-									"position": "left",
-									"msg": {
-										"type": "SYS_EMPTY_RES",
-										"Text": "Hi, I am Dawn  and I will be assisting you today!"
-									},
-									"id": "id"
-								}
-							],
-							"chatlist": [],
-							"__v": "",
-							"like": "",
-							"disconnectby": ""
-						}
-					# print agenthistory
-					collection.agentchat.insert_one(agenthistory)
-					print "new agentchat"
-					emit('new_private_message', message, broadcast=True)
-					print "done",message
-					# collection.close()
-				else:
-					# print "own"
-					emit('new_private_message', message, broadcast=True)
-					# print "hello"
-		except:
-			emit('new_private_message', "No user available", broadcast=True)
+				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['username']}},upsert=False)
+				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
+				if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
+					collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
+			
+			else:
+				print "got Exception"
+			# print recipient_session_id
+			print "before_request"
+			print message['username'],message['agent']
+		#	user_got_connected(message['username'],message['agent'])
+			print "dataupdated"
+			# timeint = datetime.datetime.now()
+			# agenthistory = {
+			# 		"createdAt": timeint,
+			# 		"updatedAt": timeint,
+			# 		"socketid1": "",
+			# 		"socketid2": "",
+			# 		"disconnected": "False",
+			# 		"user1": payload['username'],
+			# 		"user2": idleidfind['Email'],
+			# 		"session_id": "null",
+			# 		"contexts": [{
+			# 				"curTime": timeint,
+			# 				"position": "left",
+			# 				"msg": {
+			# 					"type": "SYS_FIRST",
+			# 					"Text": "Hi "+payload['username'] +"! Welcome to Ross-Simons live chat support. What can we help you with?"
+			# 				},
+			# 				"id": "id"
+			# 			},
+			# 			{
+			# 				"curTime": timeint,
+			# 				"position": "right",
+			# 				"msg": payload['message'],
+			# 				"id": "id"
+			# 			},
+			# 			{
+			# 				"curTime": timeint,
+			# 				"position": "left",
+			# 				"msg": {
+			# 					"type": "SYS_EMPTY_RES",
+			# 					"Text": "Hi, I am Dawn  and I will be assisting you today!"
+			# 				},
+			# 				"id": "id"
+			# 			}
+			# 		],
+			# 		"chatlist": [],
+			# 		"__v": "",
+			# 		"like": "",
+			# 		"disconnectby": ""
+			# 	}
+			# print agenthistory
+			
+			# collection.agentchat.insert_one(agenthistory)
+			print "new agentchat"
+			mes= collection.thememasters.find_one({})
+			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
+			print agentmess
+			message['frist_agent_message'] = agentmess
+			emit('new_private_message', message, broadcast=True)
+			print "done",message
+			# collection.close()
+		else:
+			print "except"
+			message['offline'] = "No user available"
+			emit('offline_message', message ,broadcast=True)
 			pass
 	else:
 		message = {'message': payload['message']}
 		message['agentname'] = payload['agentname']
 		message['username'] = payload['username']
-		message['type'] = "agent"
 		emit('agent_new_private_message', message, broadcast=True)
 		emit('second_new_private_message', message, broadcast=True)
+		
 		print "Message by agent "
 
 		pass
