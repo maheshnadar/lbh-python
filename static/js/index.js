@@ -227,6 +227,13 @@ app.controller('chatWindowController', function ($scope) {
         }
     }
 
+    $scope.sendViaEnter = function ($event, message) {
+        var keycode = $event.which || $event.keycode;
+        if(keycode === 13){
+            $scope.sendPrivateMessage(message);
+        }
+    }
+
 
     // verify our websocket connection is established
     socket.on('connect', function () {

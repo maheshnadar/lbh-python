@@ -118,7 +118,7 @@
                   Howd did you like the chat?
                 </span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi"></span>
+                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click=""></span>
                 &nbsp;
                 <span class="glyphicon glyphicon-thumbs-down send-glyp-nega"></span>
               </div>
@@ -126,7 +126,7 @@
               <div class="user-chat-bottom">
                 <div class="text-input">
                   <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
-                  <input rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage" ng-submit="sendPrivateMessage(privateMessage)">
+                  <input rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage" ng-keypress="sendViaEnter($event, privateMessage)">
                   <!-- </div> -->
                 </div>
                 <div style="padding:10px;">
