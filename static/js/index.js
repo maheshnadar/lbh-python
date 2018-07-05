@@ -88,69 +88,69 @@ function formatAMPM(date) {
 }
 
 //-- No use time. It is a javaScript effect.
-function insertChat(who, text, time) {
-    if (time === undefined) {
-        time = 0;
-    }
-    var control = "";
-    var date = formatAMPM(new Date());
+// function insertChat(who, text, time) {
+//     if (time === undefined) {
+//         time = 0;
+//     }
+//     var control = "";
+//     var date = formatAMPM(new Date());
 
-    if (who == "me") {
-        control = '<li style="width:100%">' +
-            '<div class="msj macro">' +
-            '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + me.avatar + '" /></div>' +
-            '<div class="text text-l">' +
-            '<p>' + text + '</p>' +
-            '<p><small>' + date + '</small></p>' +
-            '</div>' +
-            '</div>' +
-            '</li>';
-    } else {
-        control = '<li style="width:100%;">' +
-            '<div class="msj-rta macro">' +
-            '<div class="text text-r">' +
-            '<p>' + text + '</p>' +
-            '<p><small>' + date + '</small></p>' +
-            '</div>' +
-            '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' +
-            you.avatar + '" /></div>' +
-            '</li>';
-    }
-    setTimeout(
-        function () {
-            $("ul").append(control).scrollTop($("ul").prop('scrollHeight'));
-        }, time);
+//     if (who == "me") {
+//         control = '<li style="width:100%">' +
+//             '<div class="msj macro">' +
+//             '<div class="avatar"><img class="img-circle" style="width:100%;" src="' + me.avatar + '" /></div>' +
+//             '<div class="text text-l">' +
+//             '<p>' + text + '</p>' +
+//             '<p><small>' + date + '</small></p>' +
+//             '</div>' +
+//             '</div>' +
+//             '</li>';
+//     } else {
+//         control = '<li style="width:100%;">' +
+//             '<div class="msj-rta macro">' +
+//             '<div class="text text-r">' +
+//             '<p>' + text + '</p>' +
+//             '<p><small>' + date + '</small></p>' +
+//             '</div>' +
+//             '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-circle" style="width:100%;" src="' +
+//             you.avatar + '" /></div>' +
+//             '</li>';
+//     }
+//     setTimeout(
+//         function () {
+//             $("ul").append(control).scrollTop($("ul").prop('scrollHeight'));
+//         }, time);
 
-}
+// }
 
-function resetChat() {
-    $("ul").empty();
-}
+// function resetChat() {
+//     $("ul").empty();
+// }
 
-$(".mytext").on("keydown", function (e) {
-    if (e.which == 13) {
-        var text = $(this).val();
-        if (text !== "") {
-            insertChat("you", text);
-            $(this).val('');
-        }
-    }
-});
+// $(".mytext").on("keydown", function (e) {
+//     if (e.which == 13) {
+//         var text = $(this).val();
+//         if (text !== "") {
+//             insertChat("you", text);
+//             $(this).val('');
+//         }
+//     }
+// });
 
-$('body > div > div > div:nth-child(2) > span').click(function () {
-    $(".mytext").trigger({
-        type: 'keydown',
-        which: 13,
-        keyCode: 13
-    });
-})
+// $('body > div > div > div:nth-child(2) > span').click(function () {
+//     $(".mytext").trigger({
+//         type: 'keydown',
+//         which: 13,
+//         keyCode: 13
+//     });
+// })
 
 //-- Clear Chat
 // resetChat();
 
 //-- Print Messages
-var username = $('#username').text();
-insertChat("me", "Hi " + username + "! Welcome to Ross-Simons live chat support. What can we help you with?", 0);
+// var username = $('#username').text();
+// insertChat("me", "Hi " + username + "! Welcome to Ross-Simons live chat support. What can we help you with?", 0);
 // insertChat("you", "Hi, Pablo", 1500);
 // insertChat("me", "What would you like to talk about today?", 3500);
 // insertChat("you", "Tell me a joke", 7000);
@@ -159,67 +159,84 @@ insertChat("me", "Hi " + username + "! Welcome to Ross-Simons live chat support.
 
 var app = angular.module("chatWindow", []);
 
-  app.controller('chatWindowController', function ($scope) {
-// console.log(data);
+app.controller('chatWindowController', function ($scope) {
+    // console.log(data);
 
     $scope.chatOpen = true;
-
-    $scope.sendPrivateMessage=function(message){
+    $scope.chatHistory = chathistory;
+    $scope.user=username;
+    $scope.sendPrivateMessage = function (message) {
         // var message_to_send = $('#private_message').val();
         console.log(message);
         console.log(agent);
         console.log("#####");
         if (agent == "None") {
             console.log("#####");
-    
-    
+
+
             private_socket.emit('private_message', {
+                "date":new Date(),
+                "from_id":useremail,
+                "fromname":username,
+                "to_id":"none",
+                "toname":"none",
                 "type": "user",
-                "username": username,
-                "useremail": useremail,
-                "message": message
             });
         } else {
-    
+            console.log("second #####");
             private_socket.emit('second_private_message', {
                 "type": "user",
-                "username": username,
-                "message": message,
-                "agentname": agent
+                // "username": username,
+                // "message": message,
+                // "agentname": agent
+                "date":new Date(),
+                "from_id":useremail,
+                "fromname":username,
+                "to_id":"none",
+                "toname":agent,
+                "type": "user",
             })
-    
+
         }
     }
 
 
     // verify our websocket connection is established
-socket.on('connect', function () {
-    console.log('Websocket connected!');
-    // socket.emit('Connection');
-});
-socket.on('disconnect', function () {
-    console.log('Websocket connected!');
-    socket.emit('disconnected');
-});
+    socket.on('connect', function () {
+        console.log('Websocket connected!');
+        // socket.emit('Connection');
+    });
+    socket.on('disconnect', function () {
+        console.log('Websocket connected!');
+        socket.emit('disconnected');
+    });
 
-private_socket.on('new_private_message', function (msg) {
-    var username = $('#username').text();
-    if (msg.username == username) {
-        console.log('new_private_message');
-        var add_tab_html = '<p id = "agentname" hidden="True">' +
-            msg['agentname'] + '</p>'
-        $('#chathide').append(add_tab_html)
+    private_socket.on('new_private_message', function (msg) {
+        var username = $('#username').text();
+        agent = msg.agent;
+        console.log('new_private_message', msg, agent);
+        if (msg.username == username) {
+            console.log('new_private_message');
+            // var add_tab_html = '<p id = "agentname" hidden="True">' +
+            //     msg['agentname'] + '</p>'
+            // $('#chathide').append(add_tab_html)
+            // data={{data | tojson}};
+            console.log(data);
+            agent = msg.agent;
+            $scope.chatHistory.push(msg);
 
-        insertChat("you", msg['message']);
-        insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
-    }
 
-});
-private_socket.on('second_new_private_message', function (msg) {
-    var username = $('#username').text();
-    if (msg.username == username) {
-        insertChat("you", msg['message']);
-    }
+            // insertChat("you", msg['message']);
+            // insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
+        }
+$scope.$digest();
+    });
+    private_socket.on('second_new_private_message', function (msg) {
+        var username = $('#username').text();
+       
+        // if (msg.username == username) {
+        //     insertChat("you", msg['message']);
+        // }
 
-});
-  })
+    });
+})

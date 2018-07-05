@@ -309,3 +309,25 @@ input:focus {
     object-fit: contain;
 }
 
+
+
+.msj {
+    float: left;
+    background: #bbb7b7;
+}
+
+.msj:before{
+    border-color: transparent #bbb7b7 transparent transparent;
+}
+
+.msj-rta {
+    float: right;
+    background: #bbb7b7;
+}
+.msj-rta:after{
+    border-color: #bbb7b7 transparent transparent transparent;
+}
+
+.text>p:last-of-type{
+    color: #4a4949;
+}

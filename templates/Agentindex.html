@@ -203,7 +203,15 @@
     <!-- <script type="text/javascript" charset="utf-8"></script> -->
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
-
+  <script>
+      var data = {{data | tojson}}
+      var username = data.user;
+      var chathistory = data.history;
+      var agent = data.agent;
+      var useremail = data.useremail;
+  
+      console.log(data, username, agent, useremail,chathistory);
+    </script>
 </body>
 
 </html>
