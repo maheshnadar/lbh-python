@@ -1,15 +1,64 @@
-{% block body %}
-{% if session['logged_in'] %}
+<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+<!-- <script src="../static/js/angular.js"></script> -->
+<link rel="stylesheet" href="../static/css/user.css">
+
+<style>
+  body {
+    
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.7)), to(rgba(0, 0, 0, 0.6))), url(../static/images/agent-login-background.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6)), url(../static/images/agent-login-background.jpg);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .agent-login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+  }
+
+  .agent-login-container input[type="Email"],
+  .agent-login-container input[type="password"] {
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+    padding: 8px 10px;
+    border-radius: 20px;
+    width: 100%;
+  }
+
+  .agent-login-container input[type="submit"] {
+    float: right;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .agent-login-container {
+      width: 80%;
+    }
+  }
+</style>
+
+{% block body %} {% if session['logged_in'] %}
+
 <p>You're logged in already!</p>
 {% else %}
-<form action="/agentlogin" method="POST">
 
-  <input type="Email" name="Email" placeholder="Email">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Login">
-</form>
-<script >
-	   
+
+<div class="agent-login-container">
+  <form action="/agentlogin" method="POST">
+    <input type="Email" name="Email" placeholder="Email">
+    <br>
+    <input type="password" name="password" placeholder="Password">
+    <br>
+    <input type="submit" value="Login" class="btn btn-primary">
+  </form>
+</div>
+
+<script>
 </script>
-{% endif %}
-{% endblock %}
+
+{% endif %} {% endblock %}
+
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
