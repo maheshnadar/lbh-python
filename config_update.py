@@ -49,7 +49,7 @@ def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
             "fromname" : fromname, 
             "toname" : toname, 
             "msg" : message, 
-            "date" : ""
+            "date" : timeint
         }
 	collection.agentchat.update({'user1':useremail},{"$push":{'chatlist':chat}},upsert=False)
 #user_got_connected("d","dev@lbh.com")
