@@ -111,15 +111,28 @@
                 </div>
               </li>
             </ul>
-            <div class="user-chat-bottom">
-              <div class="text-input">
-                <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
-                <input rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage">
-                <!-- </div> -->
+            <div class="class-main-bottom">
+
+              <div class="suggest">
+                <span class="suggest-text">
+                  Howd did you like the chat?
+                </span>
+                &nbsp;
+                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi"></span>
+                &nbsp;
+                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega"></span>
               </div>
-              <div style="padding:10px;">
-                <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
-                <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
+
+              <div class="user-chat-bottom">
+                <div class="text-input">
+                  <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
+                  <input rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage" ng-submit="sendPrivateMessage(privateMessage)">
+                  <!-- </div> -->
+                </div>
+                <div style="padding:10px;">
+                  <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
+                  <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
+                </div>
               </div>
             </div>
           </div>
