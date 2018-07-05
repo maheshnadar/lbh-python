@@ -240,14 +240,16 @@ def private_message(payload):
 			if idleidfind:
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['username']}},upsert=False)
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
-				if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
-					collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
-			
+				try:
+					if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
+						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
+				except:
+					pass
 			else:
 				print "got Exception"
 			# print recipient_session_id
-			print "before_request"
-			print message['username'],message['agent']
+			# print "before_request"
+			# print message['username'],message['agent']
 			print "dataupdated"
 			mes= collection.thememasters.find_one({})
 			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])

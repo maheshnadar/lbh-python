@@ -41,6 +41,7 @@ def save_chat(useremail,agentemail,message):
 	return True
 
 def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
+	print "second_save_chatlist"
 	timeint = datetime.datetime.now()
 	chat = {
             "from_id" : from_id, 
