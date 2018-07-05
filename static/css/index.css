@@ -164,7 +164,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 /* each text bubble */
 
 .macro {
-    margin-top: 5px;
+    margin-top: 15px;
     width: 85%;
     border-radius: 5px;
     padding: 5px;
@@ -189,21 +189,11 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 
 .frame {
     background: #e0e0de;
-    height: 450px;
+    height: 525px;
     /* width: 100%; */
     overflow: hidden;
     padding: 0;
     margin-bottom: 20px;
-}
-
-.frame>div:last-of-type {
-    /* border: 1px solid red; */
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    padding: 5px;
-    /* color: green; */
 }
 
 /* send button */
@@ -226,7 +216,7 @@ body>div>div>div.msj-rta.macro {
 ul {
     width: 100%;
     list-style-type: none;
-    padding: 18px;
+    padding: 0px 18px;
     position: absolute;
     bottom: 47px;
     display: flex;
@@ -301,15 +291,13 @@ input:focus {
     display: flex;
 }
 
-.end-chat{
+.end-chat {
     margin: 0 2rem;
 }
 
-.end-chat img{
+.end-chat img {
     object-fit: contain;
 }
-
-
 
 .msj {
     float: left;
@@ -317,7 +305,7 @@ input:focus {
     max-width: 300px;
 }
 
-.msj:before{
+.msj:before {
     border-color: transparent #bbb7b7 transparent transparent;
 }
 
@@ -326,14 +314,27 @@ input:focus {
     background: #bbb7b7;
     max-width: 300px;
 }
-.msj-rta:after{
+
+.msj-rta:after {
     border-color: #bbb7b7 transparent transparent transparent;
 }
 
-.text>p:last-of-type{
+.text>p:last-of-type {
     color: #4a4949;
 }
 
-.msj-rta.macro{
-    max-width: unset;
+.msj-rta.macro {
+    max-width: 300px;
+}
+
+.user-chat-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    padding: 5px;
+}
+
+.text-input {
+    width: 75%;
 }
