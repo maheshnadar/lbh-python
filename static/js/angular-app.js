@@ -129,6 +129,12 @@ app.controller("agentController", function ($scope) {
         });
     }
 
+    $scope.changeButtonTxt = true;
+
+    $scope.$watch('changeButtonTxt', function(){
+        $scope.toggleText = $scope.changeButtonTxt ? 'Break' : 'Resume';
+    })
+
     $scope.endChat = function (data) {
         var name = $('.agentname').text();
         console.log(name,data[0].username);
