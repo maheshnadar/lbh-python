@@ -163,7 +163,29 @@ app.controller('chatWindowController', function ($scope) {
     // console.log(data);
 
     $scope.chatOpen = true;
-    $scope.chatHistory = chathistory;
+    $scope.chatHistory = [];
+    // console.log("chat list ",chathistory, chathistory.chatlist.length)
+    if (chathistory == null || chathistory.chatlist.length == 0) {
+        console.log("chathistory null")
+        $scope.chatHistory.chatlist = [{
+            date: new Date(),
+            from_id: useremail,
+            fromname: username,
+            msg: "Hi " + username + " !Welcome to Ross-Simons live chat support. What can we help you with?",
+            to_id: "",
+            toname: "",
+            type: "agent"
+        }]
+        console.log("chathistory null 2", $scope.chatHistory)
+    } else {
+        $scope.chatHistory = chathistory;
+        // console.log("chathistory null 3",$scope.chatHistory);
+        console.log("chathistory null 3", chathistory, agent);
+        agent = chathistory.user2;
+        console.log("chathistory null 3", chathistory, agent);
+    }
+
+
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
         // var message_to_send = $('#private_message').val();
@@ -180,6 +202,8 @@ app.controller('chatWindowController', function ($scope) {
                 "to_id": "none",
                 "toname": "none",
                 "type": "user",
+                "agent_email": "",
+                "user_email": useremail
             });
         } else {
             console.log("second #####");
@@ -195,6 +219,9 @@ app.controller('chatWindowController', function ($scope) {
                 "message": message,
                 "toname": 'agent',
                 "type": "user",
+                "agent_email": agent,
+                "user_email": useremail
+
             })
 
         }
@@ -223,7 +250,7 @@ app.controller('chatWindowController', function ($scope) {
             // $('#chathide').append(add_tab_html)
             // data={{data | tojson}};
             console.log(msg);
-            agent = msg.agent;
+            agent = msg.agent_email;
             console.log($scope.chatHistory, "chat history");
             $scope.chatHistory.chatlist.push(msg);
             // insertChat("you", msg['message']);
@@ -243,7 +270,7 @@ app.controller('chatWindowController', function ($scope) {
             // $('#chathide').append(add_tab_html)
             // data={{data | tojson}};
             console.log(msg);
-            agent = msg.agent;
+            agent = msg.agent_email;
             console.log($scope.chatHistory, "chat history");
             $scope.chatHistory.chatlist.push(msg);
             // insertChat("you", msg['message']);

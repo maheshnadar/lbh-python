@@ -314,6 +314,7 @@ input:focus {
 .msj {
     float: left;
     background: #bbb7b7;
+    max-width: 300px;
 }
 
 .msj:before{
@@ -323,6 +324,7 @@ input:focus {
 .msj-rta {
     float: right;
     background: #bbb7b7;
+    max-width: 300px;
 }
 .msj-rta:after{
     border-color: #bbb7b7 transparent transparent transparent;
@@ -330,4 +332,8 @@ input:focus {
 
 .text>p:last-of-type{
     color: #4a4949;
+}
+
+.msj-rta.macro{
+    max-width: unset;
 }
