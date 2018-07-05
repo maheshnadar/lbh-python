@@ -118,9 +118,9 @@
                   Was our Agent helpful?
                 </span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click=""></span>
+                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click="likeSuggest(); likeStyle={'color':'blue'}" ng-style="likeStyle"></span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega"></span>
+                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega" ng-click="dislikeSuggest(); dislikeStyle={'color':'red'}" ng-style="dislikeStyle"></span>
               </div>
 
               <div class="user-chat-bottom">

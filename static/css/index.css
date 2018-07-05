@@ -143,12 +143,12 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 
 .text-l {
     float: left;
-    padding-right: 10px;
+    padding: 10px;
 }
 
 .text-r {
     float: right;
-    padding-left: 10px;
+    padding: 10px;
 }
 
 .avatar {

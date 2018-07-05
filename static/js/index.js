@@ -286,4 +286,37 @@ app.controller('chatWindowController', function ($scope) {
         $scope.$digest();
         // }
     });
+
+    $scope.likeSuggest = function () {        
+        console.log("likeClicked");
+        private_socket.emit('like_suggest', {
+            "date": new Date(),
+            "from_id": useremail,
+            "fromname": username,
+            "message": "like",
+            "to_id": "none",
+            "toname": "none",
+            "type": "user",
+            "agent_email": "",
+            "user_email": useremail
+        });
+        
+    }
+
+    $scope.dislikeSuggest = function () {        
+        console.log("dislikeClicked");
+        private_socket.emit('dislike_suggest', {
+            "date": new Date(),
+            "from_id": useremail,
+            "fromname": username,
+            "message": "dislike",
+            "to_id": "none",
+            "toname": "none",
+            "type": "user",
+            "agent_email": "",
+            "user_email": useremail
+        });
+    }
+
+
 })
