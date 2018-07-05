@@ -1,7 +1,7 @@
 import pymongo
 import datetime
 con = pymongo.MongoClient()
-collection = con.LBH
+collection = con.lbh
 
 
 def user_got_connected(username,agentname):
@@ -20,6 +20,9 @@ def user_got_connected(username,agentname):
 def user_got_disconnected(username,agentname):
 	pass
 def save_chat(useremail,agentemail,message):
+
+	print "in save_chat"
+	print useremail,agentemail,message
 	timeint = datetime.datetime.now()
 	agenthistory = {
 					"createdAt": timeint,
@@ -32,10 +35,12 @@ def save_chat(useremail,agentemail,message):
 					"like": "",
 					"disconnectby": ""
 				}
-	collection.agentchat.insert_one(agenthistory)
+
+	f =collection.agentchat.insert_one(agenthistory)
+	print "#############",f
 	return True
 
-def second_save_chatlist(from_id,to_id,fromname,toname,message):
+def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
 	timeint = datetime.datetime.now()
 	chat = {
             "from_id" : from_id, 
@@ -45,5 +50,6 @@ def second_save_chatlist(from_id,to_id,fromname,toname,message):
             "msg" : message, 
             "date" : ""
         }
-	collection.agentchat.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['username']}},upsert=False)
+	collection.agentchat.update({'user1':useremail},{"$push":{'chatlist':chat}},upsert=False)
 #user_got_connected("d","dev@lbh.com")
+# save_chat("dev@gmail","dev@lbh.com","d")
