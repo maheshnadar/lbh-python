@@ -161,7 +161,7 @@ var app = angular.module("chatWindow", []);
 
 app.controller('chatWindowController', function ($scope) {
     // console.log(data);
-
+$scope.agentDisconnected=false;
     $scope.chatOpen = true;
     $scope.chatHistory = [];
     // console.log("chat list ",chathistory, chathistory.chatlist.length)
