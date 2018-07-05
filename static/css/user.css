@@ -1,0 +1,106 @@
+.user-page-container {
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    /* border: 1px solid red; */
+    /* width: 350px; */
+    /* */
+}
+
+.user-page-container input[type=text],
+.user-page-container input[type=email] {
+    padding: 8px 10px;
+    border-radius: 15px;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.user-page-container input {
+    /* margin: 10px 0; */
+}
+
+.user-page-container input[type=submit] {
+    /* float: right; */
+}
+
+.chat-container {
+    /* background: #d6d4d4;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 570px; */
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 570px;
+    padding: 4px;
+    transition: height 500ms;
+}
+
+img {
+    max-width: 100%;
+}
+
+.chat-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.top {
+    padding: 1rem;
+    background: #ad4d4d;
+    color: white;
+    border-radius: 15px 15px 0px 0px;
+}
+
+.user-page-container {
+    background: #d5d5d5;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+.login-container {
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+.login-container form {
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.login-container form input {
+    margin: 1rem 0px;
+}
+
+.chat-login {
+    width: 100%;
+    background: #ad4d4d;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    text-transform: uppercase;
+    color: white;
+}
+
+.chat-login:hover {
+    color: white;
+}
+
+.chat-toggle{
+float: right;
+}
+
+.chat-close{
+
+    height:50px;
+}

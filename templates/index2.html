@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+.time-left {
+    float: left;
+    color: #999;
+}
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.panel-body
+{
+    overflow-y: scroll;
+    height: 250px;
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+</style>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+</head>
+<body>
+
+<h2>Chat Messages</h2>
+ <li><a href="{{ url_for('user_logout') }}">End Chat</a></li>
+<div id = "chat">
+<div  class="container">
+  <!-- <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;"> -->
+  <p>Welcome to LBH</p>
+  <span class="time-right">11:00</span>
+</div>
+
+<!-- <div class="container darker">
+  <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+  <p>Hey! I'm fine. Thanks for asking!</p>
+  <span class="time-left">11:01</span>
+</div>
+
+<div class="container">
+  <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+  <p>Sweet! So, what do you wanna do today?</p>
+  <span class="time-right">11:02</span>
+</div>
+
+<div class="container darker">
+  <img src="/w3images/avatar_g2.jpg" alt="Avatar" style="width:100%;">
+  <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+  <span class="time-left">11:05</span>
+ </div>
+-->
+</div>
+<!-- <div class="panel-footer">
+    <div class="input-group">
+        <input id="private_message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+        <span class="input-group-btn">
+            <button id="send_private_message" class="btn btn-warning btn-sm" >
+                Send</button>
+        </span>
+    </div>
+</div> -->
+ Message: <input type="text" id="private_message">
+    <button id="send_private_message" onclick="myFunction()">Send</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script
+              src="http://code.jquery.com/jquery-3.2.1.min.js"
+              integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+              crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+  var socket = io.connect('http://' + document.domain + ':' + location.port);
+    // verify our websocket connection is established
+      socket.on('connect', function() {
+
+       // var add_chat_html = '<div class="container darker">'+
+       //                      '<img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">'+
+       //                      '<p>Sweet! So, what do you wanna do today?</p>'+
+       //                      '<span class="time-left">11:02</span>'+
+       //                      '</div>'
+       //          $('#chat').append(add_chat_html); 
+      console.log('Websocket connected!');
+      socket.emit('Connection');  
+    });
+   function myFunction() {
+    var private_socket = io.connect('http://127.0.0.1:5000/private');  
+    var message_to_send = $('#private_message').val();
+    private_socket.emit('private_message', {'message' : message_to_send});
+    document.getElementById("send_private_message").innerHTML = "YOU CLICKED ME!";
+}
+var private_socket = io.connect('http://127.0.0.1:5000/private');
+  
+              // var add_chat_html = `
+              //   <div class="col-md-4" id="`+message_id+`">
+              //     <div class="panel panel-primary">
+              //       <div class="panel-heading"><b> `+message_header+` </b> 
+              //         <span class="glyphicon glyphicon-remove pull-right `+class_close+`" style="cursor:pointer" data-id="`+message_id+`"; return false"></span> 
+              //       </div>
+              //       <div id="`+message_body+`" class="panel-body" style="height: 300px;overflow:auto; }">
+              //       </div>
+              //       <div>
+              //         <form id="`+message_id+`" action="#" class="form-inline message-form">
+              //           <input type="hidden" data-id="`+message_id+`" id="sid" name="sid">
+              //           <div class="form-group">
+              //             <textarea style="width:280px;" placeholder="Type a message..." rows="1" name="`+message_input+`" id="`+message_input+`"></textarea>
+              //           </div>
+              //           <div class="form-group">
+              //             <input class="btn btn-primary" type="submit" value="Send">
+              //           </div>
+              //         </form>
+              //       </div>
+              //     </div>
+              //   </div>`;
+              // var add_chat_html = '<p>hello</p>'
+              //   $('#chat').append(add_chat_html);
+
+  </script>
+</body>
+</html>
