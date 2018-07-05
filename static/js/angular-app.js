@@ -4,6 +4,7 @@ app.controller("agentController", function ($scope) {
     $scope.users = [];
     $scope.chatHistory = [];
     $scope.userChat;
+    $scope.toggleText="break"
     $scope.getChat = function (chat) {
         console.log("change chat", chat)
         for (var i = 0; i < $scope.chatHistory.length; i++) {
