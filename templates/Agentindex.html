@@ -88,7 +88,7 @@
       <!-- <button href="{{ url_for('user_logout') }}">Endchat</button> -->
       
       <li>
-           <a  class="btn btn-danger" ng-click="break(); changeButtonTxt = !changeButtonTxt">{{toggleText}}</a>
+           <a  class="btn btn-danger" ng-click="break(); changeButtonTxt = !changeButtonTxt"><span ng-bind=toggleText></span></a>
         </li>
       <li>
         <a href="{{ url_for('agent_logout') }}" class="btn btn-danger">Logout</a>
