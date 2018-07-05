@@ -31,7 +31,9 @@ def home():
 	else:
 		
 		try:
-			f = collection.agentchat.find_one({'user1':session['user_Name'],'disconnected':False})
+			print session['user_Email']
+			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
+			f=f
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f}
 		except:
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
