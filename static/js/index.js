@@ -223,8 +223,8 @@ app.controller('chatWindowController', function ($scope) {
                 "user_email": useremail
 
             })
-
         }
+        $scope.privateMessage = null;
     }
 
     $scope.sendViaEnter = function ($event, message) {
