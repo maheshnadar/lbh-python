@@ -33,7 +33,6 @@ def home():
 		try:
 			print session['user_Email']
 			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
-			f=f
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f}
 		except:
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
@@ -45,9 +44,9 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':False}))
-		print hist
-		data = {'agentname':session['agent_Email']}
+		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
+		# print hist
+		data = {'agentname':session['agent_Email'],'history':hist}
 
 		return render_template('Agentindex.html',data=data)
 #agents area
@@ -247,8 +246,6 @@ def private_message(payload):
 						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
 				except:
 					pass
-			else:
-				print "got Exception"
 			# print recipient_session_id
 			# print "before_request"
 			# print message['username'],message['agent']
