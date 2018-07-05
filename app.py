@@ -1,19 +1,14 @@
 
-from flask import Flask, render_template
-from flask_socketio import SocketIO, join_room, emit
-# from codenames import game
 from threading import Lock
-from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
     close_room, rooms, disconnect
-from flask import Flask, flash, redirect, render_template, request, session, abort
-from flask import render_template, request, flash, session, url_for, redirect
+from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,redirect
 import time
 import datetime
 import os
 import pymongo
 import json
-from config_update import user_got_connected,user_got_disconnected
+from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist
 # def mongo_connection():
 con = pymongo.MongoClient()
 collection = con.lbh
@@ -48,10 +43,6 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		# print "hello"
-		# f = collection.agentchat.find({'user2':session['agent_Email'],'disconnected':False})
-		# for i in f:
-		# 	print i,"#########"
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':False}))
 		print hist
 		data = {'agentname':session['agent_Email']}
@@ -65,16 +56,10 @@ def agent_login():
 		#collection = mongo_connection()
 		find=collection.usermaster.find_one({'user_id':request.form['Email'],'password':request.form['password'],'user_status':True,'role':'agent'})
 		if find:
-			print "got find"
 			session['agent_logged_in'] = True
 			session['agent_Email'] = request.form['Email']
 			session['agent_name'] = find['user_name']
 			session.permanent = False	
-			# try:
-			# 	idleidfind = collection.agentloggedin.find_one(sort=[("idleid", -1)])
-			# 	idleid = idleidfind['idleid']+1
-			# except:
-			# 	idleid =1
 			user = {'Email':request.form['Email'],"SID":"sid","connectedagentname":"lol",
 					'updatedat':datetime.datetime.now(),'agentname':find['user_name'],'Chatlimit':find['chatlimit'],'break':False,'room':True}
 			collection.agentloggedin.insert_one(user)
@@ -96,17 +81,14 @@ def user_login():
 		session['agent'] = "None"
 		session.permanent = False
 		connectedagentname = None
-		# if session['username']:
 		user = {'username':session['user_Name'],'Email':session['user_Email'],"agent":connectedagentname,"createdat": datetime.datetime.utcnow()}
 		#collection = mongo_connection()
 		collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
-
-		# login_user(request.form['Name'])
-
+		return redirect(url_for('home'))
 	else:
 		return abort(401)
 
-	return redirect(url_for('home'))
+	
 
 # @app.before_request
 # def make_session_permanent():
@@ -266,54 +248,15 @@ def private_message(payload):
 			# print recipient_session_id
 			print "before_request"
 			print message['username'],message['agent']
-		#	user_got_connected(message['username'],message['agent'])
 			print "dataupdated"
-			# timeint = datetime.datetime.now()
-			# agenthistory = {
-			# 		"createdAt": timeint,
-			# 		"updatedAt": timeint,
-			# 		"socketid1": "",
-			# 		"socketid2": "",
-			# 		"disconnected": "False",
-			# 		"user1": payload['username'],
-			# 		"user2": idleidfind['Email'],
-			# 		"session_id": "null",
-			# 		"contexts": [{
-			# 				"curTime": timeint,
-			# 				"position": "left",
-			# 				"msg": {
-			# 					"type": "SYS_FIRST",
-			# 					"Text": "Hi "+payload['username'] +"! Welcome to Ross-Simons live chat support. What can we help you with?"
-			# 				},
-			# 				"id": "id"
-			# 			},
-			# 			{
-			# 				"curTime": timeint,
-			# 				"position": "right",
-			# 				"msg": payload['message'],
-			# 				"id": "id"
-			# 			},
-			# 			{
-			# 				"curTime": timeint,
-			# 				"position": "left",
-			# 				"msg": {
-			# 					"type": "SYS_EMPTY_RES",
-			# 					"Text": "Hi, I am Dawn  and I will be assisting you today!"
-			# 				},
-			# 				"id": "id"
-			# 			}
-			# 		],
-			# 		"chatlist": [],
-			# 		"__v": "",
-			# 		"like": "",
-			# 		"disconnectby": ""
-			# 	}
-			# print agenthistory
-			
-			# collection.agentchat.insert_one(agenthistory)
-			print "new agentchat"
 			mes= collection.thememasters.find_one({})
+			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])
+			save_chat(message['useremail'],idleidfind['Email'],message['message'])
+			second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess)
+			second_save_chatlist(message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'])
+
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
+			second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
 			print agentmess
 			message['frist_agent_message'] = agentmess
 			emit('new_private_message', message, broadcast=True)
