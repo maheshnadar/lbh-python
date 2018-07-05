@@ -21,79 +21,54 @@
 
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 var private_socket = io.connect('http://127.0.0.1:5000/private');
-// verify our websocket connection is established
-socket.on('connect', function () {
-    console.log('Websocket connected!');
-    // socket.emit('Connection');
-});
-socket.on('disconnect', function () {
-    console.log('Websocket connected!');
-    socket.emit('disconnected');
-});
-$('#send_private_message').on('click', function (e) {
-    // var recipient = $('#send_to_username').val();
-    // console.log("dev");
-
-    var message_to_send = $('#private_message').val();
-    // console.log(message_to_send)
-    // var username = $('#username').text();
-    // var agent = $('#agentname').text();
-    console.log(agent);
-    console.log("#####");
-    if (agent == "") {
-        console.log("#####");
-
-
-        private_socket.emit('private_message', {
-            "type": "user",
-            "username": username,
-            "useremail": useremail,
-            "message": message_to_send
-        });
-    } else {
-
-        private_socket.emit('second_private_message', {
-            "type": "user",
-            "username": username,
-            "message": message_to_send,
-            "agentname": agent
-        })
-
-    }
-    // console.log(username);
-
-    // console.log(e.which);
-    // if (e.which == 1) {
-    //   var text = $(".mytext").val();
-    //   if (text !== "") {
-    //     insertChat("you", text);
-    //     $(".mytext").val('');
-    //   }
-    // }
-});
 
 
 
-private_socket.on('new_private_message', function (msg) {
-    var username = $('#username').text();
-    if (msg.username == username) {
-        console.log('new_private_message');
-        var add_tab_html = '<p id = "agentname" hidden="True">' +
-            msg['agentname'] + '</p>'
-        $('#chathide').append(add_tab_html)
+// $('#send_private_message').on('click', function (e) {
+//     // var recipient = $('#send_to_username').val();
+//     // console.log("dev");
 
-        insertChat("you", msg['message']);
-        insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
-    }
+//     var message_to_send = $('#private_message').val();
+//     // console.log(message_to_send)
+//     // var username = $('#username').text();
+//     // var agent = $('#agentname').text();
+//     console.log(agent);
+//     console.log("#####");
+//     if (agent == "None") {
+//         console.log("#####");
 
-});
-private_socket.on('second_new_private_message', function (msg) {
-    var username = $('#username').text();
-    if (msg.username == username) {
-        insertChat("you", msg['message']);
-    }
 
-});
+//         private_socket.emit('private_message', {
+//             "type": "user",
+//             "username": username,
+//             "useremail": useremail,
+//             "message": message_to_send
+//         });
+//     } else {
+
+//         private_socket.emit('second_private_message', {
+//             "type": "user",
+//             "username": username,
+//             "message": message_to_send,
+//             "agentname": agent
+//         })
+
+//     }
+//     // console.log(username);
+
+//     // console.log(e.which);
+//     // if (e.which == 1) {
+//     //   var text = $(".mytext").val();
+//     //   if (text !== "") {
+//     //     insertChat("you", text);
+//     //     $(".mytext").val('');
+//     //   }
+//     // }
+// });
+
+
+
+
 // exp---------------------------------->
 var me = {};
 me.avatar = "https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48";
@@ -188,4 +163,63 @@ var app = angular.module("chatWindow", []);
 // console.log(data);
 
     $scope.chatOpen = true;
+
+    $scope.sendPrivateMessage=function(message){
+        // var message_to_send = $('#private_message').val();
+        console.log(message);
+        console.log(agent);
+        console.log("#####");
+        if (agent == "None") {
+            console.log("#####");
+    
+    
+            private_socket.emit('private_message', {
+                "type": "user",
+                "username": username,
+                "useremail": useremail,
+                "message": message
+            });
+        } else {
+    
+            private_socket.emit('second_private_message', {
+                "type": "user",
+                "username": username,
+                "message": message,
+                "agentname": agent
+            })
+    
+        }
+    }
+
+
+    // verify our websocket connection is established
+socket.on('connect', function () {
+    console.log('Websocket connected!');
+    // socket.emit('Connection');
+});
+socket.on('disconnect', function () {
+    console.log('Websocket connected!');
+    socket.emit('disconnected');
+});
+
+private_socket.on('new_private_message', function (msg) {
+    var username = $('#username').text();
+    if (msg.username == username) {
+        console.log('new_private_message');
+        var add_tab_html = '<p id = "agentname" hidden="True">' +
+            msg['agentname'] + '</p>'
+        $('#chathide').append(add_tab_html)
+
+        insertChat("you", msg['message']);
+        insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
+    }
+
+});
+private_socket.on('second_new_private_message', function (msg) {
+    var username = $('#username').text();
+    if (msg.username == username) {
+        insertChat("you", msg['message']);
+    }
+
+});
   })

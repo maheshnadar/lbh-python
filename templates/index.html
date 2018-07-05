@@ -14,7 +14,6 @@
 
 <body ng-app="chatWindow">
   <!-- close experiment -->
-  {{data}}
   <div ng-controller="chatWindowController">
     <div class="chat-container" ng-class="{'chat-close':!chatOpen}">
       <div class="top">
@@ -58,12 +57,12 @@
             <div>
               <div class="msj-rta macro">
                 <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
-                <textarea rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message"></textarea>
+                <textarea rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage"></textarea>
                 <!-- </div> -->
 
               </div>
               <div style="padding:10px;">
-                <span class="glyphicon glyphicon-share-alt send-glyp" id="send_private_message"></span>
+                <span class="glyphicon glyphicon-share-alt send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
                 <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
               </div>
             </div>
@@ -88,12 +87,13 @@
 
   </div>
   <script>
-    var data = {{ data | tojson }}
-    var username = data.username;
+    var data = {{data | tojson}}
+    var username = data.user;
+    var chathistory = data.history;
     var agent = data.agent;
     var useremail = data.useremail;
 
-    console.log(data,username,agent,useremail);
+    console.log(data, username, agent, useremail,chathistory);
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
