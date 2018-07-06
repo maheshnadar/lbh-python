@@ -1,46 +1,49 @@
 var app = angular.module("Agent", []);
 
 app.controller("agentController", function ($scope) {
-    $scope.users = [];
-    $scope.chatHistory = [];
-    $scope.userChat;
+    // $scope.users = [];
+    // $scope.chatHistory = [];
+    $scope.chatHistory=chathistory;
+    $scope.message=[];
     $scope.toggleText="break"
     $scope.getChat = function (chat) {
+
         console.log("change chat", chat)
-        for (var i = 0; i < $scope.chatHistory.length; i++) {
-            var history = $scope.chatHistory[i][chat.username.toString()];
-            console.log("for llop", chat.username, history)
-            if ($scope.chatHistory[i][chat.username.toString()]) {
-                console.log("found messgae", $scope.chatHistory[i])
-                $scope.userChat = history;
-            }
-        }
+        $scope.message=chat;
+        // for (var i = 0; i < $scope.chatHistory.length; i++) {
+        //     var history = $scope.chatHistory[i][chat.username.toString()];
+        //     console.log("for llop", chat.username, history)
+        //     if ($scope.chatHistory[i][chat.username.toString()]) {
+        //         console.log("found messgae", $scope.chatHistory[i])
+        //         $scope.userChat = history;
+        //     }
+        // }
     }
     private_socket.on('agent_new_chat', function (msg) {
-        // console.log("new_private_message")
+        console.log("agent_new_chat" , msg)
         // alert(msg);
         console.log("agent_new_chat", msg);
-        if (msg == "No user available") {
-            console.log("chat history", $scope.chatHistory);
-            return
-        } else {
-            $scope.users.push(msg);
-            console.log($scope.users, "messge");
-            var chat = {};
-            var name = msg.username.toString();
-            var time = new Date();
-            chat[name] = [];
-            chat[name].push({
-                'message': msg.message,
-                'username': msg.username,
-                'time': time,
-                'agent': msg.agent,
-                'from': 'user'
-            })
-            console.log("chat", chat);
-            $scope.chatHistory.push(chat);
-            console.log("chat history", $scope.chatHistory);
-        }
+        // if (msg == "No user available") {
+        //     console.log("chat history", $scope.chatHistory);
+        //     return
+        // } else {
+        //     $scope.users.push(msg);
+        //     console.log($scope.users, "messge");
+        //     var chat = {};
+        //     var name = msg.username.toString();
+        //     var time = new Date();
+        //     chat[name] = [];
+        //     chat[name].push({
+        //         'message': msg.message,
+        //         'username': msg.username,
+        //         'time': time,
+        //         'agent': msg.agent,
+        //         'from': 'user'
+        //     })
+        //     console.log("chat", chat);
+        //     $scope.chatHistory.push(chat);
+        //     console.log("chat history", $scope.chatHistory);
+        // }
 
 
         // var add_tab_html = '<button class="tablinks" onclick="openCity(event, ' + msg['username'] + ')">' + msg[
@@ -67,23 +70,23 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        console.log("agent_new_private_message", msg);
-        for (var i = 0; i < $scope.chatHistory.length; i++) {
-            var history = $scope.chatHistory[i][msg.username.toString()];
-            console.log("for new private llop", msg.username, history)
-            if ($scope.chatHistory[i][msg.username.toString()]) {
-                console.log("found messgae", $scope.chatHistory[i])
-                $scope.userChat = history;
-                var time = new Date();
-                $scope.chatHistory[i][msg.username.toString()].push({
-                    'message': msg.message,
-                    'username': msg.username,
-                    'time': time,
-                    'agent': msg.agent,
-                    'from': (msg.type ? 'agent' : 'user')
-                })
-            }
-        }
+        console.log("agent_new_chat" , msg)
+        // for (var i = 0; i < $scope.chatHistory.length; i++) {
+        //     var history = $scope.chatHistory[i][msg.username.toString()];
+        //     console.log("for new private llop", msg.username, history)
+        //     if ($scope.chatHistory[i][msg.username.toString()]) {
+        //         console.log("found messgae", $scope.chatHistory[i])
+        //         $scope.userChat = history;
+        //         var time = new Date();
+        //         $scope.chatHistory[i][msg.username.toString()].push({
+        //             'message': msg.message,
+        //             'username': msg.username,
+        //             'time': time,
+        //             'agent': msg.agent,
+        //             'from': (msg.type ? 'agent' : 'user')
+        //         })
+        //     }
+        // }
 
 
 
@@ -117,7 +120,6 @@ app.controller("agentController", function ($scope) {
             'username': data[0].username,
             'message': msg
         });
-
     }
 
     $scope.break = function () {

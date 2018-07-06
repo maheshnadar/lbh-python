@@ -100,7 +100,6 @@
 
 
     <style>
-      
     </style>
 
 
@@ -109,17 +108,18 @@
 
         <div id="chattab" class="col-xs-3">
           <div class="" ng-if="!users">No User</div>
-          <div ng-repeat="user in users" class="userlist">
-            <div ng-click="getChat(user)">
-              <div ng-bind="user.username"></div>
+          <div ng-repeat="user in chatHistory" class="userlist">
+            <div ng-click="getChat(user.chatlist)">
+              <div ng-bind="user.user1"></div>
             </div>
-          </div>          
+          </div>
+         
         </div>
 
         <div id="chatwin" class="col-xs-9 show-chats-container">
 
-          <div ng-repeat="chat in userChat" class="chat-list">
-            <div class="left" ng-if="chat.from=='user'">
+          <div ng-repeat="message in messages" class="chat-list">
+            <div class="left" ng-if="chat.message=='user'">
               <span ng-bind="chat.message" class=""></span>
             </div>
             <div class="right " ng-if="chat.from=='agent'">
@@ -128,10 +128,10 @@
           </div>
 
           <div class="bottom" ng-if="userChat">
-              <input type="text" ng-model="agentReplay" placeholder="Reply...">
-              <button ng-click="sendMessage(agentReplay,users)" class="btn btn-primary">Submit</button>
-              <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
-          </div> 
+            <input type="text" ng-model="agentReplay" placeholder="Reply...">
+            <button ng-click="sendMessage(agentReplay,users)" class="btn btn-primary">Submit</button>
+            <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
+          </div>
 
         </div>
       </div>
@@ -199,13 +199,12 @@
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data |tojson}}
-    var username = data.user;
+    var data = {{data | tojson}}
+    var agentname = data.agentname;
     var chathistory = data.history;
-    var agent = data.agent;
-    var useremail = data.useremail;
+ 
 
-    console.log(data, username, agent, useremail, chathistory);
+    console.log(data, agentname, chathistory);
   </script>
 </body>
 
