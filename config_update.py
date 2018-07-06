@@ -43,7 +43,7 @@ def save_chat(useremail,agentemail,message):
 def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
 	print "second_save_chatlist"
 	print useremail , from_id, to_id, fromname, toname,message
-	timeint = datetime.datetime.now()
+	timeint = str(datetime.datetime.utcnow())
 	chat = {
             "from_id" : from_id, 
             "to_id" : to_id, 
@@ -54,6 +54,7 @@ def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
         }
 	# print chat
 	print collection.agentchat.update({'user1':useremail,'disconnected':"False" },{"$push":{'chatlist':chat}},True)
+	return chat
 #user_got_connected("d","dev@lbh.com")
 # save_chat('asdf@asdf', 'dev@lbh.com',"d")
 # second_save_chatlist('asdf@asdf', 'asdf@asdf', 'dev@lbh.com', 'asdf', 'dev', 'Hi, I am dev and I will be assisting you today!')
