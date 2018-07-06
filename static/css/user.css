@@ -10,7 +10,8 @@
 }
 
 .user-page-container input[type=text],
-.user-page-container input[type=email] {
+.user-page-container input[type=email],
+.user-page-container input[type=number] {
     padding: 8px 10px;
     border-radius: 15px;
     width: 100%;
@@ -34,7 +35,7 @@
     position: fixed;
     width: 100%;
     bottom: 0;
-    height: 570px;
+    height: 480px;
     padding: 4px;
     transition: height 500ms;
 }
@@ -66,7 +67,7 @@ img {
 .login-container {
     position: absolute;
     width: 100%;
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: hidden;
