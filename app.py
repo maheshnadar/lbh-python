@@ -266,8 +266,6 @@ def private_message(payload):
 
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
 			third_response = second_save_chatlist('user',message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
-			print agentmess
-
 			message['frist_agent_message'] = agentmess
 			emit('new_private_message', second_response, broadcast=True)
 			emit('new_private_message', third_response, broadcast=True)
