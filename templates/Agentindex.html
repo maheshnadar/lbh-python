@@ -113,28 +113,32 @@
               <div ng-bind="user.user1"></div>
             </a>
           </div>
-         
+
         </div>
 
         <div id="chatwin" class="col-xs-9 show-chats-container">
+          <div class="chat-panel">
 
-          <div ng-repeat="message in messages" class="chat-list">
-          <!-- <div ng-bind=message> -->
-            <div class="left" ng-if="message.type=='user'">
-              <span ng-bind="message.msg" class=""></span>
+            <div ng-repeat="message in messages" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
+              <!-- <div ng-bind=message> -->
+              <div class="left-chat" ng-if="message.type=='user'">
+                <span ng-bind="message.msg" class=""></span>
+              </div>
+              <div class="right-chat" ng-if="message.type=='agent'">
+                <span ng-bind="message.msg" class=""></span>
+              </div>
             </div>
-            <div class="right " ng-if="message.type=='agent'">
-              <span ng-bind="message.msg" class=""></span>
+          </div>
+        
+            <div class="bottom" ng-if="messages.length>0">
+              <input type="text" ng-model="agentReplay" placeholder="Reply...">
+              <button ng-click="sendMessage(agentReplay,messages)" class="btn btn-primary">Submit</button>
+              <button ng-click="endChat(messages)" class="btn btn-danger">End Chat</button>
             </div>
           </div>
 
-          <div class="bottom" ng-if="messages.length>0">
-            <input type="text" ng-model="agentReplay" placeholder="Reply...">
-            <button ng-click="sendMessage(agentReplay,messages)" class="btn btn-primary">Submit</button>
-            <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
-          </div>
+</div>
 
-        </div>
       </div>
 
 
@@ -200,11 +204,11 @@
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data | tojson}}
+    var data = {{ data | tojson }}
     var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history;
- 
+
 
     console.log(data, agentname, chathistory);
   </script>

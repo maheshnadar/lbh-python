@@ -163,13 +163,22 @@ app.controller("agentController", function ($scope) {
         $scope.toggleText = $scope.changeButtonTxt ? 'Break' : 'Resume';
     })
 
-    $scope.endChat = function (data) {
+    $scope.endChat = function (user) {
         var name = $('.agentname').text();
-        console.log(name, data[0].username);
-        private_socket.emit('end_message', {
-            "agentname": name,
-            "type": "agent",
-            "username": data[0].username,
+        console.log("end chat",user);
+        private_socket.emit('end_user_message', {
+            // "agentname": name,
+            // "type": "agent",
+            // "username": data[0].username,
+            agent_email: agentemail,
+            date: new Date(),
+            from_id: agentemail,
+            fromname: agentname,
+            message: "",
+            to_id: user[1].to_id,
+            toname: user[1].toname,
+            type: "agent",
+            user_email: user[1].to_id
         });
     }
 });
