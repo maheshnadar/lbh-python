@@ -193,7 +193,7 @@ app.controller('chatWindowController', function ($scope) {
                 "fromname": username,
                 "to_id": "none",
                 "message": message,
-                "toname": agent,
+                "toname": 'agent',
                 "type": "user",
             })
 
@@ -231,8 +231,8 @@ app.controller('chatWindowController', function ($scope) {
         }
         $scope.$digest();
     });
-    private_socket.on('second_new_private_message', function (msg) {
-        console.log("second new private message", msg);
+    private_socket.on('user_ongoing_chat', function (msg) {
+        console.log("user_ongoing_chat", msg);
         var username = $('#username').text();
         // if (msg.username == username) {
         //     insertChat("you", msg['message']);

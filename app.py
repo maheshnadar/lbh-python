@@ -204,16 +204,23 @@ def break_message(payload):
 
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
+	print payload
 	if payload['type'] == 'user':
-		message = {'message': payload['message']}
-		message['username'] = payload['username']
-		message['agentname'] = payload['agentname']
-		emit('second_new_private_message', message, broadcast=True)
-		emit('agent_new_private_message', message, broadcast=True)
+		# {
+  #               "type": "user",
+  #               "date": new Date(),
+  #               "from_id": useremail,
+  #               "fromname": username,
+  #               "to_id": "none",
+  #               "message": message,
+  #               "toname": agent,
+  #               "type": "user",
+  #           }
+		mess = second_save_chatlist(payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])
+		emit('user_ongoing_chat', mess, broadcast=True)
+		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
-		message = {'message': payload['message']}
-		message['username'] = payload['username']
-		message['agentname'] = payload['agentname']
+		mess = second_save_chatlist(payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])		
 		emit('second_agent_new_private_message', message, broadcast=True)
 		emit('agent_new_private_message', message, broadcast=True)
 
