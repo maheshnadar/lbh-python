@@ -25,7 +25,9 @@ ROOMS = {} # dict to track active rooms
 @app.route('/')
 def home():
 	print "Home"
-
+	off = collection.offlinemessages.find_one({})
+	if off['ustat'] != "1":
+		return render_template('agent-offline.html')
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
@@ -118,7 +120,12 @@ def user_logout():
 	session.pop('user_Email',None)
 	return redirect(url_for('home'))
 
-
+@app.route("/live_agent")
+# @login_required
+def live_agent():
+	f =collection.agentchat.find({},{'_id':False})
+	print list(f)
+	return f
 @app.route("/agentlogout")
 # @login_required
 def agent_logout():
@@ -217,7 +224,9 @@ def endChat(payload):
 def break_message(payload):
 	
 	print "Inside break message"
-	collection.agentloggedin.update({'Email':session['agent_Email']},{"$set":{'break':True}},upsert=False)
+	doc = collection.agentloggedin.find_one({'Email':session['agent_Email']})
+	print doc['break']
+	collection.agentloggedin.update({'Email':session['agent_Email']},{"$set":{'break': not doc['break']}},upsert=False)
 
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
@@ -239,6 +248,7 @@ def second_private_message(payload):
 		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])		
+		
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 
@@ -272,16 +282,11 @@ def private_message(payload):
 						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
 				except:
 					pass
-			# print recipient_session_id
-			# print "before_request"
-			# print message['username'],message['agent']
-			print "dataupdated"
 			mes= collection.thememasters.find_one({})
 			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])
 			save_chat(message['useremail'],idleidfind['Email'],message['message'])
 			firt_response = second_save_chatlist("agent",message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess)
 			second_response = second_save_chatlist("user",message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'])
-
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
 			third_response = second_save_chatlist('agent',message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
 			message['frist_agent_message'] = agentmess
@@ -296,10 +301,15 @@ def private_message(payload):
 			# collection.close()
 		else:
 			print "except"
-			message['offline'] = "No user available"
+			
+			message={}
+			message['username'] = payload['fromname']
+			message['useremail'] = payload['from_id']
+			message['message'] = "No user available"
 			emit('offline_message', message ,broadcast=True)
 			pass
 	else:
+		print "agent",payload
 		message = {'message': payload['message']}
 		message['agentname'] = payload['agentname']
 		message['username'] = payload['username']

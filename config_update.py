@@ -43,12 +43,12 @@ def save_chat(useremail,agentemail,message):
 	# print "#############",f
 	return True
 
-def second_save_chatlist(type,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message):
+def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message):
 	print "second_save_chatlist"
-	print useremail , from_id, to_id, fromname, toname,message
+	print typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message
 	timeint = str(datetime.datetime.now(tz))
 	chat = {
-			"type":type,
+			"type":typeq,
 			"user_email":user_email,
 			"agent_email":agent_email,
             "from_id" : from_id, 
@@ -59,7 +59,8 @@ def second_save_chatlist(type,user_email,agent_email,useremail,from_id,to_id,fro
             "date" : timeint
         }
 	# print chat
-	print collection.agentchat.update({'user1':useremail,'disconnected':"False" },{"$push":{'chatlist':chat}},True)
+						# ({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
+	print collection.agentchat.update({'user1':user_email,'disconnected':"False" },{"$push":{'chatlist':chat}})
 	return chat
 #user_got_connected("d","dev@lbh.com")
 # save_chat('asdf@asdf', 'dev@lbh.com',"d")

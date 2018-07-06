@@ -153,8 +153,7 @@ var app = angular.module("chatWindow", ['luegg.directives']);
 
 app.controller('chatWindowController', function ($scope) {
     $scope.privateMessage={};
-    $scope.privateMessage.message="";
-    // console.log(data);
+    $scope.privateMessage.message = "";
     $scope.agentDisconnected = false;
     $scope.chatOpen = true;
     $scope.chatHistory = [];
@@ -182,7 +181,7 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
-
+   
         if (agent == "None") {
             console.log("#####");
             private_socket.emit('private_message', {
@@ -222,8 +221,8 @@ app.controller('chatWindowController', function ($scope) {
 
             })
         }
-        $scope.privateMessage.message = null;
-        console.log('input', $scope.privateMessage.message);
+        $scope.privateMessage.message  = "";
+        console.log('input', $scope.privateMessage.message );
     }
 
     $scope.sendViaEnter = function ($event, message) {
