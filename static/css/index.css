@@ -334,6 +334,6 @@ input:focus {
     color: #4a4949;
 }
 
-.msj-rta .macro{
+.msj-rta.macro{
     max-width: unset;
 }

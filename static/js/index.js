@@ -250,7 +250,7 @@ app.controller('chatWindowController', function ($scope) {
             // $('#chathide').append(add_tab_html)
             // data={{data | tojson}};
             console.log(msg);
-            agent = msg.agent;
+            agent = msg.agent_email;
             console.log($scope.chatHistory, "chat history");
             $scope.chatHistory.chatlist.push(msg);
             // insertChat("you", msg['message']);
@@ -270,7 +270,7 @@ app.controller('chatWindowController', function ($scope) {
             // $('#chathide').append(add_tab_html)
             // data={{data | tojson}};
             console.log(msg);
-            agent = msg.agent;
+            agent = msg.agent_email;
             console.log($scope.chatHistory, "chat history");
             $scope.chatHistory.chatlist.push(msg);
             // insertChat("you", msg['message']);
