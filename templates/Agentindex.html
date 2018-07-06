@@ -130,7 +130,7 @@
 
           <div class="bottom" ng-if="messages.length>0">
             <input type="text" ng-model="agentReplay" placeholder="Reply...">
-            <button ng-click="sendMessage(agentReplay,users)" class="btn btn-primary">Submit</button>
+            <button ng-click="sendMessage(agentReplay,messages)" class="btn btn-primary">Submit</button>
             <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
           </div>
 
@@ -201,6 +201,7 @@
   </div>
   <script>
     var data = {{data | tojson}}
+    var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history;
  

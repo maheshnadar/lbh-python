@@ -3,13 +3,13 @@ var app = angular.module("Agent", []);
 app.controller("agentController", function ($scope) {
     // $scope.users = [];
     // $scope.chatHistory = [];
-    $scope.chatHistory=chathistory;
-    $scope.messages=[];
-    $scope.toggleText="break"
+    $scope.chatHistory = chathistory;
+    $scope.messages = [];
+    $scope.toggleText = "break"
     $scope.getChat = function (chat) {
 
         console.log("change chat", chat)
-        $scope.messages=chat;
+        $scope.messages = chat;
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][chat.username.toString()];
         //     console.log("for llop", chat.username, history)
@@ -20,7 +20,7 @@ app.controller("agentController", function ($scope) {
         // }
     }
     private_socket.on('agent_new_chat', function (msg) {
-        console.log("agent_new_chat" , msg)
+        console.log("agent_new_chat", msg)
         // alert(msg);
         console.log("agent_new_chat", msg);
         // if (msg == "No user available") {
@@ -70,7 +70,7 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        console.log("agent_new_chat" , msg)
+        console.log("agent_new_chat", msg)
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][msg.username.toString()];
         //     console.log("for new private llop", msg.username, history)
@@ -112,14 +112,23 @@ app.controller("agentController", function ($scope) {
         $scope.$digest();
 
     });
-    $scope.sendMessage = function (msg, data) {
-        console.log('inside send message', msg, data);
-        // private_socket.emit('private_message', {
-        //     "type": "agent",
-        //     "agentname": data[0].agent,
-        //     'username': data[0].username,
-        //     'message': msg
-        // });
+    $scope.sendMessage = function (msg,user) {
+        console.log('inside send message', msg, user);
+        private_socket.emit('second_private_message', {
+            // "type": "agent",
+            // "agentname": data[0].agent,
+            // 'username': data[0].username,
+            // 'message': msg
+            agent_email: agentemail,
+            date: new Date(),
+            from_id: agentemail,
+            fromname: agentname,
+            message: msg,
+            to_id: user[1].to_id,
+            toname: user[1].toname,
+            type: "agent",
+            user_email: user[1].to_id
+        });
     }
 
     $scope.break = function () {
@@ -132,17 +141,17 @@ app.controller("agentController", function ($scope) {
 
     $scope.changeButtonTxt = true;
 
-    $scope.$watch('changeButtonTxt', function(){
+    $scope.$watch('changeButtonTxt', function () {
         $scope.toggleText = $scope.changeButtonTxt ? 'Break' : 'Resume';
     })
 
     $scope.endChat = function (data) {
         var name = $('.agentname').text();
-        console.log(name,data[0].username);
+        console.log(name, data[0].username);
         private_socket.emit('end_message', {
             "agentname": name,
             "type": "agent",
-            "username":  data[0].username,
+            "username": data[0].username,
         });
     }
 });
