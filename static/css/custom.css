@@ -402,8 +402,20 @@ body {
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
   left: 0;
+  bottom: 115%;
 }
 
 .transfer-button {
   display: inline-block;
+}
+
+.dropdown-menu {
+  background: #dbe2e5;
+}
+
+.dropdown-menu>li>a {
+  text-transform: capitalize;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.18);
+  padding: 12px;
+  padding-left: 20px;
 }

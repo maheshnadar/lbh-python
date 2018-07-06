@@ -27,7 +27,8 @@ def home():
 	print "Home"
 	off = collection.offlinemessages.find_one({})
 	if off['ustat'] != "1":
-		return render_template('agent-offline.html')
+		data = off['inactive_messages']
+		return render_template('agent-offline.html',data=data)
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
@@ -52,9 +53,12 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
+		agentlist = list(collection.agentloggedin.find({},{'agentname':1,'Email':1,'_id':0}))
+		print agentlist
+
+		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		# print hist
-		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist}
+		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist}
 
 		return render_template('Agentindex.html',data=data)
 #agents area
@@ -93,6 +97,7 @@ def user_login():
 		user = {'username':session['user_Name'],'Email':session['user_Email'],"agent":connectedagentname,"createdat": datetime.datetime.utcnow()}
 		#collection = mongo_connection()
 		collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
+		emit
 		return redirect(url_for('home'))
 	else:
 		return abort(401)
@@ -108,7 +113,11 @@ def user_login():
 # @login_required
 def user_logout():
 	print "user logout"
-	print session['agent']
+	print session['user_Name']
+	mess={'toname':session['user_Name'],'user_email':session['user_Email']}
+	emit('user_end_chat',mess,broadcast=True,namespace='/private')
+	# on_Endchat({'toname':session['user_Name'],'user_email':session['user_Email']})
+	# emit('user_end_chat',{'toname':session['user_Name'],'user_email':session['user_Email']},namespace='/private')
 	# emit('userdisconnect_message', "message", broadcast=True)
 	session.pop('user_logged_in',None)
 	session.pop('agent',None)
@@ -158,7 +167,7 @@ def agent_logout():
 
 @socketio.on('end_user_message', namespace='/private')
 def on_Endchat(payload):
-	print "End chat #####################"
+	print "End chat ###################################################"
 	print payload
 	mess={'username':payload['toname'],'useremail':payload['user_email']}
 	collection.userloggedin.delete_many({'Email':payload['user_email']})
@@ -170,32 +179,42 @@ def on_Endchat(payload):
 	collection.agentloggedin.update({'chatingwith':payload['toname']},{'$pull':{'chatingwith':payload['toname']}})
 	
 	emit('user_end_chat',mess,broadcast=True)
+	emit('agent_end_chat',mess,broadcast=True)
 	# user_logout()
 
 	print "#################################"
-@socketio.on('connect')
-def on_connect():
-	print "user"
-
-@socketio.on('disconnect')
-def disconnect_user():
-    # logout_user()
-	print 'disconnected'
-	session.pop('user_logged_in',None)
-	session.pop('agent',None)
-	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnected':"True"}},upsert=False)
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
-	emit('userdisconnect_message', "message", broadcast=True)
-	session.pop('user_Name',None)
-	session.pop('user_Email',None)
-	return redirect(url_for('home'))
+@socketio.on('transer_agent')
+def transer_agent(payload):
+	print "transer_agent"
+	previous_agent_name = payload['previous_agent_name']
+	previous_agent_email = payload['previous_agent_email']
+	user_name = payload['user_name']
+	user_email = payload['user_email']
+	new_agent_name = payload['new_agent_name']
+	new_agent_email = payload['new_agent_email']
+	
+	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
+	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email})
+	emit();
+# @socketio.on('disconnect')
+# def disconnect_user():
+#     # logout_user()
+# 	print 'disconnected'
+# 	session.pop('user_logged_in',None)
+# 	session.pop('agent',None)
+# 	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
+# 	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnected':"True"}},upsert=False)
+# 	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
+# 	emit('userdisconnect_message', "message", broadcast=True)
+# 	session.pop('user_Name',None)
+# 	session.pop('user_Email',None)
+# 	return redirect(url_for('home'))
 
 
 @socketio.on('username', namespace='/private')
 def receive_username(username):
-    print request.sid
-    users[username] = request.sid
+    # print request.sid
+    # users[username] = request.sid
     #users.append({username : request.sid})
     #print(users)
     print('Username added!')

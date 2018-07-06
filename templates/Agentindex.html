@@ -156,27 +156,22 @@
             <div class="bottom" ng-if="selectedUser.chatlist.length>0 && !selectedUser.isChatEnd">
               <input type="text" ng-model="agentReplay.text" placeholder="Reply..." ng-keypress="sendViaEnter($event, agentReplay.text, selectedUser.chatlist)">
               <button ng-click="sendMessage(agentReplay.text,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
+
+              <div class="dropup transfer-button">
+                  <button class="btn btn-default btn-primary dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation" ng-repeat="agent in agentOnline">
+                      <a role="menuitem" tabindex="-1" href="#">
+                        <span ng-bind="agent"></span>
+                      </a>
+                    </li>
+  
+                  </ul>
+                </div>
               <button ng-click="endChat(selectedUser.chatlist)" class="btn btn-danger">End Chat</button>
-              <!-- <div class="dropup transfer-button">
-                <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="#">HTML</a>
-                  </li>
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="#">CSS</a>
-                  </li>
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="#">JavaScript</a>
-                  </li>
-                  <li role="presentation" class="divider"></li>
-                  <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="#">About Us</a>
-                  </li>
-                </ul>
-              </div> -->
+             
             </div>
           </div>
         </div>
@@ -248,7 +243,7 @@
   <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data | tojson}}
+    var data = {{data|tojson }}
     var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history;

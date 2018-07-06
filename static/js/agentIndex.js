@@ -81,7 +81,7 @@ app.controller("agentController", function ($scope) {
     $scope.messages = [];
     $scope.selectedUser = {};
     $scope.toggleText = "break";
-
+$scope.agentOnline=['agnet1','agent2','agent3'];
     $scope.agentReplay={};
     $scope.agentReplay.text="";
 
@@ -239,6 +239,12 @@ app.controller("agentController", function ($scope) {
             }
         }
         // console.log(msg);
+
+        $scope.$digest();
+
+    });
+    private_socket.on('agent_list', function (list) {
+        console.log("agent list",list);
 
         $scope.$digest();
 
