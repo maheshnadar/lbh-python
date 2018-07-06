@@ -219,4 +219,13 @@ app.controller("agentController", function ($scope) {
             user_email: user[1].to_id
         });
     }
+
+    $scope.sendViaEnter = function ($event, msg, user) {
+        var keycode = $event.which || $event.keycode;
+        if (keycode === 13) {
+            $scope.sendMessage(msg,user);
+        }
+    }
+
+
 });

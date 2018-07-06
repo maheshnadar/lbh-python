@@ -66,16 +66,6 @@ var private_socket = io.connect('http://127.0.0.1:5000/private');
 //     // }
 // });
 
-
-
-
-// exp---------------------------------->
-var me = {};
-me.avatar = "https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48";
-
-var you = {};
-you.avatar = "https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg";
-
 function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
@@ -86,6 +76,8 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
+
+
 
 //-- No use time. It is a javaScript effect.
 // function insertChat(who, text, time) {
@@ -161,7 +153,7 @@ var app = angular.module("chatWindow", []);
 
 app.controller('chatWindowController', function ($scope) {
     // console.log(data);
-$scope.agentDisconnected=false;
+    $scope.agentDisconnected = false;
     $scope.chatOpen = true;
     $scope.chatHistory = [];
     // console.log("chat list ",chathistory, chathistory.chatlist.length)
@@ -188,10 +180,7 @@ $scope.agentDisconnected=false;
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
-        // var message_to_send = $('#private_message').val();
-        console.log(message);
-        console.log(agent);
-        console.log("#####");
+
         if (agent == "None") {
             console.log("#####");
             private_socket.emit('private_message', {
@@ -206,7 +195,6 @@ $scope.agentDisconnected=false;
                 "user_email": useremail
             });
         } else {
-            console.log("second #####");
             private_socket.emit('second_private_message', {
                 "type": "user",
                 // "username": username,
@@ -225,11 +213,12 @@ $scope.agentDisconnected=false;
             })
         }
         $scope.privateMessage = null;
+        console.log('input', $scope.privateMessage);
     }
 
     $scope.sendViaEnter = function ($event, message) {
         var keycode = $event.which || $event.keycode;
-        if(keycode === 13){
+        if (keycode === 13) {
             $scope.sendPrivateMessage(message);
         }
     }
@@ -287,7 +276,7 @@ $scope.agentDisconnected=false;
         // }
     });
 
-    $scope.likeSuggest = function () {        
+    $scope.likeSuggest = function () {
         console.log("likeClicked");
         private_socket.emit('like_suggest', {
             "date": new Date(),
@@ -300,7 +289,7 @@ $scope.agentDisconnected=false;
             "agent_email": "",
             "user_email": useremail
         });
-        
+
     }
     $scope.dislikeSuggest = function () {        
         console.log("dislikeClicked");
