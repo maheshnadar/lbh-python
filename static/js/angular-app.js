@@ -170,22 +170,24 @@ app.controller("agentController", function ($scope) {
 
     });
     $scope.sendMessage = function (msg, user) {
-        console.log('inside send message', msg, user);
-        private_socket.emit('second_private_message', {
-            // "type": "agent",
-            // "agentname": data[0].agent,
-            // 'username': data[0].username,
-            // 'message': msg
-            agent_email: agentemail,
-            date: new Date(),
-            from_id: agentemail,
-            fromname: agentname,
-            message: msg,
-            to_id: user[1].to_id,
-            toname: user[1].toname,
-            type: "agent",
-            user_email: user[1].to_id
-        });
+        if($scope.agentReplay.text !== ""){
+            console.log('inside send message', msg, user);
+            private_socket.emit('second_private_message', {
+                // "type": "agent",
+                // "agentname": data[0].agent,
+                // 'username': data[0].username,
+                // 'message': msg
+                agent_email: agentemail,
+                date: new Date(),
+                from_id: agentemail,
+                fromname: agentname,
+                message: msg,
+                to_id: user[1].to_id,
+                toname: user[1].toname,
+                type: "agent",
+                user_email: user[1].to_id
+            });
+        }
         $scope.agentReplay.text = "";
         console.log("Agent Msg Clear Input", $scope.agentReplay.text);
 
@@ -195,7 +197,6 @@ app.controller("agentController", function ($scope) {
     $scope.sendViaEnter = function ($event, msg, user) {
         var keycode = $event.which || $event.keycode;
         if (keycode === 13) {
-            console.log('on Enter works');
             $scope.sendMessage(msg, user);
         }
     }

@@ -181,45 +181,46 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
+        if($scope.privateMessage.message !== ""){
+            if (agent == "None") {
+                console.log("#####");
+                private_socket.emit('private_message', {
+                    "date": new Date(),
+                    "from_id": useremail,
+                    "fromname": username,
+                    "message": message,
+                    "to_id": "none",
+                    "toname": "none",
+                    "type": "user",
+                    "agent_email": "",
+                    "user_email": useremail,
+                    "user_details": {
+                        "url": window.location.href,
+                        "browser": window.navigator.userAgent
+                    }
+                });
+            } else {
+                private_socket.emit('second_private_message', {
+                    "type": "user",
+                    // "username": username,
+                    // "message": message,
+                    // "agentname": agent
+                    "date": new Date(),
+                    "from_id": useremail,
+                    "fromname": username,
+                    "to_id": "none",
+                    "message": message,
+                    "toname": 'agent',
+                    "type": "user",
+                    "agent_email": agent,
+                    "user_email": useremail,
+                    "user_details": {
+                        "url": window.location.href,
+                        "browser": window.navigator.userAgent
+                    }
 
-        if (agent == "None") {
-            console.log("#####");
-            private_socket.emit('private_message', {
-                "date": new Date(),
-                "from_id": useremail,
-                "fromname": username,
-                "message": message,
-                "to_id": "none",
-                "toname": "none",
-                "type": "user",
-                "agent_email": "",
-                "user_email": useremail,
-                "user_details": {
-                    "url": window.location.href,
-                    "browser": window.navigator.userAgent
-                }
-            });
-        } else {
-            private_socket.emit('second_private_message', {
-                "type": "user",
-                // "username": username,
-                // "message": message,
-                // "agentname": agent
-                "date": new Date(),
-                "from_id": useremail,
-                "fromname": username,
-                "to_id": "none",
-                "message": message,
-                "toname": 'agent',
-                "type": "user",
-                "agent_email": agent,
-                "user_email": useremail,
-                "user_details": {
-                    "url": window.location.href,
-                    "browser": window.navigator.userAgent
-                }
-
-            })
+                })
+            }
         }
         $scope.privateMessage.message = "";
         console.log('input', $scope.privateMessage.message);
