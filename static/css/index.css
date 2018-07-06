@@ -264,11 +264,11 @@ ul {
 }
 
 .send-glyp-posi:hover {
-    color:blue;
+    color: blue;
 }
 
 .send-glyp-nega:hover {
-    color:red;
+    color: red;
 }
 
 input:focus {
@@ -361,4 +361,11 @@ input:focus {
 
 .text-input {
     width: 90%;
+}
+
+.chat-end {
+    text-align: center;
+    padding: 3rem;
+    color: red;
+    text-transform: uppercase;
 }

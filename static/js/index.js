@@ -161,7 +161,7 @@ var app = angular.module("chatWindow", []);
 
 app.controller('chatWindowController', function ($scope) {
     // console.log(data);
-
+$scope.agentDisconnected=false;
     $scope.chatOpen = true;
     $scope.chatHistory = [];
     // console.log("chat list ",chathistory, chathistory.chatlist.length)
@@ -285,5 +285,29 @@ app.controller('chatWindowController', function ($scope) {
         }
         $scope.$digest();
         // }
+    });
+
+
+
+    private_socket.on('user_end_chat', function (endUser) {
+        //to end chat
+        console.log("inside user end chat", endUser);
+        if(username==username){
+            $scope.agentDisconnected=true;
+        }
+        // for (var i = 0; i < $scope.chatHistory.length; i++) {
+        //     if ($scope.chatHistory[i].user1 == endUser.useremail) {
+        //         console.log("found user name", $scope.chatHistory[i]);
+        //         $scope.chatHistory[i].isChatEnd = true;
+        //         if ($scope.chatHistory[i].user1 == $scope.selectedUser.user1) {
+        //             $scope.selectedUser.isChatEnd = true;
+        //         }
+        //         console.log($scope.chatHistory);
+        //     }
+        // }
+        // console.log(msg);
+
+        $scope.$digest();
+
     });
 })

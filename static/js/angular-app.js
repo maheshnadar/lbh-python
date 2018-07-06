@@ -5,11 +5,12 @@ app.controller("agentController", function ($scope) {
     // $scope.chatHistory = [];
     $scope.chatHistory = chathistory;
     $scope.messages = [];
+    $scope.selectedUser = {};
     $scope.toggleText = "break"
-    $scope.getChat = function (chat) {
+    $scope.getChat = function (user) {
 
-        console.log("change chat", chat)
-        $scope.messages = chat;
+        console.log("change chat", user)
+        $scope.selectedUser = user;
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][chat.username.toString()];
         //     console.log("for llop", chat.username, history)
@@ -19,11 +20,23 @@ app.controller("agentController", function ($scope) {
         //     }
         // }
     }
+
+    $scope.removeUser = function (user) {
+        console.log("remove user")
+        for (var i = 0; i < $scope.chatHistory.length; i++) {
+            if ($scope.chatHistory[i].user1 == user.user1) {
+
+                $scope.chatHistory.splice(i, 1);
+                console.log("remove array", $scope.chatHistory);
+                $scope.selectedUser = {};
+            }
+        }
+    }
     private_socket.on('agent_new_chat', function (msg) {
         console.log("agent_new_chat", msg)
         // alert(msg);
         console.log("agent_new_chat", msg);
-          console.log("first check",agentemail,msg.user2);
+        console.log("first check", agentemail, msg.user2);
         if (agentemail == msg.user2) {
             // for (var i = 0; i < $scope.chatHistory.length; i++) {
             //     if ($scope.chatHistory[i].user1 == msg.user_email) {
@@ -80,7 +93,7 @@ app.controller("agentController", function ($scope) {
         // console.log("new_private_message")
         // alert(msg);
         console.log("agent_ongoing_chat", msg);
-        console.log("first check",agentemail,msg.agent_email);
+        console.log("first check", agentemail, msg.agent_email);
         if (agentemail == msg.agent_email) {
             for (var i = 0; i < $scope.chatHistory.length; i++) {
                 if ($scope.chatHistory[i].user1 == msg.user_email) {
@@ -130,6 +143,27 @@ app.controller("agentController", function ($scope) {
         $scope.$digest();
 
     });
+
+
+    private_socket.on('user_end_chat', function (endUser) {
+        //to end chat
+
+        console.log("inside user end chat", endUser);
+        for (var i = 0; i < $scope.chatHistory.length; i++) {
+            if ($scope.chatHistory[i].user1 == endUser.useremail) {
+                console.log("found user name", $scope.chatHistory[i]);
+                $scope.chatHistory[i].isChatEnd = true;
+                if ($scope.chatHistory[i].user1 == $scope.selectedUser.user1) {
+                    $scope.selectedUser.isChatEnd = true;
+                }
+                console.log($scope.chatHistory);
+            }
+        }
+        // console.log(msg);
+
+        $scope.$digest();
+
+    });
     $scope.sendMessage = function (msg, user) {
         console.log('inside send message', msg, user);
         private_socket.emit('second_private_message', {
@@ -165,7 +199,7 @@ app.controller("agentController", function ($scope) {
 
     $scope.endChat = function (user) {
         var name = $('.agentname').text();
-        console.log("end chat",user);
+        console.log("end chat", user);
         private_socket.emit('end_user_message', {
             // "agentname": name,
             // "type": "agent",

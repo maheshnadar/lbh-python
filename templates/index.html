@@ -109,9 +109,14 @@
                     <img class="img-circle" style="width:100%;" src="../static/images/agent.png">
                   </div>
                 </div>
+
+                
+              </li>
+              <li class="chat-end" ng-if="agentDisconnected">
+                 --------- CHAT Ended By Agent ----------
               </li>
             </ul>
-            <div class="class-main-bottom">
+            <div class="class-main-bottom" ng-if="!agentDisconnected">
 
               <div class="suggest">
                 <span class="suggest-text">
