@@ -163,7 +163,27 @@ app.controller('chatWindowController', function ($scope) {
     // console.log(data);
 
     $scope.chatOpen = true;
-    $scope.chatHistory = chathistory;
+    $scope.chatHistory = [];
+    if (chathistory == null || chathistory.chatlist == []) {
+        console.log("chathistory null")
+        $scope.chatHistory.chatlist = [{
+            date: new Date(),
+            from_id: useremail,
+            fromname: username,
+            msg: "Hi " + username + " !Welcome to Ross-Simons live chat support. What can we help you with?",
+            to_id: "",
+            toname: ""
+        }]
+        console.log("chathistory null 2", $scope.chatHistory)
+    } else {
+        $scope.chatHistory = chathistory;
+        // console.log("chathistory null 3",$scope.chatHistory);
+        console.log("chathistory null 3", chathistory, agent);
+        agent = chathistory.user2;
+        console.log("chathistory null 3", chathistory, agent);
+    }
+
+
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
         // var message_to_send = $('#private_message').val();

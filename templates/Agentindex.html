@@ -245,11 +245,7 @@
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {
-      {
-        data | tojson
-      }
-    }
+    var data = {{data |tojson}}
     var username = data.user;
     var chathistory = data.history;
     var agent = data.agent;
