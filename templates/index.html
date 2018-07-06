@@ -85,7 +85,7 @@
             <span ng-bind="user"></span> -->
                 <div class="msj macro" ng-if="chat.type=='agent'">
                   <div class="avatar">
-                    <img class="img-circle" style="width:100%;" src="https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48">
+                    <img class="img-circle" style="width:100%;" src="../static/images/agent1.png">
                   </div>
                   <div class="text text-l">
                     <p>
@@ -106,20 +106,19 @@
                     </p>
                   </div>
                   <div class="avatar" style="padding:0px 0px 0px 10px !important">
-                    <img class="img-circle" style="width:100%;" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg">
+                    <img class="img-circle" style="width:100%;" src="../static/images/agent.png">
                   </div>
                 </div>
               </li>
             </ul>
-            <div>
-              <div class="msj-rta macro">
+            <div class="user-chat-bottom">
+              <div class="text-input">
                 <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
-                <textarea rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage"></textarea>
+                <input rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage">
                 <!-- </div> -->
-
               </div>
               <div style="padding:10px;">
-                <span class="glyphicon glyphicon-share-alt send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
+                <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
                 <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
               </div>
             </div>
@@ -144,7 +143,7 @@
 
   </div>
   <script>
-    var data = {{ data | tojson }}
+    var data = {{data | tojson}}
     var username = data.user;
     var chathistory = data.history;
     var agent = data.agent;
