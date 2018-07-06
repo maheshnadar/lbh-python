@@ -148,6 +148,14 @@ def on_Endchat(payload):
 	print "End chat #####################"
 	print payload
 	mess={'username':payload['toname'],'useremail':payload['user_email']}
+	collection.userloggedin.delete_many({'Email':payload['user_email']})
+
+	collection.agentchat.update({'user1':payload['user_email']},{'$set':{'disconnected':"True"}},upsert=False)
+	collection.agentchat.update({'user1':payload['user_email']},{'$set':{'disconnectby':payload['user_email']}},upsert=False)
+	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
+	collection.agentloggedin.update({'chatingwith':payload['toname']},{'$set':{'room':True}})					
+	collection.agentloggedin.update({'chatingwith':payload['toname']},{'$pull':{'chatingwith':payload['toname']}})
+	
 	emit('user_end_chat',mess,broadcast=True)
 	# user_logout()
 
