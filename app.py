@@ -223,8 +223,8 @@ def private_message(payload):
 	print payload
 	if payload['type'] == 'user':
 		message = {'message': payload['message']}
-		message['username'] = payload['username']
-		message['useremail'] = payload['useremail']
+		message['username'] = payload['fromname']
+		message['useremail'] = payload['from_id']
 
 
 		idleidfind = collection.agentloggedin.find_one({'break':False,'room':True},sort=[("updatedat", 1)],limit=1)		
@@ -240,7 +240,7 @@ def private_message(payload):
 							
 		
 			if idleidfind:
-				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['username']}},upsert=False)
+				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
 				try:
 					if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
