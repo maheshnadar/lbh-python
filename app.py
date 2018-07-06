@@ -221,8 +221,8 @@ def second_private_message(payload):
 		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])		
-		emit('user_ongoing_chat', message, broadcast=True)
-		emit('agent_ongoing_chat', message, broadcast=True)
+		emit('user_ongoing_chat', mess, broadcast=True)
+		emit('agent_ongoing_chat', mess, broadcast=True)
 
 @socketio.on('private_message', namespace='/private')
 def private_message(payload):
