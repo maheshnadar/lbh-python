@@ -23,7 +23,7 @@ def save_chat(useremail,agentemail,message):
 
 	print "in save_chat"
 	print useremail,agentemail,message
-	timeint = datetime.datetime.now()
+	timeint = str(datetime.datetime.now())
 	agenthistory = {
 					"createdAt": timeint,
 					"updatedAt": timeint,

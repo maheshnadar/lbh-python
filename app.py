@@ -264,8 +264,10 @@ def private_message(payload):
 			message['frist_agent_message'] = agentmess
 			emit('new_private_message', second_response, broadcast=True)
 			emit('new_private_message', third_response, broadcast=True)
-			agentmessage = collection.agentchat.find_one({'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':True})
-
+			d = {'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':"False"}
+			print d,'$$$$$$$$$$$$$$$$'
+			agentmessage = collection.agentchat.find_one({'user1':message['useremail'],'user2':idleidfind['Email'],'disconnected':"False"},{'_id': False})
+			print agentmessage,"@@@@@@@@@@@@@@@@"	
 			emit('agent_new_chat',agentmessage,broadcast=True)
 			print "done",message
 			# collection.close()

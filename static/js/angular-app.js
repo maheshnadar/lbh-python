@@ -19,7 +19,7 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_new_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        console.log("new_private_message", msg, msg.message);
+        console.log("agent_new_chat", msg);
         if (msg == "No user available") {
             console.log("chat history", $scope.chatHistory);
             return
