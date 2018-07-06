@@ -16,7 +16,7 @@ app.controller("agentController", function ($scope) {
             }
         }
     }
-    private_socket.on('new_private_message', function (msg) {
+    private_socket.on('agent_new_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
         console.log("new_private_message", msg, msg.message);
@@ -64,7 +64,7 @@ app.controller("agentController", function ($scope) {
         $scope.$digest();
 
     });
-    private_socket.on('agent_new_private_message', function (msg) {
+    private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
         console.log("agent_new_private_message", msg);
@@ -109,8 +109,6 @@ app.controller("agentController", function ($scope) {
         $scope.$digest();
 
     });
-
-
     $scope.sendMessage = function (msg, data) {
         console.log('inside send message', msg, data);
         private_socket.emit('private_message', {
