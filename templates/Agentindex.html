@@ -22,7 +22,7 @@
 </head>
 
 <body ng-app="Agent">
-    <div class="agentname">{{data.agentname}}</div>
+  <div class="agentname">{{data.agentname}}</div>
   <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
   <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
   <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
@@ -86,10 +86,12 @@
     <!-- <p id = "username" hidden="True">{{data.user}}</p> -->
     <div class="user-index-container">
       <!-- <button href="{{ url_for('user_logout') }}">Endchat</button> -->
-      
+
       <li>
-           <a  class="btn btn-danger" ng-click="break(); changeButtonTxt = !changeButtonTxt"><span ng-bind="toggleText"></span></a>
-        </li>
+        <a class="btn btn-danger" ng-click="break(); changeButtonTxt = !changeButtonTxt">
+          <span ng-bind="toggleText"></span>
+        </a>
+      </li>
       <li>
         <a href="{{ url_for('agent_logout') }}" class="btn btn-danger">Logout</a>
       </li>
@@ -105,7 +107,7 @@
           <!--   <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
   <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
   <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
-  <div class="" ng-if="!users">No User</div>
+          <div class="" ng-if="!users">No User</div>
           <div ng-repeat="user in users" class="userlist">
             <div ng-click="getChat(user)">
 
@@ -114,6 +116,22 @@
 
           </div>
 
+          <!-- ----------------------------------- -->
+          <div class="userlist">
+            <div ng-click="getChat(user)">
+
+              <div>User 1</div>
+            </div>
+
+          </div>
+          <div class="userlist">
+            <div ng-click="getChat(user)">
+
+              <div>User 2</div>
+            </div>
+
+          </div>
+          <!-- ---------------------------------------------- -->
         </div>
         <div id="chatwin" class="col-xs-9" style="background:rgba(177,159,159,.36); height: 70vh;">
 
@@ -121,23 +139,46 @@
 
           <!-- <div style="padding:10px;">
         </div> -->
-                <div ng-repeat="chat in userChat">
-            <div  class="left" ng-if="chat.from=='user'">
+          <div ng-repeat="chat in userChat">
+            <div class="left" ng-if="chat.from=='user'">
 
               <span ng-bind="chat.message" class=""></span>
             </div>
             <div class="right " ng-if="chat.from=='agent'">
 
-                <span ng-bind="chat.message" class=""></span>
+              <span ng-bind="chat.message" class=""></span>
             </div>
           </div>
           <div class="bottom container" ng-if="userChat">
             <div class="row">
-              <input type="text" ng-model="agentReplay" >
-              <button  ng-click="sendMessage(agentReplay,users)">Submit</button>
+              <input type="text" ng-model="agentReplay">
+              <button ng-click="sendMessage(agentReplay,users)">Submit</button>
               <button ng-click="endChat(users)">End Chat</button>
             </div>
           </div>
+
+          <!-- -------------------------------- -->
+          <div >
+            <div class="left">
+
+              <span  class="">HI</span>
+            </div>
+           
+          </div>
+          <div >
+            <div class="right ">
+              <span >Yes Sir</span>
+            </div>
+          </div>
+          <div class="bottom container" >
+            <div class="row">
+              <input type="text" ng-model="agentReplay">
+              <button >Submit</button>
+              <button >End Chat</button>
+            </div>
+          </div>
+
+          <!-- _____________________________________________ -->
         </div>
       </div>
 
@@ -204,14 +245,18 @@
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-      var data = {{data | tojson}}
-      var username = data.user;
-      var chathistory = data.history;
-      var agent = data.agent;
-      var useremail = data.useremail;
-  
-      console.log(data, username, agent, useremail,chathistory);
-    </script>
+    var data = {
+      {
+        data | tojson
+      }
+    }
+    var username = data.user;
+    var chathistory = data.history;
+    var agent = data.agent;
+    var useremail = data.useremail;
+
+    console.log(data, username, agent, useremail, chathistory);
+  </script>
 </body>
 
 </html>

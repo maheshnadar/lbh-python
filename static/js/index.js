@@ -164,7 +164,7 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.chatOpen = true;
     $scope.chatHistory = chathistory;
-    $scope.user=username;
+    $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
         // var message_to_send = $('#private_message').val();
         console.log(message);
@@ -172,15 +172,13 @@ app.controller('chatWindowController', function ($scope) {
         console.log("#####");
         if (agent == "None") {
             console.log("#####");
-
-
             private_socket.emit('private_message', {
-                "date":new Date(),
-                "from_id":useremail,
-                "fromname":username,
-                "message":message,
-                "to_id":"none",
-                "toname":"none",
+                "date": new Date(),
+                "from_id": useremail,
+                "fromname": username,
+                "message": message,
+                "to_id": "none",
+                "toname": "none",
                 "type": "user",
             });
         } else {
@@ -190,12 +188,12 @@ app.controller('chatWindowController', function ($scope) {
                 // "username": username,
                 // "message": message,
                 // "agentname": agent
-                "date":new Date(),
-                "from_id":useremail,
-                "fromname":username,
-                "to_id":"none",
-                "message":message,
-                "toname":agent,
+                "date": new Date(),
+                "from_id": useremail,
+                "fromname": username,
+                "to_id": "none",
+                "message": message,
+                "toname": agent,
                 "type": "user",
             })
 
@@ -214,33 +212,44 @@ app.controller('chatWindowController', function ($scope) {
     });
 
     private_socket.on('new_private_message', function (msg) {
-        var username = $('#username').text();  
-        console.log("new private message",msg);
-        agent = msg.agent;
-        console.log('new_private_message', msg, agent);
-        if (msg.username == username) {
+        var username = $('#username').text();
+        // console.log("new private message",msg);
+        // agent = msg.to_id;
+        console.log('new_private_message', msg, agent, username);
+        if (msg.fromname == username || msg.toname == username) {
             console.log('new_private_message');
             // var add_tab_html = '<p id = "agentname" hidden="True">' +
             //     msg['agentname'] + '</p>'
             // $('#chathide').append(add_tab_html)
             // data={{data | tojson}};
-            console.log(data);
+            console.log(msg);
             agent = msg.agent;
-            $scope.chatHistory.push(msg);
-
-
+            console.log($scope.chatHistory, "chat history");
+            $scope.chatHistory.chatlist.push(msg);
             // insertChat("you", msg['message']);
             // insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
         }
-$scope.$digest();
+        $scope.$digest();
     });
     private_socket.on('second_new_private_message', function (msg) {
-        console.log("second new private message",msg);
+        console.log("second new private message", msg);
         var username = $('#username').text();
-       
         // if (msg.username == username) {
         //     insertChat("you", msg['message']);
+        if (msg.fromname == username || msg.toname == username) {
+            console.log('new_private_message');
+            // var add_tab_html = '<p id = "agentname" hidden="True">' +
+            //     msg['agentname'] + '</p>'
+            // $('#chathide').append(add_tab_html)
+            // data={{data | tojson}};
+            console.log(msg);
+            agent = msg.agent;
+            console.log($scope.chatHistory, "chat history");
+            $scope.chatHistory.chatlist.push(msg);
+            // insertChat("you", msg['message']);
+            // insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
+        }
+        $scope.$digest();
         // }
-
     });
 })
