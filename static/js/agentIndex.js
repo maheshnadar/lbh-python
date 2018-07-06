@@ -72,7 +72,7 @@ function formatAMPM(date) {
 
 // }
 
-var app = angular.module("Agent", ['720kb.tooltips']);
+var app = angular.module("Agent", []);
 
 app.controller("agentController", function ($scope) {
     // $scope.users = [];
@@ -315,13 +315,3 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
     }
 
 });
-
-app.config(['tooltipsConfProvider', function configConf(tooltipsConfProvider) {
-    tooltipsConfProvider.configure({
-        'smart': true,
-        'size': 'large',
-        'speed': 'slow',
-        'tooltipTemplateUrlCache': true
-        //etc...
-    });
-}]);
