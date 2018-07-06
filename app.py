@@ -67,7 +67,7 @@ def agent_login():
 			return redirect(url_for('agenthome'))
 	else:
 		return abort(401)
-
+	return redirect(url_for('agenthome'))
 
 
 
@@ -100,15 +100,20 @@ def user_login():
 # @login_required
 def user_logout():
 	print "user logout"
+	print session['agent']
 	# emit('userdisconnect_message', "message", broadcast=True)
 	session.pop('user_logged_in',None)
 	session.pop('agent',None)
 	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnected':"True"}},upsert=False)
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
+	d ={'user1':session['user_Name']}
+	print d
+	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnected':"True"}},upsert=False)
+	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnectby':session['user_Email']}},upsert=False)
 	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
 	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$pull':{'chatingwith':session['user_Name']}})
 	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$set':{'room':True}})					
+	# second_save_chatlist("user",session['user_Email'],agent_email,session['user_Email'],from_id,to_id,fromname,toname,message)
+	# emit('userdisconnect_message',, broadcast=True)
 	session.pop('user_Name',None)
 	session.pop('user_Email',None)
 	return redirect(url_for('home'))
@@ -138,10 +143,14 @@ def agent_logout():
 #     """Serve the index HTML"""
 #     return render_template('index.html')
 
-@socketio.on('Endchat')
-def on_Endchat():
-	user_logout()
-	print "user connect"
+@socketio.on('end_user_message', namespace='/private')
+def on_Endchat(payload):
+	print "End chat #####################"
+	print payload
+	mess={'username':payload['toname'],'useremail':payload['user_email']}
+	emit('user_end_chat',mess,broadcast=True)
+	# user_logout()
+
 	print "#################################"
 @socketio.on('connect')
 def on_connect():
@@ -205,6 +214,7 @@ def break_message(payload):
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
 	print payload
+	print "!!!!!!!!!!!!!!!!!!!!!!!"
 	if payload['type'] == 'user':
 		# {
   #               "type": "user",
