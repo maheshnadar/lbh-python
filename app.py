@@ -220,6 +220,7 @@ def second_private_message(payload):
 @socketio.on('private_message', namespace='/private')
 def private_message(payload):
 	print "private_message"
+	print payload
 	if payload['type'] == 'user':
 		message = {'message': payload['message']}
 		message['username'] = payload['username']
@@ -253,14 +254,16 @@ def private_message(payload):
 			mes= collection.thememasters.find_one({})
 			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])
 			save_chat(message['useremail'],idleidfind['Email'],message['message'])
-			second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess)
-			second_save_chatlist(message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'])
+			firt_response = second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess)
+			second_response = second_save_chatlist(message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'])
 
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
-			second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
+			third_response = second_save_chatlist(message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
 			print agentmess
+
 			message['frist_agent_message'] = agentmess
-			emit('new_private_message', message, broadcast=True)
+			emit('new_private_message', second_response, broadcast=True)
+			emit('new_private_message', third_response, broadcast=True)
 			print "done",message
 			# collection.close()
 		else:
@@ -272,6 +275,7 @@ def private_message(payload):
 		message = {'message': payload['message']}
 		message['agentname'] = payload['agentname']
 		message['username'] = payload['username']
+		
 		emit('agent_new_private_message', message, broadcast=True)
 		emit('second_new_private_message', message, broadcast=True)
 		
