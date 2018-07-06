@@ -386,3 +386,11 @@ text-decoration: none;
   color: red;
   font-weight: bold;
 }
+
+.dropup .dropdown-menu, .navbar-fixed-bottom .dropdown .dropdown-menu{
+  left: 0;
+}
+
+.transfer-button{
+  display: inline-block;
+}

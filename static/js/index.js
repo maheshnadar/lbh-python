@@ -302,7 +302,6 @@ $scope.agentDisconnected=false;
         });
         
     }
-
     $scope.dislikeSuggest = function () {        
         console.log("dislikeClicked");
         private_socket.emit('dislike_suggest', {
@@ -317,6 +316,4 @@ $scope.agentDisconnected=false;
             "user_email": useremail
         });
     }
-
-
 })
