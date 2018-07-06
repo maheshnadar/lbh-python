@@ -174,7 +174,7 @@ app.controller('chatWindowController', function ($scope) {
             msg: "Hi " + username + " !Welcome to Ross-Simons live chat support. What can we help you with?",
             to_id: "",
             toname: "",
-            type:"agent"
+            type: "agent"
         }]
         console.log("chathistory null 2", $scope.chatHistory)
     } else {
@@ -202,6 +202,8 @@ app.controller('chatWindowController', function ($scope) {
                 "to_id": "none",
                 "toname": "none",
                 "type": "user",
+                "agent_email": "",
+                "user_email": useremail
             });
         } else {
             console.log("second #####");
@@ -217,6 +219,9 @@ app.controller('chatWindowController', function ($scope) {
                 "message": message,
                 "toname": 'agent',
                 "type": "user",
+                "agent_email": agent,
+                "user_email": useremail
+
             })
 
         }
