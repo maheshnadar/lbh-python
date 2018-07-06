@@ -74,6 +74,8 @@ body {
 .user-index-container li a {
   /* position: absolute; */
   /* margin-bottom: 5px; */
+  /* float: right; */
+  display: inline-block;
   float: right;
   margin-right: 20px;
   /* right: 0; */
@@ -374,4 +376,128 @@ margin: 2rem;
   left:-50px;
   top:-50px;
   visibility: hidden;
+}
+
+.show-agents-container {
+  background-color: rgba(45, 52, 54, 1);
+}
+
+.show-chats-container {
+  background: rgba(178, 190, 195, 1);
+  padding-left: 0;
+  /* padding-right: 0; */
+  /* padding-top: 15px; */
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
+  height: 70vh;
+}
+
+.chat-list{
+  overflow-x: scroll;
+  margin-top: 15px;
+}
+
+.userlist {
+  background-color: rgba(223, 223, 223, 1);
+  padding: 18px;
+  margin: 8px 0;
+  border-radius: 0px;
+  color: #000;
+}
+
+.userlist:hover {
+  background-color: rgba(223, 223, 223, 0.9);
+}
+
+.user-index-container li:last-of-type {
+  margin-right: 0px;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  padding: 1rem 0;
+  /* border: 1px solid red; */
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-top: 1px solid rgba(45, 52, 54, 0.1);
+}
+
+.bottom input[type="text"] {
+  width: 75%;
+  padding: 5px 15px;
+  border-radius: 15px;
+  border: 1px solid transparent;
+  margin-right: 10px;
+}
+
+.left,
+.right {
+  margin-top: 10px;
+}
+
+.left {
+  margin-left: 15px;
+  float: left;
+  color: #333;
+  background-color: rgba(223, 223, 223, 1);
+}
+
+.right {
+  margin-left: 15px;
+  float: right;
+  color: #fff;
+  background-color: rgba(60, 99, 130, 1);
+
+}
+
+.left,
+.right {
+  position: relative;
+  width: auto;
+  padding: 15px;
+  text-align: left;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+  -moz-box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+  box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+}
+
+.right:after,
+.left:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 0;
+  border-style: solid;
+  display: block;
+  width: 0;
+  z-index: 1;
+}
+
+.left:after {
+  left: -10px;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent rgba(223, 223, 223, 1);
+}
+
+.right:after {
+  right: -10px;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent rgba(60, 99, 130, 1);
+}
+
+.userlist a{
+color:#333;
+text-decoration: none;
+
 }

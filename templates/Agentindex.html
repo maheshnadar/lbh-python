@@ -34,7 +34,7 @@
   <div ng-controller="agentController">
 
 
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar">
         <div class="navbar-inner">
           <a class="brand" href="#">
@@ -84,7 +84,7 @@
 
 
     <!-- <p id = "username" hidden="True">{{data.user}}</p> -->
-    <div class="user-index-container">
+    <div class="user-index-container container">
       <!-- <button href="{{ url_for('user_logout') }}">Endchat</button> -->
 
       <li>
@@ -99,86 +99,41 @@
     </div>
 
 
+    <style>
+    </style>
+
 
     <div class="container chatwindow">
-      <div class="row">
+      <div class="row show-agents-container">
 
         <div id="chattab" class="col-xs-3">
-          <!--   <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
-  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
           <div class="" ng-if="!users">No User</div>
-          <div ng-repeat="user in users" class="userlist">
-            <div ng-click="getChat(user)">
-
-              <div ng-bind="user.username"></div>
-            </div>
-
+          <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user.chatlist)">
+            <a>
+              <div ng-bind="user.user1"></div>
+            </a>
           </div>
-
-          <!-- ----------------------------------- -->
-          <div class="userlist">
-            <div ng-click="getChat(user)">
-
-              <div>User 1</div>
-            </div>
-
-          </div>
-          <div class="userlist">
-            <div ng-click="getChat(user)">
-
-              <div>User 2</div>
-            </div>
-
-          </div>
-          <!-- ---------------------------------------------- -->
+         
         </div>
-        <div id="chatwin" class="col-xs-9" style="background:rgba(177,159,159,.36); height: 70vh;">
 
-          <!-- <span class="glyphicon glyphicon-share-alt send-glyp" id="send_private_message"></span> -->
+        <div id="chatwin" class="col-xs-9 show-chats-container">
 
-          <!-- <div style="padding:10px;">
-        </div> -->
-          <div ng-repeat="chat in userChat">
-            <div class="left" ng-if="chat.from=='user'">
-
-              <span ng-bind="chat.message" class=""></span>
+          <div ng-repeat="message in messages" class="chat-list">
+          <!-- <div ng-bind=message> -->
+            <div class="left" ng-if="message.type=='user'">
+              <span ng-bind="message.msg" class=""></span>
             </div>
-            <div class="right " ng-if="chat.from=='agent'">
-
-              <span ng-bind="chat.message" class=""></span>
-            </div>
-          </div>
-          <div class="bottom container" ng-if="userChat">
-            <div class="row">
-              <input type="text" ng-model="agentReplay">
-              <button ng-click="sendMessage(agentReplay,users)">Submit</button>
-              <button ng-click="endChat(users)">End Chat</button>
+            <div class="right " ng-if="message.type=='agent'">
+              <span ng-bind="message.msg" class=""></span>
             </div>
           </div>
 
-          <!-- -------------------------------- -->
-          <div >
-            <div class="left">
-
-              <span  class="">HI</span>
-            </div>
-           
-          </div>
-          <div >
-            <div class="right ">
-              <span >Yes Sir</span>
-            </div>
-          </div>
-          <div class="bottom container" >
-            <div class="row">
-              <input type="text" ng-model="agentReplay">
-              <button >Submit</button>
-              <button >End Chat</button>
-            </div>
+          <div class="bottom" ng-if="messages.length>0">
+            <input type="text" ng-model="agentReplay" placeholder="Reply...">
+            <button ng-click="sendMessage(agentReplay,users)" class="btn btn-primary">Submit</button>
+            <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
           </div>
 
-          <!-- _____________________________________________ -->
         </div>
       </div>
 
@@ -245,13 +200,12 @@
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data |tojson}}
-    var username = data.user;
+    var data = {{data | tojson}}
+    var agentname = data.agentname;
     var chathistory = data.history;
-    var agent = data.agent;
-    var useremail = data.useremail;
+ 
 
-    console.log(data, username, agent, useremail, chathistory);
+    console.log(data, agentname, chathistory);
   </script>
 </body>
 
