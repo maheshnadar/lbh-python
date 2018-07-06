@@ -164,7 +164,8 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.chatOpen = true;
     $scope.chatHistory = [];
-    if (chathistory == null || chathistory.chatlist == []) {
+    // console.log("chat list ",chathistory, chathistory.chatlist.length)
+    if (chathistory == null || chathistory.chatlist.length == 0) {
         console.log("chathistory null")
         $scope.chatHistory.chatlist = [{
             date: new Date(),
@@ -172,7 +173,8 @@ app.controller('chatWindowController', function ($scope) {
             fromname: username,
             msg: "Hi " + username + " !Welcome to Ross-Simons live chat support. What can we help you with?",
             to_id: "",
-            toname: ""
+            toname: "",
+            type:"agent"
         }]
         console.log("chathistory null 2", $scope.chatHistory)
     } else {

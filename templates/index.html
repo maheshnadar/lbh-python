@@ -54,7 +54,7 @@
                   </div> -->
           <div class="col-sm-12 frame">
             <ul>
-<!-- <li>
+              <!-- <li>
     <div class="msj macro">
         <div class="avatar">
           <img class="img-circle" style="width:100%;" src="https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48">
@@ -80,32 +80,36 @@
               </div>
             </div>
        </li>     -->
-             <li ng-repeat="chat in chatHistory.chatlist track by $index">
-            <!-- <span ng-bind="chat.fromname"></span>
+              <li ng-repeat="chat in chatHistory.chatlist track by $index">
+                <!-- <span ng-bind="chat.fromname"></span>
             <span ng-bind="user"></span> -->
-               <div class="msj macro" ng-if="chat.fromname==user">
+                <div class="msj macro" ng-if="chat.type=='agent'">
                   <div class="avatar">
                     <img class="img-circle" style="width:100%;" src="https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48">
                   </div>
                   <div class="text text-l">
-                    <p><span ng-bind="chat.msg"></p>
+                    <p>
+                      <span ng-bind="chat.msg">
+                    </p>
                     <p>
                       <small>6:52 PM</small>
                     </p>
                   </div>
                 </div>
-                <div class="msj-rta macro" ng-if="chat.fromname!=user">
-                    <div class="text text-r">
-                      <p><span ng-bind="chat.msg"></span></p>
-                      <p>
-                        <small>7:11 PM</small>
-                      </p>
-                    </div>
-                    <div class="avatar" style="padding:0px 0px 0px 10px !important">
-                      <img class="img-circle" style="width:100%;" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg">
-                    </div>
+                <div class="msj-rta macro" ng-if="chat.type=='user'">
+                  <div class="text text-r">
+                    <p>
+                      <span ng-bind="chat.msg"></span>
+                    </p>
+                    <p>
+                      <small>7:11 PM</small>
+                    </p>
                   </div>
-             </li>
+                  <div class="avatar" style="padding:0px 0px 0px 10px !important">
+                    <img class="img-circle" style="width:100%;" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg">
+                  </div>
+                </div>
+              </li>
             </ul>
             <div>
               <div class="msj-rta macro">
@@ -140,7 +144,7 @@
 
   </div>
   <script>
-    var data = {{data | tojson}}
+    var data = {{ data | tojson }}
     var username = data.user;
     var chathistory = data.history;
     var agent = data.agent;
