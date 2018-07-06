@@ -217,7 +217,7 @@ ul {
     list-style-type: none;
     padding: 0px 18px;
     position: absolute;
-    bottom: 60px;
+    bottom: 80px;
     display: flex;
     flex-direction: column;
     top: 0;
@@ -250,12 +250,25 @@ ul {
 }
 
 .send-glyp {
-    cursor: pointer;
     font-size: 18px;
+}
+
+.send-glyp,
+.send-glyp-posi,
+.send-glyp-nega {
+    cursor: pointer;
 }
 
 .send-glyp:hover {
     color: red;
+}
+
+.send-glyp-posi:hover {
+    color:blue;
+}
+
+.send-glyp-nega:hover {
+    color:red;
 }
 
 input:focus {
@@ -328,10 +341,19 @@ input:focus {
     max-width: 300px;
 }
 
-.user-chat-bottom {
+.class-main-bottom {
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.suggest {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.user-chat-bottom {
+    /* width: 100%; */
     display: flex;
     padding: 10px 5px;
     background-color: rgb(197, 197, 197);

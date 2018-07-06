@@ -118,33 +118,36 @@
 
         <div id="chatwin" class="col-xs-9 show-chats-container">
           <div class="chat-panel">
+            <div class="message-panel">
 
-            <div ng-repeat="message in messages" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
-              <!-- <div ng-bind=message> -->
-              <div class="left-chat" ng-if="message.type=='user'">
-                <span ng-bind="message.msg" class=""></span>
-              </div>
-              <div class="right-chat" ng-if="message.type=='agent'">
-                <span ng-bind="message.msg" class=""></span>
+
+              <div ng-repeat="message in messages" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
+                <!-- <div ng-bind=message> -->
+                <div class="left-chat" ng-if="message.type=='user'">
+                  <span ng-bind="message.msg" class=""></span>
+                </div>
+                <div class="right-chat" ng-if="message.type=='agent'">
+                  <span ng-bind="message.msg" class=""></span>
+                </div>
               </div>
             </div>
-          </div>
-        
+
             <div class="bottom" ng-if="messages.length>0">
               <input type="text" ng-model="agentReplay" placeholder="Reply...">
               <button ng-click="sendMessage(agentReplay,messages)" class="btn btn-primary">Submit</button>
               <button ng-click="endChat(messages)" class="btn btn-danger">End Chat</button>
             </div>
           </div>
-
-</div>
+        </div>
 
       </div>
 
-
     </div>
 
-    <!--     <div class="col-sm-12 frame">
+
+  </div>
+
+  <!--     <div class="col-sm-12 frame">
       <ul></ul>
       <div>
         <div class="msj-rta macro">
@@ -155,16 +158,16 @@
         </div>
       </div>
     </div> -->
-    <!-- <div id="London" class="tabcontent">
+  <!-- <div id="London" class="tabcontent">
   	<div id = "chat" class="container">
   		<img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
   		<p>Hello. How are you today?</p>
   		<span class="time-right">11:00</span>
     </div>-->
 
-    <!-- </div> -->
+  <!-- </div> -->
 
-    <!--<div id="Paris" class="tabcontent">
+  <!--<div id="Paris" class="tabcontent">
   <h3>Paris</h3>:1px solid #ccc
   <p>Paris is the capital of France.</p> 
 </div>
@@ -174,14 +177,14 @@
   <p>Tokyo is the capital of Japan.</p>
 </div>
  -->
-    <!-- </div>
+  <!-- </div>
 <li><a href="{{ url_for('agent_logout') }}">Log Out</a></li>
       <div id="chat">
       </div>
 
   Message: <input type="text" id="private_message">
     <button id="send_private_message">Send</button> -->
-    <!-- <script>
+  <!-- <script>
     function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -200,11 +203,11 @@
     // document.getElementById("defaultOpen").click();
   </script> -->
 
-    <!-- <script type="text/javascript" charset="utf-8"></script> -->
-    <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  <!-- <script type="text/javascript" charset="utf-8"></script> -->
+  <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{ data | tojson }}
+    var data = {{ data | tojson}}
     var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history;
