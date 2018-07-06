@@ -6,6 +6,7 @@
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="../static/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/css/custom.css">
+  <link rel="stylesheet" href="../static/css/angular-tooltips.min.css">
   <!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
   <!-- <script src="{{ url_for('static', filename='js/navbarcustomscript.js') }}"></script> -->
   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet">
@@ -16,6 +17,7 @@
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="../static/js/agentIndex.js"></script>
+  <script src="../static/js/angular-tooltips.min.js"></script>
   <style></style>
 
 </head>
@@ -80,7 +82,7 @@
       </div>
     </div>
 
-
+    <a href="#" tooltips tooltip-template="tooltip">Tooltip me</a>
 
     <!-- <p id = "username" hidden="True">{{data.user}}</p> -->
     <div class="user-index-container container">
@@ -100,7 +102,6 @@
 
     <style>
     </style>
-
 
     <div class="container chatwindow">
       <div class="row show-agents-container">
@@ -124,11 +125,19 @@
                   
                 <div class="left-chat" ng-if="message.type=='user'">
                   <span ng-bind="message.msg" class=""></span>
-                  <!-- <span ng-bind="message.user_detail.url" class=""></span> -->
+                  <!-- <span ng-bind="message.userdetails.url" class=""></span> -->
                   <br>
                   <div class="chat-info-detail-left">
-                    <span class="userInfo">User Info</span>
+                    <span class="userInfo" tooltips tooltip-template="https://google.com" tooltip-side="right">User Info</span>
                     <span class="time">7:13 PM</span>
+
+                    <!-- <div class="tooltip top" role="tooltip">
+                      <div class="tooltip-arrow"></div>
+                      <div class="tooltip-inner">
+                        Some tooltip text!
+                      </div>
+                    </div> -->
+
                   </div>
                 </div>
 
@@ -175,7 +184,7 @@
       </div>
 
     </div>
-
+    
 
   </div>
 
@@ -243,7 +252,9 @@
     var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history;
-
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
 
     console.log(data, agentname, chathistory);
   </script>
