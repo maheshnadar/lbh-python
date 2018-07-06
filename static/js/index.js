@@ -152,7 +152,7 @@ function formatAMPM(date) {
 var app = angular.module("chatWindow", ['luegg.directives']);
 
 app.controller('chatWindowController', function ($scope) {
-    $scope.privateMessage={};
+    $scope.privateMessage = {};
     $scope.privateMessage.message = "";
     $scope.agentDisconnected = false;
     $scope.chatOpen = true;
@@ -181,7 +181,7 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
-   
+
         if (agent == "None") {
             console.log("#####");
             private_socket.emit('private_message', {
@@ -194,9 +194,9 @@ app.controller('chatWindowController', function ($scope) {
                 "type": "user",
                 "agent_email": "",
                 "user_email": useremail,
-                "user_details":{
-                    "url":window.location.href,
-                    "browser":window.navigator.userAgent
+                "user_details": {
+                    "url": window.location.href,
+                    "browser": window.navigator.userAgent
                 }
             });
         } else {
@@ -214,15 +214,15 @@ app.controller('chatWindowController', function ($scope) {
                 "type": "user",
                 "agent_email": agent,
                 "user_email": useremail,
-                "user_details":{
-                    "url":window.location.href,
-                    "browser":window.navigator.userAgent
+                "user_details": {
+                    "url": window.location.href,
+                    "browser": window.navigator.userAgent
                 }
 
             })
         }
-        $scope.privateMessage.message  = "";
-        console.log('input', $scope.privateMessage.message );
+        $scope.privateMessage.message = "";
+        console.log('input', $scope.privateMessage.message);
     }
 
     $scope.sendViaEnter = function ($event, message) {
@@ -288,30 +288,46 @@ app.controller('chatWindowController', function ($scope) {
     $scope.likeSuggest = function () {
         console.log("likeClicked");
         private_socket.emit('like_suggest', {
+            "type": "user",
+            // "username": username,
+            // "message": message,
+            // "agentname": agent
             "date": new Date(),
             "from_id": useremail,
             "fromname": username,
-            "message": "like",
             "to_id": "none",
-            "toname": "none",
+            "message": message,
+            "toname": 'agent',
             "type": "user",
-            "agent_email": "",
-            "user_email": useremail
+            "agent_email": agent,
+            "user_email": useremail,
+            "user_details": {
+                "url": window.location.href,
+                "browser": window.navigator.userAgent
+            }
         });
     }
 
-    $scope.dislikeSuggest = function () {        
+    $scope.dislikeSuggest = function () {
         console.log("dislikeClicked");
         private_socket.emit('dislike_suggest', {
+            "type": "user",
+            // "username": username,
+            // "message": message,
+            // "agentname": agent
             "date": new Date(),
             "from_id": useremail,
             "fromname": username,
-            "message": "dislike",
             "to_id": "none",
-            "toname": "none",
+            "message": message,
+            "toname": 'agent',
             "type": "user",
-            "agent_email": "",
-            "user_email": useremail
+            "agent_email": agent,
+            "user_email": useremail,
+            "user_details": {
+                "url": window.location.href,
+                "browser": window.navigator.userAgent
+            }
         });
     }
 

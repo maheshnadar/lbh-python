@@ -186,7 +186,7 @@ app.controller("agentController", function ($scope) {
             type: "agent",
             user_email: user[1].to_id
         });
-        $scope.agentReplay.text = null;
+        $scope.agentReplay.text = "";
         console.log("Agent Msg Clear Input", $scope.agentReplay.text);
 
 
