@@ -46,7 +46,7 @@ def agenthome():
 	else:
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
 		# print hist
-		data = {'agentemail':session['agent_Email'],'agentname':session['agent_Name'],'history':hist}
+		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist}
 
 		return render_template('Agentindex.html',data=data)
 #agents area
