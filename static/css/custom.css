@@ -330,12 +330,15 @@ text-decoration: none;
   margin-left: 15px;
   color: #333;
   background-color: rgba(223, 223, 223, 1);
+  max-width: 70%;
 }
 
 .right-chat {
   margin-left: 15px;
   color: #fff;
   background-color: rgba(60, 99, 130, 1);
+  max-width: 70%;
+  margin-right: 20px;
 }
 
 .right-chat:after,
