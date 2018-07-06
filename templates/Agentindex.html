@@ -119,46 +119,28 @@
         <div id="chatwin" class="col-xs-9 show-chats-container">
           <div class="chat-panel">
             <div class="message-panel">
-
-              <style>
-                .left-chat {
-                  min-width: 25%;
-                  font-size: 15px;
-                }
-
-                .left-chat, .right-chat {
-                  padding: 10px 15px;
-                }
-
-                .chat-info-detail {
-                  float: right;
-                  font-size: 11px;
-                  margin-top: 8px;
-                }
-
-                .chat-info-detail .userInfo {
-                  text-decoration: underline;
-                  cursor: pointer;
-                  font-style: italic;
-                  margin-right: 5px;
-                }
-              </style>
-
-
               <div ng-repeat="message in selectedUser.chatlist" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
                 <!-- <div ng-bind=message> -->
+                  
                 <div class="left-chat" ng-if="message.type=='user'">
                   <span ng-bind="message.msg" class=""></span>
                   <!-- <span ng-bind="message.user_detail.url" class=""></span> -->
                   <br>
-                  <div class="chat-info-detail">
+                  <div class="chat-info-detail-left">
                     <span class="userInfo">User Info</span>
                     <span class="time">7:13 PM</span>
                   </div>
                 </div>
+
                 <div class="right-chat" ng-if="message.type=='agent'">
                   <span ng-bind="message.msg" class=""></span>
+                  <br>
+                  <div class="chat-info-detail-right">
+                    <!-- <span class="userInfo">User Info</span> -->
+                    <span class="time">8:13 PM</span>
+                  </div>
                 </div>
+
               </div>
             </div>
 
