@@ -4,12 +4,12 @@ app.controller("agentController", function ($scope) {
     // $scope.users = [];
     // $scope.chatHistory = [];
     $scope.chatHistory=chathistory;
-    $scope.message=[];
+    $scope.messages=[];
     $scope.toggleText="break"
     $scope.getChat = function (chat) {
 
         console.log("change chat", chat)
-        $scope.message=chat;
+        $scope.messages=chat;
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][chat.username.toString()];
         //     console.log("for llop", chat.username, history)
@@ -114,12 +114,12 @@ app.controller("agentController", function ($scope) {
     });
     $scope.sendMessage = function (msg, data) {
         console.log('inside send message', msg, data);
-        private_socket.emit('private_message', {
-            "type": "agent",
-            "agentname": data[0].agent,
-            'username': data[0].username,
-            'message': msg
-        });
+        // private_socket.emit('private_message', {
+        //     "type": "agent",
+        //     "agentname": data[0].agent,
+        //     'username': data[0].username,
+        //     'message': msg
+        // });
     }
 
     $scope.break = function () {

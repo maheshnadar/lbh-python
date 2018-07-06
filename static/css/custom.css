@@ -495,3 +495,9 @@ margin: 2rem;
   border-width: 10px 0 10px 10px;
   border-color: transparent rgba(60, 99, 130, 1);
 }
+
+.userlist a{
+color:#333;
+text-decoration: none;
+
+}

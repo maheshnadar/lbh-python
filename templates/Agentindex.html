@@ -108,10 +108,10 @@
 
         <div id="chattab" class="col-xs-3">
           <div class="" ng-if="!users">No User</div>
-          <div ng-repeat="user in chatHistory" class="userlist">
-            <div ng-click="getChat(user.chatlist)">
+          <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user.chatlist)">
+            <a>
               <div ng-bind="user.user1"></div>
-            </div>
+            </a>
           </div>
          
         </div>
@@ -119,15 +119,16 @@
         <div id="chatwin" class="col-xs-9 show-chats-container">
 
           <div ng-repeat="message in messages" class="chat-list">
-            <div class="left" ng-if="chat.message=='user'">
-              <span ng-bind="chat.message" class=""></span>
+          <!-- <div ng-bind=message> -->
+            <div class="left" ng-if="message.type=='user'">
+              <span ng-bind="message.msg" class=""></span>
             </div>
-            <div class="right " ng-if="chat.from=='agent'">
-              <span ng-bind="chat.message" class=""></span>
+            <div class="right " ng-if="message.type=='agent'">
+              <span ng-bind="message.msg" class=""></span>
             </div>
           </div>
 
-          <div class="bottom" ng-if="userChat">
+          <div class="bottom" ng-if="messages.length>0">
             <input type="text" ng-model="agentReplay" placeholder="Reply...">
             <button ng-click="sendMessage(agentReplay,users)" class="btn btn-primary">Submit</button>
             <button ng-click="endChat(users)" class="btn btn-danger">End Chat</button>
