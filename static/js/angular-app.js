@@ -23,6 +23,15 @@ app.controller("agentController", function ($scope) {
         console.log("agent_new_chat", msg)
         // alert(msg);
         console.log("agent_new_chat", msg);
+          console.log("first check",agentemail,msg.user2);
+        if (agentemail == msg.user2) {
+            // for (var i = 0; i < $scope.chatHistory.length; i++) {
+            //     if ($scope.chatHistory[i].user1 == msg.user_email) {
+            //         $scope.chatHistory[i].chatlist.push(msg)
+            //     }
+            // }
+            $scope.chatHistory.push(msg);
+        }
         // if (msg == "No user available") {
         //     console.log("chat history", $scope.chatHistory);
         //     return
@@ -70,7 +79,16 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        console.log("agent_new_chat", msg)
+        console.log("agent_ongoing_chat", msg);
+        console.log("first check",agentemail,msg.agent_email);
+        if (agentemail == msg.agent_email) {
+            for (var i = 0; i < $scope.chatHistory.length; i++) {
+                if ($scope.chatHistory[i].user1 == msg.user_email) {
+                    $scope.chatHistory[i].chatlist.push(msg)
+                }
+            }
+        }
+
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][msg.username.toString()];
         //     console.log("for new private llop", msg.username, history)
@@ -112,7 +130,7 @@ app.controller("agentController", function ($scope) {
         $scope.$digest();
 
     });
-    $scope.sendMessage = function (msg,user) {
+    $scope.sendMessage = function (msg, user) {
         console.log('inside send message', msg, user);
         private_socket.emit('second_private_message', {
             // "type": "agent",
