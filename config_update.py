@@ -40,11 +40,12 @@ def save_chat(useremail,agentemail,message):
 	# print "#############",f
 	return True
 
-def second_save_chatlist(useremail,from_id,to_id,fromname,toname,message):
+def second_save_chatlist(type,useremail,from_id,to_id,fromname,toname,message):
 	print "second_save_chatlist"
 	print useremail , from_id, to_id, fromname, toname,message
 	timeint = str(datetime.datetime.utcnow())
 	chat = {
+			"type":type,
             "from_id" : from_id, 
             "to_id" : to_id, 
             "fromname" : fromname, 
