@@ -269,6 +269,8 @@ def private_message(payload):
 			print agentmess
 
 			message['frist_agent_message'] = agentmess
+			second_response['type']='agent'
+			third_response['type'] = 'user'
 			emit('new_private_message', second_response, broadcast=True)
 			emit('new_private_message', third_response, broadcast=True)
 			d = {'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':"False"}
