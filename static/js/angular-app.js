@@ -6,7 +6,11 @@ app.controller("agentController", function ($scope) {
     $scope.chatHistory = chathistory;
     $scope.messages = [];
     $scope.selectedUser = {};
-    $scope.toggleText = "break"
+    $scope.toggleText = "break";
+
+    $scope.agentReplay={};
+    $scope.agentReplay.text="";
+
     $scope.getChat = function (user) {
 
         console.log("change chat", user)
@@ -166,7 +170,6 @@ app.controller("agentController", function ($scope) {
 
     });
     $scope.sendMessage = function (msg, user) {
-        $scope.agentReplay = null;
         console.log('inside send message', msg, user);
         private_socket.emit('second_private_message', {
             // "type": "agent",
@@ -183,6 +186,10 @@ app.controller("agentController", function ($scope) {
             type: "agent",
             user_email: user[1].to_id
         });
+        $scope.agentReplay.text = null;
+        console.log("Agent Msg Clear Input", $scope.agentReplay.text);
+
+
     }
 
     $scope.sendViaEnter = function ($event, msg, user) {

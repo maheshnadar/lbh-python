@@ -149,9 +149,11 @@ function formatAMPM(date) {
 // insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!", 9500);
 // insertChat("you", "LOL", 12000);
 
-var app = angular.module("chatWindow", []);
+var app = angular.module("chatWindow", ['luegg.directives']);
 
 app.controller('chatWindowController', function ($scope) {
+    $scope.privateMessage={};
+    $scope.privateMessage.message="";
     // console.log(data);
     $scope.agentDisconnected = false;
     $scope.chatOpen = true;
@@ -192,7 +194,11 @@ app.controller('chatWindowController', function ($scope) {
                 "toname": "none",
                 "type": "user",
                 "agent_email": "",
-                "user_email": useremail
+                "user_email": useremail,
+                "user_details":{
+                    "url":window.location.href,
+                    "browser":window.navigator.userAgent
+                }
             });
         } else {
             private_socket.emit('second_private_message', {
@@ -208,12 +214,16 @@ app.controller('chatWindowController', function ($scope) {
                 "toname": 'agent',
                 "type": "user",
                 "agent_email": agent,
-                "user_email": useremail
+                "user_email": useremail,
+                "user_details":{
+                    "url":window.location.href,
+                    "browser":window.navigator.userAgent
+                }
 
             })
         }
-        $scope.privateMessage = null;
-        console.log('input', $scope.privateMessage);
+        $scope.privateMessage.message = null;
+        console.log('input', $scope.privateMessage.message);
     }
 
     $scope.sendViaEnter = function ($event, message) {

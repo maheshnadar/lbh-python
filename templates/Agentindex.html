@@ -134,8 +134,8 @@
             </div>
 
             <div class="bottom" ng-if="selectedUser.chatlist.length>0 && !selectedUser.isChatEnd">
-              <input type="text" ng-model="agentReplay" placeholder="Reply..."  ng-keypress="sendViaEnter($event, agentReplay, selectedUser.chatlist)">
-              <button ng-click="sendMessage(agentReplay,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
+              <input type="text" ng-model="agentReplay.text" placeholder="Reply..."  ng-keypress="sendViaEnter($event, agentReplay.text, selectedUser.chatlist)">
+              <button ng-click="sendMessage(agentReplay.text,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
               <button ng-click="endChat(selectedUser.chatlist)" class="btn btn-danger">End Chat</button>
               <!-- <div class="dropup transfer-button">
                 <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
