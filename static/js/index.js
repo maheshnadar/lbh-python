@@ -181,7 +181,7 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
-        if($scope.privateMessage.message !== ""){
+        if ($scope.privateMessage.message !== "") {
             if (agent == "None") {
                 console.log("#####");
                 private_socket.emit('private_message', {
@@ -285,16 +285,20 @@ app.controller('chatWindowController', function ($scope) {
         $scope.$digest();
         // }
     });
-    socket.on('offline_message', function (msg) {
-        console.log('offline message !',msg);
+    private_socket.on('offline_message', function (msg) {
+        console.log('offline message !', msg);
         // socket.emit('Connection');
     });
 
-    private_socket.on('user_end_chat', function (endUser) {
+    private_socket.on('agent_end_chat', function (endUser) {
         //to end chat
 
         console.log("inside user end chat", endUser);
-        
+
+        if(endUser.username==username){
+            $scope.agentDisconnected =true;
+        }
+
         // console.log(msg);
 
         $scope.$digest();
