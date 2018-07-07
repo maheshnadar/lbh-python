@@ -105,21 +105,19 @@ body {
   margin: 8px;
 }
 
-.bottom{
+.bottom {
   position: absolute;
   bottom: 0;
   margin: 2rem;
 }
 
-.left{
+.left {
   text-align: left;
-
 }
 
-.right{
-  text-align:right;
+.right {
+  text-align: right;
 }
-
 
 .leftbubble {
   border-top-left-radius: 0em !important;
@@ -310,13 +308,14 @@ body {
 
 .left-chat,
 .right-chat {
+  min-width: 25%;
   position: relative;
   width: auto;
-  padding: 15px;
+  padding: 10px 15px;
   text-align: right;
   display: inline-block;
   vertical-align: middle;
-  font-size: 13px;
+  font-size: 15px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -364,6 +363,20 @@ body {
   right: -10px;
   border-width: 10px 0 10px 10px;
   border-color: transparent rgba(60, 99, 130, 1);
+}
+
+.chat-info-detail-left,
+.chat-info-detail-right {
+  float: right;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.userInfo {
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: italic;
+  margin-right: 5px;
 }
 
 .chat-panel {
