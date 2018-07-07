@@ -41,6 +41,11 @@ def home():
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
 		return render_template('index.html',data = user)
 #agents area
+@app.route('/off')
+def off():
+	return render_template('agent-offline.html')
+
+
 @app.route('/offline',methods = ["POST"])
 def offline():
 	print request.form
@@ -181,8 +186,8 @@ def on_Endchat(payload):
 	emit('user_end_chat',mess,broadcast=True)
 	emit('agent_end_chat',mess,broadcast=True)
 	# user_logout()
-
 	print "#################################"
+
 @socketio.on('transer_agent')
 def transer_agent(payload):
 	print "transer_agent"
@@ -195,7 +200,7 @@ def transer_agent(payload):
 	
 	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
 	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email})
-	emit();
+	emit('agent_new_chat',chat,broadcast=True);
 # @socketio.on('disconnect')
 # def disconnect_user():
 #     # logout_user()
