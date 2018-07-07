@@ -163,7 +163,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 /* each text bubble */
 
 .macro {
-    margin-top: 15px;
+    margin: 6px 0px;
     width: 85%;
     border-radius: 5px;
     padding: 5px;

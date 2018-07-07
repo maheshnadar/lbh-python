@@ -134,7 +134,7 @@
             </div>
 
             <div class="bottom" ng-if="selectedUser.chatlist.length>0 && !selectedUser.isChatEnd">
-              <input type="text" ng-model="agentReplay" placeholder="Reply...">
+              <input type="text" ng-model="agentReplay" placeholder="Reply..."  ng-keypress="sendViaEnter($event, agentReplay, selectedUser.chatlist)">
               <button ng-click="sendMessage(agentReplay,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
               <button ng-click="endChat(selectedUser.chatlist)" class="btn btn-danger">End Chat</button>
               <!-- <div class="dropup transfer-button">

@@ -92,7 +92,7 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        $scope.agentReplay=null;
+        $scope.agentReplay = null;
         console.log("agent_ongoing_chat", msg);
         console.log("first check", agentemail, msg.agent_email);
         if (agentemail == msg.agent_email) {
@@ -166,7 +166,7 @@ app.controller("agentController", function ($scope) {
 
     });
     $scope.sendMessage = function (msg, user) {
-        $scope.agentReplay=null;
+        $scope.agentReplay = null;
         console.log('inside send message', msg, user);
         private_socket.emit('second_private_message', {
             // "type": "agent",
@@ -183,8 +183,14 @@ app.controller("agentController", function ($scope) {
             type: "agent",
             user_email: user[1].to_id
         });
+    }
 
-     
+    $scope.sendViaEnter = function ($event, msg, user) {
+        var keycode = $event.which || $event.keycode;
+        if (keycode === 13) {
+            console.log('on Enter works');
+            $scope.sendMessage(msg, user);
+        }
     }
 
     $scope.break = function () {
@@ -219,13 +225,5 @@ app.controller("agentController", function ($scope) {
             user_email: user[1].to_id
         });
     }
-
-    $scope.sendViaEnter = function ($event, msg, user) {
-        var keycode = $event.which || $event.keycode;
-        if (keycode === 13) {
-            $scope.sendMessage(msg,user);
-        }
-    }
-
 
 });

@@ -45,6 +45,7 @@
 
           <!-- <div onload="insertChat('me','dd')"></div> -->
         </div>
+
         <div class="user-index-container">
           <!-- <button href="{{ url_for('user_logout') }}">Endchat</button> -->
           <li>
@@ -108,13 +109,13 @@
                   <div class="avatar" style="padding:0px 0px 0px 10px !important">
                     <img class="img-circle" style="width:100%;" src="../static/images/agent.png">
                   </div>
-                </div>
-
-                
+                </div>                
               </li>
+
               <li class="chat-end" ng-if="agentDisconnected">
                  --------- CHAT Ended By Agent ----------
               </li>
+
             </ul>
             <div class="class-main-bottom" ng-if="!agentDisconnected">
 
@@ -123,9 +124,9 @@
                   Was our Agent helpful?
                 </span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click="likeSuggest(); likeStyle={'color':'blue'}" ng-style="likeStyle"></span>
+                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click="likeSuggest(); likeStyle={'color':'blue'}; dislikeStyle={'color':'#333'}" ng-style="likeStyle"></span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega" ng-click="dislikeSuggest(); dislikeStyle={'color':'red'}" ng-style="dislikeStyle"></span>
+                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega" ng-click="dislikeSuggest(); dislikeStyle={'color':'red'}; likeStyle={'color':'#333'}" ng-style="dislikeStyle"></span>
               </div>
 
               <div class="user-chat-bottom">
@@ -134,12 +135,15 @@
                   <input class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage.message" ng-keypress="sendViaEnter($event, privateMessage.message)">
                   <!-- </div> -->
                 </div>
+
                 <div style="padding:10px;">
                   <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage.message)"></span>
                   <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
                 </div>
               </div>
+
             </div>
+
           </div>
 
 
