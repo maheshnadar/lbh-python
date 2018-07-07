@@ -224,13 +224,13 @@ def endChat(payload):
 def dislike_suggest(payload):
 	print "####################"
 	print payload
-	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False'},{'$set':{'__v':1,'like':0}})
+	print collection.agentchat.update({'user1':payload['user_email'],'user2':payload['agent_email'],'disconnected':'False'},{'$set':{'__v':1,'like':0}})
 
 @socketio.on('like_suggest',namespace='/private')
 def like_suggest(payload):
 	print "####################"
 	print payload
-	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False'},{'$set':{'__v':0,'like':1}})
+	collection.agentchat.update({'user1':payload['user_email'],'user2':payload['agent_email'],'disconnected':'False'},{'$set':{'__v':0,'like':1}})
 
 @socketio.on('break_message',namespace='/private')
 def break_message(payload):
@@ -255,11 +255,11 @@ def second_private_message(payload):
   #               "toname": agent,
   #               "type": "user",
   #           }
-		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])
+		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
-		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'])		
+		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])		
 		
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
@@ -296,11 +296,11 @@ def private_message(payload):
 					pass
 			mes= collection.thememasters.find_one({})
 			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])
-			save_chat(message['useremail'],idleidfind['Email'],message['message'])
-			firt_response = second_save_chatlist("agent",message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess)
-			second_response = second_save_chatlist("user",message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'])
+			save_chat(message['useremail'],idleidfind['Email'],message['message'],payload['user_details'])
+			firt_response = second_save_chatlist("agent",message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],firstmess,payload['user_details'])
+			second_response = second_save_chatlist("user",message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['Email'],message['useremail'],idleidfind['agentname'],message['username'],message['message'],payload['user_details'])
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
-			third_response = second_save_chatlist('agent',message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess)
+			third_response = second_save_chatlist('agent',message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess,payload['user_details'])
 			message['frist_agent_message'] = agentmess
 			emit('new_private_message', second_response, broadcast=True)
 			emit('new_private_message', third_response, broadcast=True)

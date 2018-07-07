@@ -22,7 +22,7 @@ def user_got_connected(username,agentname):
 
 def user_got_disconnected(username,agentname):
 	pass
-def save_chat(useremail,agentemail,message):
+def save_chat(useremail,agentemail,message,userdetails):
 
 	print "in save_chat"
 	print useremail,agentemail,message
@@ -36,14 +36,15 @@ def save_chat(useremail,agentemail,message):
 					"chatlist": [],
 					"__v": "",
 					"like": "",
-					"disconnectby": ""
+					"disconnectby": "",
+					"userdetails":userdetails
 				}
 
 	f =collection.agentchat.insert_one(agenthistory)
 	# print "#############",f
 	return True
 
-def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message):
+def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message,userdetails):
 	print "second_save_chatlist"
 	print typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message
 	timeint = str(datetime.datetime.now(tz))
@@ -56,7 +57,8 @@ def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fr
             "fromname" : fromname, 
             "toname" : toname, 
             "msg" : message, 
-            "date" : timeint
+            "date" : timeint,
+			"userdetails":userdetails
         }
 	# print chat
 						# ({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
