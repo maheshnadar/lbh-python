@@ -184,7 +184,8 @@ app.controller("agentController", function ($scope) {
             to_id: user[1].to_id,
             toname: user[1].toname,
             type: "agent",
-            user_email: user[1].to_id
+            user_email: user[1].to_id,
+            user_details:{}
         });
         $scope.agentReplay.text = "";
         console.log("Agent Msg Clear Input", $scope.agentReplay.text);
@@ -229,7 +230,8 @@ app.controller("agentController", function ($scope) {
             to_id: user[1].to_id,
             toname: user[1].toname,
             type: "agent",
-            user_email: user[1].to_id
+            user_email: user[1].to_id,
+            user_details:{}
         });
     }
 
