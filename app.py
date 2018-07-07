@@ -25,7 +25,9 @@ ROOMS = {} # dict to track active rooms
 @app.route('/')
 def home():
 	print "Home"
-
+	off = collection.offlinemessages.find_one({})
+	if off['ustat'] != "1":
+		return render_template('agent-offline.html')
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
