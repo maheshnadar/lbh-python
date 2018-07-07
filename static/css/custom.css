@@ -419,3 +419,30 @@ body {
   padding: 12px;
   padding-left: 20px;
 }
+
+.custom-tooltip {
+ visibility: hidden;
+ opacity: 0;
+  position: absolute;
+  background: #2d3436f0;
+  color: white;
+  padding: 1rem;
+  top: -75%;
+  left: 121%;
+  border-radius: 10px;
+  transition: 500ms;
+}
+
+.custom-tooltip a {
+  color: white;
+}
+
+.userInfo {
+  position: relative;
+}
+
+.userInfo:hover .custom-tooltip {
+visibility: visible;
+opacity: 1;
+
+}

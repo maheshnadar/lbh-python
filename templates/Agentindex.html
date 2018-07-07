@@ -128,7 +128,10 @@
                   <!-- <span ng-bind="message.userdetails.url" class=""></span> -->
                   <br>
                   <div class="chat-info-detail-left">
-                    <span class="userInfo" tooltips tooltip-template="https://google.com" tooltip-side="right">User Info</span>
+
+                    <span class="userInfo">
+                      <span class="custom-tooltip"><a target="_blank" ng-href="#"> <span ng-bind="message.userdetails.url"> </span> </a> </span>
+                      User Info</span>
                     <span class="time">7:13 PM</span>
 
                     <!-- <div class="tooltip top" role="tooltip">
