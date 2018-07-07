@@ -179,6 +179,7 @@ def on_Endchat(payload):
 	collection.agentloggedin.update({'chatingwith':payload['toname']},{'$pull':{'chatingwith':payload['toname']}})
 	
 	emit('user_end_chat',mess,broadcast=True)
+	emit('agent_end_chat',mess,broadcast=True)
 	# user_logout()
 
 	print "#################################"
