@@ -132,12 +132,12 @@
               <div class="user-chat-bottom">
                 <div class="text-input">
                   <!-- <div class="text text-r" style="background:whitesmoke !important"> -->
-                  <input class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage" ng-keypress="sendViaEnter($event, privateMessage)">
+                  <input class="mytext" type="text" placeholder="Type a message" id="private_message" ng-model="privateMessage.message" ng-keypress="sendViaEnter($event, privateMessage.message)">
                   <!-- </div> -->
                 </div>
 
                 <div style="padding:10px;">
-                  <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage)"></span>
+                  <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage.message)"></span>
                   <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
                 </div>
               </div>
