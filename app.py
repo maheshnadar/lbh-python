@@ -230,7 +230,7 @@ def dislike_suggest(payload):
 def like_suggest(payload):
 	print "####################"
 	print payload
-	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False',{'$set':{'__v':0,'like':1}})
+	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False'},{'$set':{'__v':0,'like':1}})
 
 @socketio.on('break_message',namespace='/private')
 def break_message(payload):
