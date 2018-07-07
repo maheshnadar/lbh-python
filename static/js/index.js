@@ -287,6 +287,9 @@ app.controller('chatWindowController', function ($scope) {
     });
     private_socket.on('offline_message', function (msg) {
         console.log('offline message !', msg);
+        // window.location.href = "http://stackoverflow.com";
+        window.location.href = 'off';
+
         // socket.emit('Connection');
     });
 
