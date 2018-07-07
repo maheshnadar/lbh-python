@@ -152,7 +152,8 @@ function formatAMPM(date) {
 var app = angular.module("chatWindow", []);
 
 app.controller('chatWindowController', function ($scope) {
-    // console.log(data);
+    $scope.privateMessage={};
+    $scope.privateMessage.message = "";
     $scope.agentDisconnected = false;
     $scope.chatOpen = true;
     $scope.chatHistory = [];
@@ -180,7 +181,7 @@ app.controller('chatWindowController', function ($scope) {
 
     $scope.user = username;
     $scope.sendPrivateMessage = function (message) {
-
+   
         if (agent == "None") {
             console.log("#####");
             private_socket.emit('private_message', {
@@ -212,8 +213,8 @@ app.controller('chatWindowController', function ($scope) {
 
             })
         }
-        $scope.privateMessage = null;
-        console.log('input', $scope.privateMessage);
+        $scope.privateMessage.message  = "";
+        console.log('input', $scope.privateMessage.message );
     }
 
     $scope.sendViaEnter = function ($event, message) {
@@ -291,7 +292,7 @@ app.controller('chatWindowController', function ($scope) {
         });
 
     }
-    $scope.dislikeSuggest = function () {        
+    $scope.dislikeSuggest = function () {
         console.log("dislikeClicked");
         private_socket.emit('dislike_suggest', {
             "date": new Date(),
