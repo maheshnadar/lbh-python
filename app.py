@@ -53,7 +53,10 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
+		agentlist = list(collection.agentloggedin.find({},{'agentname':1,'Email':1,'_id':0}))
+		print agentlist
+
+		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		# print hist
 		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist}
 
@@ -183,19 +186,19 @@ def on_Endchat(payload):
 def on_connect():
 	print "user"
 
-@socketio.on('disconnect')
-def disconnect_user():
-    # logout_user()
-	print 'disconnected'
-	session.pop('user_logged_in',None)
-	session.pop('agent',None)
-	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnected':"True"}},upsert=False)
-	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
-	emit('userdisconnect_message', "message", broadcast=True)
-	session.pop('user_Name',None)
-	session.pop('user_Email',None)
-	return redirect(url_for('home'))
+# @socketio.on('disconnect')
+# def disconnect_user():
+#     # logout_user()
+# 	print 'disconnected'
+# 	session.pop('user_logged_in',None)
+# 	session.pop('agent',None)
+# 	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
+# 	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnected':"True"}},upsert=False)
+# 	collection.agentchat.update({'user1':session['user_Name']},{'$set':{'disconnectby':session['user_Name']}},upsert=False)
+# 	emit('userdisconnect_message', "message", broadcast=True)
+# 	session.pop('user_Name',None)
+# 	session.pop('user_Email',None)
+# 	return redirect(url_for('home'))
 
 
 @socketio.on('username', namespace='/private')
