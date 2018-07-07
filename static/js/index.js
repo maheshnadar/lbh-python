@@ -284,7 +284,10 @@ app.controller('chatWindowController', function ($scope) {
         $scope.$digest();
         // }
     });
-
+    socket.on('offline_message', function (msg) {
+        console.log('offline message !',msg);
+        // socket.emit('Connection');
+    });
     $scope.likeSuggest = function () {
         console.log("likeClicked");
         private_socket.emit('like_suggest', {
