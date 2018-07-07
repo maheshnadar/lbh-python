@@ -289,8 +289,8 @@ app.controller('chatWindowController', function ($scope) {
             "agent_email": "",
             "user_email": useremail
         });
-
     }
+
     $scope.dislikeSuggest = function () {        
         console.log("dislikeClicked");
         private_socket.emit('dislike_suggest', {
@@ -305,4 +305,5 @@ app.controller('chatWindowController', function ($scope) {
             "user_email": useremail
         });
     }
+
 })
