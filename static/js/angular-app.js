@@ -96,7 +96,7 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
-        $scope.agentReplay = null;
+        $scope.agentReplay.text = null;
         console.log("agent_ongoing_chat", msg);
         console.log("first check", agentemail, msg.agent_email);
         if (agentemail == msg.agent_email) {
