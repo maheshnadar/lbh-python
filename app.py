@@ -27,7 +27,8 @@ def home():
 	print "Home"
 	off = collection.offlinemessages.find_one({})
 	if off['ustat'] != "1":
-		return render_template('agent-offline.html')
+		data = off['inactive_messages']
+		return render_template('agent-offline.html',data=data)
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
@@ -93,6 +94,7 @@ def user_login():
 		user = {'username':session['user_Name'],'Email':session['user_Email'],"agent":connectedagentname,"createdat": datetime.datetime.utcnow()}
 		#collection = mongo_connection()
 		collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
+		emit
 		return redirect(url_for('home'))
 	else:
 		return abort(401)
@@ -108,7 +110,11 @@ def user_login():
 # @login_required
 def user_logout():
 	print "user logout"
-	print session['agent']
+	print session['user_Name']
+	mess={'toname':session['user_Name'],'user_email':session['user_Email']}
+	emit('user_end_chat',mess,broadcast=True,namespace='/private')
+	# on_Endchat({'toname':session['user_Name'],'user_email':session['user_Email']})
+	# emit('user_end_chat',{'toname':session['user_Name'],'user_email':session['user_Email']},namespace='/private')
 	# emit('userdisconnect_message', "message", broadcast=True)
 	session.pop('user_logged_in',None)
 	session.pop('agent',None)
@@ -158,7 +164,7 @@ def agent_logout():
 
 @socketio.on('end_user_message', namespace='/private')
 def on_Endchat(payload):
-	print "End chat #####################"
+	print "End chat ###################################################"
 	print payload
 	mess={'username':payload['toname'],'useremail':payload['user_email']}
 	collection.userloggedin.delete_many({'Email':payload['user_email']})
@@ -194,8 +200,8 @@ def disconnect_user():
 
 @socketio.on('username', namespace='/private')
 def receive_username(username):
-    print request.sid
-    users[username] = request.sid
+    # print request.sid
+    # users[username] = request.sid
     #users.append({username : request.sid})
     #print(users)
     print('Username added!')
