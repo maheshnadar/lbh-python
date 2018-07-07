@@ -58,7 +58,7 @@ def agenthome():
 
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		# print hist
-		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist}
+		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist}
 
 		return render_template('Agentindex.html',data=data)
 #agents area
@@ -183,10 +183,19 @@ def on_Endchat(payload):
 	# user_logout()
 
 	print "#################################"
-@socketio.on('connect')
-def on_connect():
-	print "user"
-
+@socketio.on('transer_agent')
+def transer_agent(payload):
+	print "transer_agent"
+	previous_agent_name = payload['previous_agent_name']
+	previous_agent_email = payload['previous_agent_email']
+	user_name = payload['user_name']
+	user_email = payload['user_email']
+	new_agent_name = payload['new_agent_name']
+	new_agent_email = payload['new_agent_email']
+	
+	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
+	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email})
+	emit();
 # @socketio.on('disconnect')
 # def disconnect_user():
 #     # logout_user()
