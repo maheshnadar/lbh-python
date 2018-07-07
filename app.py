@@ -40,6 +40,12 @@ def home():
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
 		return render_template('index.html',data = user)
 #agents area
+@app.route('/offline',methods = ["POST"])
+def offline():
+	print request.form
+	collection.userofflinemessage.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
+	return render_template("messagesend.html")
+
 @app.route('/agent')
 def agenthome():
 	print "agenthome"
