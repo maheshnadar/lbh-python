@@ -4,6 +4,21 @@
 <link rel="stylesheet" href="../static/css/user.css">
 
 <style>
+    textarea {
+        padding: 8px 10px;
+        border-radius: 15px;
+        width: 100%;
+        border: 1px solid transparent;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        resize: none;
+    }
+
+    .mesage-to-leave {
+        padding: 2rem;
+        padding-top: 1rem;
+        text-align: center;
+    }
 </style>
 
 {% block body %} {% if session['logged_in'] %}
@@ -11,40 +26,46 @@
 {% else %}
 
 <body ng-app="user">
-  <div ng-controller="userController">
-    <div class="chat-container" ng-class="{'chat-close':!chatOpen}">
-      <div class="top">
-        <img src="../static/images/chat.png" class="chat-icon">
-        <span>LIVE CHAT</span>
+    <div ng-controller="userController">
+        <div class="chat-container" ng-class="{'chat-close':!chatOpen}">
+            <div class="top">
+                <img src="../static/images/chat.png" class="chat-icon">
+                <span>LIVE CHAT</span>
 
-        <div class="chat-toggle" ng-click="chatOpen=!chatOpen">
-          <img src="../static/images/down-arrow.png" ng-if="chatOpen" class="chat-icon left">
-          <img src="../static/images/up-arrow.png" ng-if="!chatOpen" class="chat-icon left">
+                <div class="chat-toggle" ng-click="chatOpen=!chatOpen">
+                    <img src="../static/images/down-arrow.png" ng-if="chatOpen" class="chat-icon left">
+                    <img src="../static/images/up-arrow.png" ng-if="!chatOpen" class="chat-icon left">
+                </div>
+            </div>
+            <div class="user-page-container">
+
+                <div class="login-container">
+                    <form action="/userlogin" method="POST" name="chatLogin">
+                        <input type="text" name="Name" ng-model="name" placeholder="Name*" required>
+                        <br/>
+                        <input type="email" name="Email" ng-model="email" placeholder="Email*" required>
+                        <br/>
+                        <input type="number" name="Phone" ng-model="Phone" placeholder="Phone*" required>
+                        <br/>
+                        <textarea cols="50" rows="3" placeholder="Your Message*"></textarea>
+                        <br/>
+                        <!-- <div class="mesage-to-leave">Leave us a message we will get back to you</div> -->
+                        <div class="mesage-to-leave">{{data}}</div>
+                        <button type="submit" name="send_username" class="btn  chat-login" ng-disabled="chatLogin.$invalid">Send Message</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
-      </div>
-      <div class="user-page-container">
-
-        <div class="login-container">
-          <form action="/userlogin" method="POST" name="chatLogin">
-            <input type="text" name="Name" ng-model="name" placeholder="Name" required>
-            <br/>
-            <input type="email" name="Email" ng-model="email" placeholder="Email" required>
-            <br/>
-            <button type="submit" name="send_username" class="btn  chat-login" ng-disabled="chatLogin.$invalid">Send Message</button>
-          </form>
-        </div>
-
-      </div>
     </div>
-  </div>
 </body>
 <script>
-  var app = angular.module("user", []);
+    var app = angular.module("user", []);
 
-  app.controller('userController', function ($scope) {
+    app.controller('userController', function ($scope) {
 
-    $scope.chatOpen = true;
-  })
+        $scope.chatOpen = true;
+    })
 </script>
 {% endif %} {% endblock %}
 
@@ -53,7 +74,6 @@
 
 
 <script>
-
-  var data={{data}}
-  console.log(data)
+    var data = {{data}}
+    console.log(data)
 </script>
