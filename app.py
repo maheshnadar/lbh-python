@@ -220,6 +220,18 @@ def endChat(payload):
 		message={'message':'Chat Ended by agent','agentname':payload['agentname'],'username':payload['username']}
 		emit('end_chat_message', message, broadcast=True)
 
+@socketio.on('dislike_suggest',namespace='/private')
+def dislike_suggest(payload):
+	print "####################"
+	print payload
+	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False'},{'$set':{'__v':1,'like':0}})
+
+@socketio.on('like_suggest',namespace='/private')
+def like_suggest(payload):
+	print "####################"
+	print payload
+	collection.agentchat.update({'user1':payload['user_email'],'user2':['agent_email'],'disconnected':'False',{'$set':{'__v':0,'like':1}})
+
 @socketio.on('break_message',namespace='/private')
 def break_message(payload):
 	
