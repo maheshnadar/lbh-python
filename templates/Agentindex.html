@@ -118,24 +118,21 @@
             <div class="message-panel">
               <div ng-repeat="message in selectedUser.chatlist" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
                 <!-- <div ng-bind=message> -->
-                  
+
                 <div class="left-chat" ng-if="message.type=='user'">
                   <span ng-bind="message.msg" class=""></span>
-                  <!-- <span ng-bind="message.userdetails.url" class=""></span> -->
                   <br>
                   <div class="chat-info-detail-left">
 
                     <span class="userInfo">
-                      <span class="custom-tooltip"><a target="_blank" ng-href="#"> <span ng-bind="message.userdetails.url"> </span> </a> </span>
+                      
+                      <span class="custom-tooltip">
+                        <a target="_blank" ng-href="#">
+                          <span ng-bind="message.userdetails.url"> </span>
+                        </a>
+                      </span>
                       User Info</span>
                     <span class="time">7:13 PM</span>
-
-                    <!-- <div class="tooltip top" role="tooltip">
-                      <div class="tooltip-arrow"></div>
-                      <div class="tooltip-inner">
-                        Some tooltip text!
-                      </div>
-                    </div> -->
 
                   </div>
                 </div>
@@ -157,20 +154,20 @@
               <button ng-click="sendMessage(agentReplay.text,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
 
               <div class="dropup transfer-button">
-                  <button class="btn btn-default btn-primary dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                    <li role="presentation" ng-repeat="agent in agentOnline">
-                      <a role="menuitem" tabindex="-1" href="#">
-                        <span ng-bind="agent"></span>
-                      </a>
-                    </li>
-  
-                  </ul>
-                </div>
+                <button class="btn btn-default btn-primary dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                  <li role="presentation" ng-repeat="agent in agentOnline">
+                    <a role="menuitem" tabindex="-1" href="#">
+                      <span ng-bind="agent"></span>
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
               <button ng-click="endChat(selectedUser.chatlist)" class="btn btn-danger">End Chat</button>
-             
+
             </div>
           </div>
         </div>
@@ -178,7 +175,7 @@
       </div>
 
     </div>
-    
+
 
   </div>
 
@@ -242,14 +239,10 @@
   <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data|tojson }}
+    var data = {{data|tojson}}
     var agentemail = data.agentemail;
     var agentname = data.agentname;
-    var chathistory = data.history;
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip(); 
-    });
-
+    var chathistory = data.history; 
     console.log(data, agentname, chathistory);
   </script>
 </body>

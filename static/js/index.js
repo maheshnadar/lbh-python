@@ -149,7 +149,7 @@ function formatAMPM(date) {
 // insertChat("me", "Spaceman: Computer! Computer! Do we bring battery?!", 9500);
 // insertChat("you", "LOL", 12000);
 
-var app = angular.module("chatWindow", ['luegg.directives']);
+var app = angular.module("chatWindow", []);
 
 app.controller('chatWindowController', function ($scope) {
     $scope.privateMessage = {};
@@ -164,7 +164,7 @@ app.controller('chatWindowController', function ($scope) {
             date: new Date(),
             from_id: useremail,
             fromname: username,
-            msg: "Hi " + username + " !Welcome to Ross-Simons live chat support. What can we help you with?",
+            msg: "Hi " + username + ", Welcome to Ross-Simons live chat support. What can we help you with?",
             to_id: "",
             toname: "",
             type: "agent"

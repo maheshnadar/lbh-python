@@ -127,8 +127,8 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     width: 100%;
     margin-top: 0;
     margin-bottom: auto;
-    line-height: 13px;
-    font-size: 12px;
+    line-height: 14px;
+    font-size: 13px;
 }
 
 /* time */
@@ -144,11 +144,26 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 .text-l {
     float: left;
     padding: 10px;
+    text-align: left;
 }
 
 .text-r {
     float: right;
     padding: 10px;
+    text-align: right;
+}
+
+.text-l .time-index{
+    text-align: left;
+}
+
+.text-r .time-index{
+    text-align: right;
+}
+
+.time-index{
+    margin-top: 15px;
+    font-size: 11px;
 }
 
 .avatar {
@@ -215,7 +230,7 @@ body>div>div>div.msj-rta.macro {
 ul {
     width: 100%;
     list-style-type: none;
-    padding: 0px 18px;
+    padding: 0px 6px;
     position: absolute;
     bottom: 80px;
     display: flex;

@@ -47,73 +47,219 @@
         </div>
 
         <div class="user-index-container">
-          <!-- <button href="{{ url_for('user_logout') }}">Endchat</button> -->
-          <li>
-
-          </li>
-          <!-- <div id="chat">
-                  </div> -->
-          <div class="col-sm-12 frame" scroll-glue="glued">
+          <div class="col-sm-12 frame">
             <ul>
-              <!-- <li>
-    <div class="msj macro">
-        <div class="avatar">
-          <img class="img-circle" style="width:100%;" src="https://lh6.googleusercontent.com/-lr2nyjhhjXw/AAAAAAAAAAI/AAAAAAAARmE/MdtfUmC0M4s/photo.jpg?sz=48">
-        </div>
-        <div class="text text-l">
-          <p>hi i am dev@lbh.com how can i help you</p>
-          <p>
-            <small>6:52 PM</small>
-          </p>
-        </div>
-      </div>
-</li>
-       <li>
-          <div class="msj-rta macro">
-              <div class="text text-r">
-                <p>dfd</p>
-                <p>
-                  <small>7:11 PM</small>
-                </p>
-              </div>
-              <div class="avatar" style="padding:0px 0px 0px 10px !important">
-                <img class="img-circle" style="width:100%;" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg">
-              </div>
-            </div>
-       </li>     -->
-              <li ng-repeat="chat in chatHistory.chatlist track by $index">
-                <!-- <span ng-bind="chat.fromname"></span>
-            <span ng-bind="user"></span> -->
-                <div class="msj macro" ng-if="chat.type=='agent'" scroll-glue-anchor>
-                  <div class="avatar">
-                    <img class="img-circle" style="width:100%;" src="../static/images/agent1.png">
-                  </div>
-                  <div class="text text-l">
-                    <p>
-                      <span ng-bind="chat.msg">
-                    </p>
-                    <p>
-                      <small>6:52 PM</small>
-                    </p>
-                  </div>
+              <!-- <div class="msj macro" ng-if="chat.type=='agent'">
+                <div class="avatar">
+                  <img class="img-circle" style="width:100%;" src="../static/images/agent1.png">
                 </div>
-                <div class="msj-rta macro" ng-if="chat.type=='user'" scroll-glue-anchor>
-                  <div class="text text-r">
-                    <p>
-                      <span ng-bind="chat.msg"></span>
-                    </p>
-                    <p>
-                      <small>7:11 PM</small>
-                    </p>
-                  </div>
-                  <div class="avatar" style="padding:0px 0px 0px 10px !important">
+                <div class="text text-l">
+                  <span ng-bind="chat.msg"></span>
+                  <span class="time-index">8:13 PM</span>
+                </div>
+              </div> -->
+              <!-- <div class="msj-rta macro" ng-if="chat.type=='user'">
+                <div class="text text-r">
+                  <span ng-bind="chat.msg"></span>
+                  <span class="time-index">7:13 PM</span>
+                </div>
+                <div class="avatar" style="padding:0px 0px 0px 10px !important">
                     <img class="img-circle" style="width:100%;" src="../static/images/agent.png">
                   </div>
-                </div>                
-              </li>
+              </div> -->
+              <!-- --------------MAJOR CHANGES------------ -->
+
+
+
+              <style>
+                .chat-list {
+                  /* overflow-x: scroll; */
+                  margin-top: 15px;
+                }
+
+                .userlist {
+                  background-color: rgba(223, 223, 223, 1);
+                  padding: 18px;
+                  margin: 8px 0;
+                  border-radius: 0px;
+                  color: #000;
+                }
+
+                .userlist:hover {
+                  background-color: rgba(223, 223, 223, 0.9);
+                }
+
+                .user-index-container li:last-of-type {
+                  margin-right: 0px;
+                }
+
+                .bottom {
+                  position: absolute;
+                  bottom: 0;
+                  margin: 0;
+                  padding: 1rem 0;
+                  /* border: 1px solid red; */
+                  width: 100%;
+                  margin: 0 auto;
+                  text-align: center;
+                  border-top: 1px solid rgba(45, 52, 54, 0.1);
+                }
+
+                .bottom input[type="text"] {
+                  width: 75%;
+                  padding: 5px 15px;
+                  border-radius: 15px;
+                  border: 1px solid transparent;
+                  margin-right: 10px;
+                }
+
+                .left-text,
+                .right-text {
+                  margin-top: 10px;
+                }
+
+                .userlist a {
+                  color: #333;
+                  text-decoration: none;
+                }
+
+                .left-text {
+                  text-align: left;
+                }
+
+                .right-text {
+                  text-align: right;
+                }
+
+                .left-chat,
+                .right-chat {
+                  min-width: 25%;
+                  position: relative;
+                  width: auto;
+                  padding: 5px 10px;
+                  text-align: right;
+                  display: inline-block;
+                  vertical-align: middle;
+                  font-size: 13px;
+                  -webkit-border-radius: 5px;
+                  -moz-border-radius: 5px;
+                  border-radius: 5px;
+                  -webkit-box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+                  -moz-box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+                  box-shadow: 2px 2px 10px 0px rgba(97, 97, 97, 0.5);
+                }
+
+                .left-chat {
+                  margin-left: 15px;
+                  color: #333;
+                  background-color: #ffe4e4b0;
+                  max-width: 70%;
+                }
+
+                .right-chat {
+                  /* margin-left: 15px; */
+                  color: #000;
+                  background-color: rgba(255, 255, 255, 1);
+                  max-width: 70%;
+                  margin-right: 15px;
+                }
+
+                .right-chat:after,
+                .left-chat:after {
+                  content: "";
+                  position: absolute;
+                  top: 0;
+                  bottom: 0;
+                  margin: auto;
+                  height: 0;
+                  border-style: solid;
+                  display: block;
+                  width: 0;
+                  z-index: 1;
+                }
+
+                .left-chat:after {
+                  left: -10px;
+                  border-width: 10px 10px 10px 0;
+                  border-color: transparent #ecbebeb0;
+                }
+
+                .right-chat:after {
+                  right: -10px;
+                  border-width: 10px 0 10px 10px;
+                  border-color: transparent rgb(244, 244, 244);
+                }
+
+                .chat-info-detail-left,
+                .chat-info-detail-right {
+                  /* float: right; */
+                  font-size: 11px;
+                  margin-top: 8px;
+                }
+
+                .userInfo {
+                  text-decoration: underline;
+                  cursor: pointer;
+                  font-style: italic;
+                  margin-right: 5px;
+                }
+
+                .chat-panel {
+                  position: relative;
+                  height: 100%;
+                  width: 100%;
+                }
+
+                .message-panel {
+                  height: 80%;
+                  width: 100%;
+                  overflow-y: scroll;
+                  padding: 0;
+                  margin: 0;
+                }
+
+                .bot-img img {
+                  width: 45px;
+                  height: auto;
+                }
+              </style>
+              <div ng-repeat="chat in chatHistory.chatlist track by $index" class="chat-list" ng-class="{'left-text':chat.type=='agent','right-text':chat.type=='user'}">
+                <div ng-if="chat.type=='agent'">
+                  <span class="bot-img">
+                    <img src="../static/images/bot-img.png" alt="BOT">
+                  </span>
+                  <div class="left-chat">
+                    <span ng-bind="chat.msg" class=""></span>
+                    <br>
+                    <div class="chat-info-detail-left">
+                      <span class="time">7:13 PM</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="right-chat" ng-if="chat.type=='user'">
+                  <span ng-bind="chat.msg" class=""></span>
+                  <br>
+                  <div class="chat-info-detail-right">
+                    <!-- <span class="userInfo">User Info</span> -->
+                    <span class="time">8:13 PM</span>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!-- ------------END MAJOR CHANGES------------ -->
+
+
+
+
+
+
+
+
 
               <li class="chat-end" ng-if="agentDisconnected">
-                  ----- CHAT Ended By Agent -----
+                ----- CHAT Ended By Agent -----
               </li>
 
             </ul>
@@ -124,9 +270,11 @@
                   Was our Agent helpful?
                 </span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click="likeSuggest(); likeStyle={'color':'blue'}; dislikeStyle={'color':'#333'}" ng-style="likeStyle"></span>
+                <span class="glyphicon glyphicon-thumbs-up send-glyp-posi" ng-click="likeSuggest(); likeStyle={'color':'blue'}; dislikeStyle={'color':'#333'}"
+                  ng-style="likeStyle"></span>
                 &nbsp;
-                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega" ng-click="dislikeSuggest(); dislikeStyle={'color':'red'}; likeStyle={'color':'#333'}" ng-style="dislikeStyle"></span>
+                <span class="glyphicon glyphicon-thumbs-down send-glyp-nega" ng-click="dislikeSuggest(); dislikeStyle={'color':'red'}; likeStyle={'color':'#333'}"
+                  ng-style="dislikeStyle"></span>
               </div>
 
               <div class="user-chat-bottom">
@@ -137,7 +285,7 @@
                 </div>
 
                 <div style="padding:10px;">
-                  <span class="glyphicon glyphicon-send send-glyp" id="send_private_message"  ng-click="sendPrivateMessage(privateMessage.message)"></span>
+                  <span class="glyphicon glyphicon-send send-glyp" id="send_private_message" ng-click="sendPrivateMessage(privateMessage.message)"></span>
                   <!-- <button id="send_private_message" class="btn btn-primary">Send</button> -->
                 </div>
               </div>
@@ -179,7 +327,6 @@
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script src="../static/js/index.js"></script>
-  <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/master/src/scrollglue.js"></script>
   <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 
 </body>
