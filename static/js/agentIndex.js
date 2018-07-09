@@ -86,6 +86,32 @@ app.controller("agentController", function ($scope) {
     $scope.agentReplay = {};
     $scope.agentReplay.text = "";
 
+    /////--------------Logout ------------------------
+    $scope.logout = function () {
+
+        // var name = $('.agentname').text();
+        console.log("Log Out Chat", $scope.chatHistory);
+        for (var i = 0; i < $scope.chatHistory.length; i++) {
+            private_socket.emit('end_user_message', {
+                // "agentname": name,
+                // "type": "agent",
+                // "username": data[0].username,
+                agent_email: agentemail,
+                date: new Date(),
+                from_id: agentemail,
+                fromname: agentname,
+                message: "",
+                to_id: $scope.chatHistory[i].chatlist[1].to_id,
+                toname: $scope.chatHistory[i].chatlist[1].toname,
+                type: "agent",
+                user_email: $scope.chatHistory[i].chatlist[1].to_id,
+                user_details: {}
+            });
+        }
+       
+
+    }
+
     $scope.getChat = function (user) {
 
         console.log("change chat", user)
