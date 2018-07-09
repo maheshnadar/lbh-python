@@ -81,9 +81,10 @@ app.controller("agentController", function ($scope) {
     $scope.messages = [];
     $scope.selectedUser = {};
     $scope.toggleText = "break";
-$scope.agentOnline=['agnet1','agent2','agent3'];
-    $scope.agentReplay={};
-    $scope.agentReplay.text="";
+
+    $scope.agentOnline = agentlist;
+    $scope.agentReplay = {};
+    $scope.agentReplay.text = "";
 
     $scope.getChat = function (user) {
 
@@ -229,7 +230,7 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
 
         console.log("inside user end chat", endUser);
         for (var i = 0; i < $scope.chatHistory.length; i++) {
-            if ($scope.chatHistory[i].user1 == endUser.user_email) {
+            if ($scope.chatHistory[i].user1 == endUser.useremail) {
                 console.log("found user name", $scope.chatHistory[i]);
                 $scope.chatHistory[i].isChatEnd = true;
                 if ($scope.chatHistory[i].user1 == $scope.selectedUser.user1) {
@@ -239,18 +240,17 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
             }
         }
         // console.log(msg);
-
         $scope.$digest();
 
     });
     private_socket.on('agent_list', function (list) {
-        console.log("agent list",list);
+        console.log("agent list", list);
 
         $scope.$digest();
 
     });
     $scope.sendMessage = function (msg, user) {
-        if($scope.agentReplay.text !== ""){
+        if ($scope.agentReplay.text !== "") {
             console.log('inside send message', msg, user);
             private_socket.emit('second_private_message', {
                 // "type": "agent",
@@ -266,7 +266,7 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
                 toname: user[1].toname,
                 type: "agent",
                 user_email: user[1].to_id,
-                user_details:{}
+                user_details: {}
             });
         }
         $scope.agentReplay.text = "";
@@ -310,8 +310,16 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
             toname: user[1].toname,
             type: "agent",
             user_email: user[1].to_id,
-            user_details:{}
+            user_details: {}
         });
     }
+    $scope.transferAgent = function (agent, selectedUser) {
+        console.log(agent, selectedUser);
+        private_socket.emit('transer_agent', {
+            new_agent_name: agent.Email,
+            new_agent_email: agent.agentname,
+            chat_history: selectedUser.chatlist
+        })
 
+    }
 });

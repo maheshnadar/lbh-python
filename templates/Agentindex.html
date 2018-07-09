@@ -158,9 +158,9 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                  <li role="presentation" ng-repeat="agent in agentOnline">
+                  <li role="presentation" ng-repeat="agent in agentOnline" ng-click="transferAgent(agent,selectedUser)">
                     <a role="menuitem" tabindex="-1" href="#">
-                      <span ng-bind="agent"></span>
+                      <span ng-bind="agent.agentname"></span>
                     </a>
                   </li>
 
@@ -243,6 +243,7 @@
     var agentemail = data.agentemail;
     var agentname = data.agentname;
     var chathistory = data.history; 
+    var agentlist = data.agentlist;
     console.log(data, agentname, chathistory);
   </script>
 </body>
