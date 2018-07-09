@@ -86,12 +86,15 @@
 
       <li>
         <a class="btn btn-danger" ng-click="break(); changeButtonTxt = !changeButtonTxt">
+          <span class="glyphicon glyphicon-hourglass"></span>
           <span ng-bind="toggleText"></span>
         </a>
       </li>
       <li>
-          <!--  -->
-        <a href="{{ url_for('agent_logout') }}" class="btn btn-danger" ng-click="logout()">Logout</a>
+        <a href="{{ url_for('agent_logout') }}" class="btn btn-danger" ng-click="logout()">
+          <span class="glyphicon glyphicon-off"></span>
+          Logout
+        </a>
       </li>
       <!-- <div id="chat"> -->
     </div>
@@ -126,7 +129,7 @@
                   <div class="chat-info-detail-left">
 
                     <span class="userInfo">
-                      
+
                       <span class="custom-tooltip">
                         <a target="_blank" ng-href="#">
                           <span ng-bind="message.userdetails.url"> </span>
@@ -134,7 +137,7 @@
                       </span>
                       User Info</span>
                     <span class="time">
-                        <span ng-bind="message.date.split(' ')[1].split('.')[0]"> </span>
+                      <span ng-bind="message.date.split(' ')[1].split('.')[0]"> </span>
                     </span>
 
                   </div>
@@ -242,10 +245,10 @@
   <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
   <script>
-    var data = {{data|tojson}}
+    var data = {{data | tojson}}
     var agentemail = data.agentemail;
     var agentname = data.agentname;
-    var chathistory = data.history; 
+    var chathistory = data.history;
     var agentlist = data.agentlist;
     console.log(data, agentname, chathistory);
   </script>

@@ -23,12 +23,9 @@ var socket = io.connect('http://' + document.domain + ':' + location.port);
 var private_socket = io.connect('http://127.0.0.1:5000/private');
 
 function scrollbottom(){
-
     setTimeout(function(){
         $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
     },500);
-  
-
 }
 
 // $('#send_private_message').on('click', function (e) {
