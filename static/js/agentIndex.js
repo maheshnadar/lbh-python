@@ -229,7 +229,7 @@ $scope.agentOnline=['agnet1','agent2','agent3'];
 
         console.log("inside user end chat", endUser);
         for (var i = 0; i < $scope.chatHistory.length; i++) {
-            if ($scope.chatHistory[i].user1 == endUser.useremail) {
+            if ($scope.chatHistory[i].user1 == endUser.user_email) {
                 console.log("found user name", $scope.chatHistory[i]);
                 $scope.chatHistory[i].isChatEnd = true;
                 if ($scope.chatHistory[i].user1 == $scope.selectedUser.user1) {
