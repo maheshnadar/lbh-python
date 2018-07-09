@@ -22,7 +22,14 @@
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 var private_socket = io.connect('http://127.0.0.1:5000/private');
 
+function scrollbottom(){
 
+    setTimeout(function(){
+        $('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
+    },500);
+  
+
+}
 
 // $('#send_private_message').on('click', function (e) {
 //     // var recipient = $('#send_to_username').val();
@@ -266,6 +273,7 @@ app.controller('chatWindowController', function ($scope) {
     });
     private_socket.on('user_ongoing_chat', function (msg) {
         console.log("user_ongoing_chat", msg);
+        scrollbottom();
         var username = $('#username').text();
         // if (msg.username == username) {
         //     insertChat("you", msg['message']);
