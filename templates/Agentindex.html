@@ -37,6 +37,9 @@
         padding-left: 0px;
         padding-right: 0px;
       }
+      .nav-container li .glyphicon{
+        margin-right: 6px;
+      }
       .navbar{
         border-radius:0px;
         margin-bottom: 0px;
@@ -44,9 +47,7 @@
     </style>
 
 
-    <div class="container-fluid">
-      
-
+    <div class="container-fluid nav-container">
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
@@ -64,8 +65,11 @@
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
     
-                  <li>
-                    <a href="#">Agent</a>
+                  <li>                    
+                    <a href="#">
+                      <span class="glyphicon glyphicon-user"></span>
+                      Agent
+                    </a>
                   </li>
                   
                   <li>
@@ -88,12 +92,7 @@
             </div>
             <!-- /.container-fluid -->
           </nav>
-
     </div>
-
-
-    <style>
-    </style>
 
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
