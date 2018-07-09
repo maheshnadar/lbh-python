@@ -58,7 +58,7 @@ def agenthome():
 	if not session.get('agent_logged_in'):
 		return render_template('Agent.html')
 	else:
-		agentlist = list(collection.agentloggedin.find({},{'agentname':1,'Email':1,'_id':0}))
+		agentlist = list(collection.agentloggedin.find({'Email': {'$nin': [session['agent_Email']]}},{'agentname':1,'Email':1,'_id':0}))
 		print agentlist
 		#hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
