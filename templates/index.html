@@ -232,7 +232,10 @@
                     <span ng-bind="chat.msg" class=""></span>
                     <br>
                     <div class="chat-info-detail-left">
-                      <span class="time">7:13 PM</span>
+
+                      <span class="time">
+                          <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -241,7 +244,7 @@
                   <br>
                   <div class="chat-info-detail-right">
                     <!-- <span class="userInfo">User Info</span> -->
-                    <span class="time">8:13 PM</span>
+                    <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span>
                   </div>
                 </div>
               </div>
