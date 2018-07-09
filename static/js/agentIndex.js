@@ -313,13 +313,22 @@ app.controller("agentController", function ($scope) {
             user_details: {}
         });
     }
+
+    ////-------------agent transfer-----------------------
     $scope.transferAgent = function (agent, selectedUser) {
-        console.log(agent, selectedUser);
+        // console.log(agent, selectedUser,selectedUser.chatlist[1].toname);
         private_socket.emit('transer_agent', {
             new_agent_name: agent.Email,
             new_agent_email: agent.agentname,
-            chat_history: selectedUser.chatlist
+            chat_history: selectedUser.chatlist,
+            user_email:selectedUser.user1,
+            user_name:selectedUser.chatlist[1].toname,
+            previous_agent_email:agentemail,
+            previous_agent_name:agentname
         })
 
     }
+        // alert(msg);
+
+    
 });
