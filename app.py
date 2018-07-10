@@ -171,7 +171,7 @@ def agent_logout():
 
 @socketio.on('end_user_message', namespace='/private')
 def on_Endchat(payload):
-	print "End chat ###################################################"
+	print "End chat ##############################################"
 	print payload
 	mess={'username':payload['toname'],'useremail':payload['user_email']}
 	collection.userloggedin.delete_many({'Email':payload['user_email']})
