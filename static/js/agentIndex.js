@@ -36,6 +36,14 @@ function formatAMPM(date) {
     return strTime;
 }
 
+function scrollbottom(){
+
+    setTimeout(function(){
+        $('.message-panel').scrollTop($('.message-panel')[0].scrollHeight);
+    },500);
+  
+
+}
 //-- No use time. It is a javaScript effect.
 // function insertChat(who, text, time) {
 //     if (time === undefined) {
@@ -171,6 +179,7 @@ app.controller("agentController", function ($scope) {
     private_socket.on('agent_ongoing_chat', function (msg) {
         // console.log("new_private_message")
         // alert(msg);
+        scrollbottom();
         $scope.agentReplay.text = null;
         console.log("agent_ongoing_chat", msg);
         console.log("first check", agentemail, msg.agent_email);
