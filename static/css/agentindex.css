@@ -447,3 +447,10 @@ body {
 visibility: visible;
 opacity: 1;
 }
+
+.no-user{
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 2rem;
+}

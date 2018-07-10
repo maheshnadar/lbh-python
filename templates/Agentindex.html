@@ -92,14 +92,14 @@
     </div>
 
 
-    <style>
+    <style> 
     </style>
 
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
 
         <div id="chattab" class="col-xs-3">
-          <div class="" ng-if="!users">No User</div>
+          <div ng-if="chatHistory.length==0"  class="no-user" >No User</div>
           <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user)">
             <span class="user-close" ng-if="user.isChatEnd" ng-click="removeUser(user)">X</span>
             <a>
