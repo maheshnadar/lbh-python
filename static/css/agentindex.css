@@ -459,3 +459,8 @@ opacity: 1;
   background: white;
   border:none;
 }
+
+
+.navbar-brand>img{
+  width: 250px;
+}
