@@ -423,8 +423,8 @@ body {
 }
 
 .custom-tooltip {
- visibility: hidden;
- opacity: 0;
+  visibility: hidden;
+  opacity: 0;
   position: absolute;
   background: #2d3436f0;
   color: white;
@@ -444,23 +444,27 @@ body {
 }
 
 .userInfo:hover .custom-tooltip {
-visibility: visible;
-opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
-.no-user{
+.no-user {
   color: white;
   text-align: center;
   text-transform: uppercase;
   padding: 2rem;
 }
 
-.navbar{
+.navbar {
   background: white;
-  border:none;
+  border: none;
 }
 
-
-.navbar-brand>img{
+.navbar-brand>img {
   width: 250px;
+}
+
+.navbar .nav>li>a {
+  color: #4d3438;
+  font-weight: bold;
 }
