@@ -17,7 +17,6 @@
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="../static/js/agentIndex.js"></script>
   <style></style>
-
 </head>
 
 <body ng-app="Agent">
@@ -64,24 +63,29 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-    
-                  <li>
-                    <a href="#">Agent</a>
-                  </li>
-                  
                   <li>
                     <a href="#" ng-click="break(); changeButtonTxt = !changeButtonTxt">
                       <span class="glyphicon glyphicon-hourglass"></span>
                       <span ng-bind="toggleText"></span>
                     </a>
                   </li>
-    
-                  <li>
+              
+                  <!-- <li>
                     <a href="{{ url_for('agent_logout') }}" ng-click="logout()">
                       <span class="glyphicon glyphicon-off"></span>
                       Logout
                     </a>
-                  </li>
+                  </li> -->
+                  <li class="menu">
+                    <a href="#">Hi  {{data.agentname}}</a>
+                    <div class="logout_menu menu_content">
+                      <a href="{{ url_for('agent_logout') }}" ng-click="logout()">
+                        <span class="glyphicon glyphicon-off"></span>
+                        Logout
+                        </a>
+                      </div>
+                    </li>
+             
                   
                 </ul>
               </div>
@@ -156,13 +160,18 @@
                 <button class="btn btn-default btn-primary dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Transfer
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                  <li role="presentation" ng-repeat="agent in agentOnline" ng-click="transferAgent(agent,selectedUser)">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" >
+                  <li role="presentation" ng-repeat="agent in agentOnline" ng-if="agentOnline.length>0" ng-click="transferAgent(agent,selectedUser)">
                     <a role="menuitem" tabindex="-1" href="#">
                       <span ng-bind="agent.agentname"></span>
                     </a>
                   </li>
 
+                  <li role="presentation" ng-if="agentOnline.length==0">
+                    <a role="menuitem" tabindex="-1" href="#">
+                      <span >no agent available</span>
+                    </a>
+                  </li>
                 </ul>
               </div>
               <button ng-click="endChat(selectedUser.chatlist)" class="btn btn-danger">End Chat</button>

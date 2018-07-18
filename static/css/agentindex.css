@@ -468,3 +468,26 @@ body {
   color: #4d3438;
   font-weight: bold;
 }
+
+.logout_menu {
+  position: absolute;
+  z-index: 1;
+  color: black;
+  background: #d8d0d0;
+  padding: 8px 5px;
+  right: 0px;
+  width: 130%;
+  text-align: center;
+}
+
+.logout_menu a {
+  color: #4d3438;
+}
+
+.menu_content {
+  display: none;
+}
+
+.menu:hover .menu_content {
+ display:block;
+}
