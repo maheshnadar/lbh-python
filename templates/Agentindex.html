@@ -47,8 +47,8 @@
     </style>
 
 
-    <div class="container-fluid nav-container">
-        <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <nav class="navbar ">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
@@ -59,6 +59,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
+                <a class="navbar-brand"> <img src="../static/images/rslogo.jpg"></a>
               </div>
     
               <!-- Collect the nav links, forms, and other content for toggling -->
@@ -98,7 +99,7 @@
       <div class="row show-agents-container">
 
         <div id="chattab" class="col-xs-3">
-          <div class="" ng-if="!users">No User</div>
+          <div ng-if="chatHistory.length==0"  class="no-user" >No User</div>
           <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user)">
             <span class="user-close" ng-if="user.isChatEnd" ng-click="removeUser(user)">X</span>
             <a>
@@ -174,7 +175,7 @@
     </div>
 
 
-  </div>
+  </div> 
 
   <!--     <div class="col-sm-12 frame">
       <ul></ul>
@@ -235,6 +236,7 @@
   <!-- <script type="text/javascript" charset="utf-8"></script> -->
   <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
+
   <script>
     var data = {{data | tojson}}
     var agentemail = data.agentemail;
