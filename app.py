@@ -220,7 +220,7 @@ def transer_agent(payload):
 	new_agent_email = payload['new_agent_email']
 	
 	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
-	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email})
+	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email},{'_id':0})
 	print chat
 	emit('agent_new_chat',chat,broadcast=True);
 # @socketio.on('disconnect')
