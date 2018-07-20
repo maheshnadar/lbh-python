@@ -1,3 +1,4 @@
+var url="http://127.0.0.1:5000/";
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 // verify our websocket connection is established
 socket.on('connect', function () {
@@ -8,7 +9,7 @@ socket.on('connect', function () {
     // socket.emit('AgentConnection');  
 });
 
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+var private_socket = io.connect(url+'private');
 $('#send_private_message').on('click', function () {
     // var recipient = $('#send_to_username').val();
     // console.log("dev");
@@ -23,7 +24,7 @@ $('#send_private_message').on('click', function () {
 });
 
 
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+var private_socket = io.connect(url+'private');
 
 function formatAMPM(date) {
     var hours = date.getHours();
@@ -81,8 +82,7 @@ function scrollbottom(){
 // }
 
 var app = angular.module("Agent", []);
-app.factory("api",function($http){
-    var url='http://' + document.domain + ':' + location.port;
+app.factory("api",function($http){    
     return {
         getAgentOnline:function(callback){
             $http({
@@ -336,8 +336,6 @@ app.controller("agentController", function ($scope,api, $window) {
 
     $scope.altDown = false;
     $scope.altKey = 18;
-    //$scope.vKey = 86;
-    $scope.cKey = 67;
 
     $scope.keyDownFunc = function($event, msg, user) {
         var keycode = $event.which || $event.keycode;
