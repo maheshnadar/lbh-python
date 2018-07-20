@@ -139,12 +139,17 @@ def user_logout():
 	session.pop('user_Email',None)
 	return redirect(url_for('home'))
 
-@app.route("/live_agent")
+@app.route("/live_agent",methods=["POST"])
 # @login_required
 def live_agent():
-	f =collection.agentloggedin.find({},{'_id':False,'agentname':True,'Email':True})
-	agent_list = list(f)
-	print agent_list
+	if request.method == 'POST':
+		print "#################live Agent##########"
+		data = json.loads(request.data)
+		print type(data)
+		print data
+		f =collection.agentloggedin.find({'Email':{'$nin':[data['Email']]}},{'_id':False,'agentname':True,'Email':True})
+		agent_list = list(f)
+		print agent_list
 
 	return json.dumps(agent_list)
 
