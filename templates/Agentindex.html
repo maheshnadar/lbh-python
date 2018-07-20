@@ -36,6 +36,9 @@
         padding-left: 0px;
         padding-right: 0px;
       }
+      .nav-container li .glyphicon{
+        margin-right: 6px;
+      }
       .navbar{
         border-radius:0px;
         margin-bottom: 0px;
@@ -44,8 +47,6 @@
 
 
     <div class="container-fluid">
-      
-
         <nav class="navbar ">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
@@ -93,12 +94,7 @@
             </div>
             <!-- /.container-fluid -->
           </nav>
-
     </div>
-
-
-    <style> 
-    </style>
 
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
@@ -156,7 +152,7 @@
             </div>
 
             <div class="bottom" ng-if="selectedUser.chatlist.length>0 && !selectedUser.isChatEnd">
-              <input type="text" ng-model="agentReplay.text" placeholder="Reply..." ng-keypress="sendViaEnter($event, agentReplay.text, selectedUser.chatlist)">
+              <input type="text" id="agentInput" ng-model="agentReplay.text" placeholder="Reply..." ng-keydown="keyDownFunc($event, agentReplay.text, selectedUser.chatlist)">
               <button ng-click="sendMessage(agentReplay.text,selectedUser.chatlist)" class="btn btn-primary">Submit</button>
 
               <div class="dropup transfer-button">
@@ -188,7 +184,7 @@
     </div>
 
 
-  </div>
+  </div> 
 
   <!--     <div class="col-sm-12 frame">
       <ul></ul>
@@ -249,6 +245,7 @@
   <!-- <script type="text/javascript" charset="utf-8"></script> -->
   <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
+
   <script>
     var data = {{data | tojson}}
     var agentemail = data.agentemail;

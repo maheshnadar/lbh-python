@@ -1,3 +1,4 @@
+var url="http://127.0.0.1:5000/";
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 // verify our websocket connection is established
 socket.on('connect', function () {
@@ -8,7 +9,7 @@ socket.on('connect', function () {
     // socket.emit('AgentConnection');  
 });
 
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+var private_socket = io.connect(url+'private');
 $('#send_private_message').on('click', function () {
     // var recipient = $('#send_to_username').val();
     // console.log("dev");
@@ -23,7 +24,7 @@ $('#send_private_message').on('click', function () {
 });
 
 
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+var private_socket = io.connect(url+'private');
 
 function formatAMPM(date) {
     var hours = date.getHours();
@@ -81,8 +82,7 @@ function scrollbottom(){
 // }
 
 var app = angular.module("Agent", []);
-app.factory("api",function($http){
-    var url="http://127.0.0.1:5000/"
+app.factory("api",function($http){    
     return {
         getAgentOnline:function(callback){
             $http({
@@ -90,11 +90,18 @@ app.factory("api",function($http){
                 method: 'post',
                 data:{'Email':agentemail,'agentname':agentname}
             }).then(callback);
-        }
+        },
+        sendKeys:function(value,callback){
+            $http({
+                url: url + 'hot_keys',
+                method: 'post',
+                data:{'hotkeyvalue':value}
+            }).then(callback);
+        },
     }
 })
     
-app.controller("agentController", function ($scope,api) {
+app.controller("agentController", function ($scope,api, $window) {
     // $scope.users = [];
     // $scope.chatHistory = [];
     $scope.chatHistory = chathistory;
@@ -320,12 +327,48 @@ app.controller("agentController", function ($scope,api) {
         console.log("Agent Msg Clear Input", $scope.agentReplay.text);
     }
 
-    $scope.sendViaEnter = function ($event, msg, user) {
+    // $scope.sendViaEnter = function ($event, msg, user) {
+    //     var keycode = $event.which || $event.keycode;
+    //     if (keycode === 13) {
+    //         $scope.sendMessage(msg, user);
+    //     }
+    // }    
+
+    $scope.altDown = false;
+    $scope.altKey = 18;
+
+    $scope.keyDownFunc = function($event, msg, user) {
         var keycode = $event.which || $event.keycode;
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-    }
+        if ($scope.altDown) {
+            // alert('Ctrl + C pressed');
+            console.log($event.keyCode);
+            var alphaKey = $event.keyCode;
+            api.sendKeys(alphaKey,function(data){
+                console.log("Hotkey Pressed Successfully!!", data)
+            })
+        }
+        // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
+        //     alert('Ctrl + V pressed');
+        // } else if ($scope.ctrlDown && String.fromCharCode($event.which).toLowerCase() == 's') {
+        //     $event.preventDefault();
+        //     alert('Ctrl + S pressed');
+        // }
+    };
+    angular.element($window).bind("keyup", function($event) {
+        if ($event.keyCode == $scope.altKey)
+            $scope.altDown = false;
+        $scope.$apply();
+    });
+    angular.element($window).bind("keydown", function($event) {
+        if ($event.keyCode == $scope.altKey)
+            $scope.altDown = true;
+        $scope.$apply();
+    });
+        
+
 
     $scope.break = function () {
         var name = $('.agentname').text();

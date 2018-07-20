@@ -235,6 +235,7 @@ app.controller('chatWindowController', function ($scope) {
         if (keycode === 13) {
             $scope.sendPrivateMessage(message);
         }
+        console.log(keycode);
     }
 
 
