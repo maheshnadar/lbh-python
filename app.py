@@ -139,14 +139,30 @@ def user_logout():
 	session.pop('user_Email',None)
 	return redirect(url_for('home'))
 
-@app.route("/live_agent")
+@app.route("/live_agent",methods=["POST"])
 # @login_required
 def live_agent():
-	f =collection.agentloggedin.find({},{'_id':False,'agentname':True,'Email':True})
-	agent_list = list(f)
-	print agent_list
+	if request.method == 'POST':
+		print "#################live Agent##########"
+		data = json.loads(request.data)
+		print type(data)
+		print data
+		f =collection.agentloggedin.find({'Email':{'$nin':[data['Email']]}},{'_id':False,'agentname':True,'Email':True})
+		agent_list = list(f)
+		print agent_list
 
 	return json.dumps(agent_list)
+@app.route("/hot_keys",methods=["POST"])
+def hot_keys():
+	if request.method == 'POST':
+		print "#################hot keys##########"
+		data = json.loads(request.data)
+		f =collection.hotkey.find_one({'hotkeyvalue':data['hotkeyvalue']},{'_id':False,'message':True})
+		print f
+		print type(f)
+		print f
+
+		return json.dumps(f)
 
 @app.route("/agentlogout")
 # @login_required
