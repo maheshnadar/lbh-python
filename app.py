@@ -153,7 +153,7 @@ def live_agent():
 
 	return json.dumps(agent_list)
 
-@app.route("/hot_keys",methods=["POST"])
+@app.route("/hot_keys",methods=["POST","GET"])
 def hot_keys():
 	if request.method == 'POST':
 		print "#################hot keys##########"
