@@ -422,15 +422,6 @@ app.controller("agentController", function ($scope,api, $window) {
     ////-------------agent transfer-----------------------
     $scope.transferAgent = function (agent, selectedUser) {
         // console.log(agent, selectedUser,selectedUser.chatlist[1].toname);
-        private_socket.emit('transer_agent', {
-            new_agent_name: agent.agentname,
-            new_agent_email: agent.Email,
-            chat_history: selectedUser.chatlist,
-            user_email:selectedUser.user1,
-            user_name:selectedUser.chatlist[1].toname,
-            previous_agent_email:agentemail,
-            previous_agent_name:agentname
-        })
         private_socket.emit('second_private_message', {
             // "type": "agent",
             // "agentname": data[0].agent,
@@ -440,13 +431,23 @@ app.controller("agentController", function ($scope,api, $window) {
             date: new Date(),
             from_id: agentemail,
             fromname: agentname,
-            message: agentname +" Chat has been transfered to "+agent.agentname ,
-            to_id: agent.agentname,
-            toname: agent.Email,
+            message: agentname +" has transfered Chat to "+agent.Email ,
+            to_id: $scope.selectedUser.chatlist[1].to_id,
+            toname: $scope.selectedUser.chatlist[1].toname,
             type: "transfer",
-            user_email: agent.agentname,
+            user_email: $scope.selectedUser.chatlist[1].to_id,
             user_details: {}
         });
+        private_socket.emit('transer_agent', {
+            new_agent_name: agent.agentname,
+            new_agent_email: agent.Email,
+            chat_history: selectedUser.chatlist,
+            user_email:selectedUser.user1,
+            user_name:selectedUser.chatlist[1].toname,
+            previous_agent_email:agentemail,
+            previous_agent_name:agentname
+        })
+       
         $scope.selectedUser.isChatEnd = true;
          }
         // alert(msg);

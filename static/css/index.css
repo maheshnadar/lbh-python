@@ -387,3 +387,10 @@ input:focus {
     color: red;
     text-transform: uppercase;
 }
+
+
+.agent-transfer{
+    text-align: center;
+      color: green;
+      margin:2rem;
+}

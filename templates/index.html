@@ -247,6 +247,9 @@
                     <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span>
                   </div>
                 </div>
+                <div  class="agent-transfer" ng-if="chat.type=='transfer'" >
+                  <span ng-bind="chat.msg"></span>
+                </div>
               </div>
 
 
