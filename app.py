@@ -165,7 +165,10 @@ def hot_keys():
 		print f
 
 		return json.dumps(f)
-
+	else:
+		f =collection.hotkey.find({},{'_id':False})
+		data = list(f)
+		return json.dumps(data)
 @app.route("/agentlogout")
 # @login_required
 def agent_logout():
