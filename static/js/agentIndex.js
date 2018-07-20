@@ -344,11 +344,13 @@ app.controller("agentController", function ($scope,api, $window) {
         }
         if ($scope.altDown) {
             // alert('Ctrl + C pressed');
-            console.log($event.keyCode);
-            var alphaKey = $event.keyCode;
-            api.sendKeys(alphaKey,function(data){
-                console.log("Hotkey Pressed Successfully!!", data)
-            })
+            if($event.keyCode !== 18){
+                console.log($event.keyCode);
+                var alphaKey = $event.keyCode;
+                api.sendKeys(alphaKey,function(data){
+                    console.log("Hotkey Pressed Successfully!!", data)
+                })
+            }
         }
         // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
         //     alert('Ctrl + V pressed');
