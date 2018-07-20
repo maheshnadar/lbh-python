@@ -81,8 +81,20 @@ function scrollbottom(){
 // }
 
 var app = angular.module("Agent", []);
-
-app.controller("agentController", function ($scope) {
+app.factory("api",function($http){
+    var url="http://127.0.0.1:5000/"
+    return {
+        getAgentOnline:function(callback){
+            $http({
+                url: url + 'live_agent',
+                method: 'get',
+                data:{'Email':agentemail,'agentname':agentname}
+            }).then(callback);
+        }
+    }
+})
+    
+app.controller("agentController", function ($scope,api) {
     // $scope.users = [];
     // $scope.chatHistory = [];
     $scope.chatHistory = chathistory;
@@ -364,4 +376,19 @@ app.controller("agentController", function ($scope) {
     }
         // alert(msg);
     
+
+        $scope.getLiveAgent=function(){
+            // $scope.agentOnline=[]
+            api.getAgentOnline(function(data){
+                console.log("inside agent online",data);
+                $scope.agentOnline=data.data;
+                console.log( $scope.agentOnline);
+            
+            })
+        }
+
+        
+        // api.getAgentOnline(function(data){
+        //     console.log("inside agent online",data);
+        //     })
 });
