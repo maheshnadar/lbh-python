@@ -491,3 +491,13 @@ body {
 .menu:hover .menu_content {
  display:block;
 }
+
+.agent-transfer{
+  text-align: center;
+    color: green;
+    margin:2rem;
+}
+
+.u{
+  text-decoration: underline;
+}
