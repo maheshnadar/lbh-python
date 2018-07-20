@@ -420,6 +420,22 @@ app.controller("agentController", function ($scope,api, $window) {
             previous_agent_email:agentemail,
             previous_agent_name:agentname
         })
+        private_socket.emit('second_private_message', {
+            // "type": "agent",
+            // "agentname": data[0].agent,
+            // 'username': data[0].username,
+            // 'message': msg
+            agent_email: agentemail,
+            date: new Date(),
+            from_id: agentemail,
+            fromname: agentname,
+            message: agentname +" Chat has been transfered to "+agent.agentname ,
+            to_id: agent.agentname,
+            toname: agent.Email,
+            type: "transfer",
+            user_email: agent.agentname,
+            user_details: {}
+        });
         $scope.selectedUser.isChatEnd = true;
          }
         // alert(msg);
