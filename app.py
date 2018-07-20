@@ -142,10 +142,11 @@ def user_logout():
 @app.route("/live_agent")
 # @login_required
 def live_agent():
-	f =collection.agentloggedin.find({},{'_id':False})
+	f =collection.agentloggedin.find({},{'_id':False,'agentname':True,'Email':True})
 	agent_list = list(f)
 	print agent_list
-	return agent_list
+	return str(agent_list)
+
 @app.route("/agentlogout")
 # @login_required
 def agent_logout():
