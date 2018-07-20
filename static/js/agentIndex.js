@@ -348,7 +348,9 @@ app.controller("agentController", function ($scope,api, $window) {
                 console.log($event.keyCode);
                 var alphaKey = $event.keyCode;
                 api.sendKeys(alphaKey,function(data){
-                    console.log("Hotkey Pressed Successfully!!", data);
+                    console.log(data.data.message);
+                    $scope.agentReplay.text = "";
+                    $scope.agentReplay.text = data.data.message;
                 })
             }
         }
