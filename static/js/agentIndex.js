@@ -373,11 +373,12 @@ app.controller("agentController", function ($scope,api) {
             previous_agent_email:agentemail,
             previous_agent_name:agentname
         })
-    }
+        $scope.selectedUser.isChatEnd = true;
+         }
         // alert(msg);
     
 
-        $scope.getLiveAgent=function(){
+    $scope.getLiveAgent=function(){
             // $scope.agentOnline=[]
             api.getAgentOnline(function(data){
                 console.log("inside agent online",data);
