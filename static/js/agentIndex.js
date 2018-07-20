@@ -342,12 +342,12 @@ app.controller("agentController", function ($scope,api, $window) {
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-        if ($scope.altKey) {
+        if ($scope.altDown) {
             // alert('Ctrl + C pressed');
             console.log($event.keyCode);
             var alphaKey = $event.keyCode;
             api.sendKeys(alphaKey,function(data){
-                console.log("Hotkey Pressed Successfully!!")
+                console.log("Hotkey Pressed Successfully!!", data)
             })
         }
         // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
