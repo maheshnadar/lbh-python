@@ -345,10 +345,10 @@ app.controller("agentController", function ($scope,api, $window) {
         if ($scope.altDown) {
             // alert('Ctrl + C pressed');
             if($event.keyCode !== 18){
-                console.log($event.keyCode);
+                // console.log($event.keyCode);
                 var alphaKey = $event.keyCode;
                 api.sendKeys(alphaKey,function(data){
-                    console.log(data.data.message);
+                    // console.log(data.data.message);
                     $scope.agentReplay.text = "";
                     $scope.agentReplay.text = data.data.message;
                 })
