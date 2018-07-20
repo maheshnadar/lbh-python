@@ -145,7 +145,8 @@ def live_agent():
 	f =collection.agentloggedin.find({},{'_id':False,'agentname':True,'Email':True})
 	agent_list = list(f)
 	print agent_list
-	return str(agent_list)
+
+	return json.dumps(agent_list)
 
 @app.route("/agentlogout")
 # @login_required
