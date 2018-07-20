@@ -87,7 +87,7 @@ app.factory("api",function($http){
         getAgentOnline:function(callback){
             $http({
                 url: url + 'live_agent',
-                method: 'get',
+                method: 'post',
                 data:{'Email':agentemail,'agentname':agentname}
             }).then(callback);
         }
