@@ -81,8 +81,27 @@ function scrollbottom(){
 // }
 
 var app = angular.module("Agent", []);
-
-app.controller("agentController", function ($scope, $window) {
+app.factory("api",function($http){
+    var url='http://' + document.domain + ':' + location.port;
+    return {
+        getAgentOnline:function(callback){
+            $http({
+                url: url + 'live_agent',
+                method: 'post',
+                data:{'Email':agentemail,'agentname':agentname}
+            }).then(callback);
+        },
+        sendKeys:function(value,callback){
+            $http({
+                url: url + 'hot_keys',
+                method: 'post',
+                data:{'hotkeyvalue':value}
+            }).then(callback);
+        },
+    }
+})
+    
+app.controller("agentController", function ($scope,api, $window) {
     // $scope.users = [];
     // $scope.chatHistory = [];
     $scope.chatHistory = chathistory;
@@ -315,16 +334,23 @@ app.controller("agentController", function ($scope, $window) {
     //     }
     // }    
 
-    $scope.ctrlDown = false;
-    $scope.ctrlKey = 17, $scope.vKey = 86, $scope.cKey = 67;
+    $scope.altDown = false;
+    $scope.altKey = 18;
+    //$scope.vKey = 86;
+    $scope.cKey = 67;
 
     $scope.keyDownFunc = function($event, msg, user) {
         var keycode = $event.which || $event.keycode;
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-        if ($scope.ctrlDown && ($event.keyCode == $scope.cKey)) {
-            alert('Ctrl + C pressed');
+        if ($scope.altKey) {
+            // alert('Ctrl + C pressed');
+            console.log($event.keyCode);
+            var alphaKey = $event.keyCode;
+            api.sendKeys(alphaKey,function(data){
+                console.log("Hotkey Pressed Successfully!!")
+            })
         }
         // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
         //     alert('Ctrl + V pressed');
@@ -334,13 +360,13 @@ app.controller("agentController", function ($scope, $window) {
         // }
     };
     angular.element($window).bind("keyup", function($event) {
-        if ($event.keyCode == $scope.ctrlKey)
-            $scope.ctrlDown = false;
+        if ($event.keyCode == $scope.altKey)
+            $scope.altDown = false;
         $scope.$apply();
     });
     angular.element($window).bind("keydown", function($event) {
-        if ($event.keyCode == $scope.ctrlKey)
-            $scope.ctrlDown = true;
+        if ($event.keyCode == $scope.altKey)
+            $scope.altDown = true;
         $scope.$apply();
     });
         
@@ -395,4 +421,19 @@ app.controller("agentController", function ($scope, $window) {
     }
         // alert(msg);
     
+
+        $scope.getLiveAgent=function(){
+            // $scope.agentOnline=[]
+            api.getAgentOnline(function(data){
+                console.log("inside agent online",data);
+                $scope.agentOnline=data.data;
+                console.log( $scope.agentOnline);
+            
+            })
+        }
+
+        
+        // api.getAgentOnline(function(data){
+        //     console.log("inside agent online",data);
+        //     })
 });
