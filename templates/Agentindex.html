@@ -115,10 +115,13 @@
             <div class="message-panel">
               <div class="" ng-repeat="message in selectedUser.chatlist track by $index" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
                 <!-- <div ng-bind=message> -->
-                  <div  class="agent-transfer" ng-if="(selectedUser.chatlist[$index-1] && message.agent_email!=selectedUser.chatlist[$index-1].agent_email)" >
+                  <!-- <div  class="agent-transfer" ng-if="(selectedUser.chatlist[$index-1] && message.agent_email!=selectedUser.chatlist[$index-1].agent_email)" >
                       Agent <span class="u" ng-bind="selectedUser.chatlist[$index-1].agent_email"></span>   transfered chat to 
                         <span class="u"  ng-bind="message.agent_email"></span>
-                  </div>
+                  </div> -->
+                  <div  class="agent-transfer" ng-if="message.type=='transfer'" >
+                  <span ng-bind="message.msg"></span>
+                </div>
                 <div class="left-chat" ng-if="message.type=='user'">
                   <span ng-bind="message.msg" class=""></span>
                   <br>

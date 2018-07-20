@@ -429,11 +429,11 @@ app.controller("agentController", function ($scope,api, $window) {
             date: new Date(),
             from_id: agentemail,
             fromname: agentname,
-            message: agentname +" Chat has been transfered to "+agent.agentname ,
-            to_id: agent.agentname,
-            toname: agent.Email,
+            message: agentname +" has transfered Chat to "+agent.Email ,
+            to_id: $scope.selectedUser.user1,
+            toname: $scope.selectedUser.user1,
             type: "transfer",
-            user_email: agent.agentname,
+            user_email: $scope.selectedUser.user1,
             user_details: {}
         });
         $scope.selectedUser.isChatEnd = true;
