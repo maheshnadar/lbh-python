@@ -152,12 +152,14 @@ def live_agent():
 		print agent_list
 
 	return json.dumps(agent_list)
+
 @app.route("/hot_keys",methods=["POST"])
 def hot_keys():
 	if request.method == 'POST':
 		print "#################hot keys##########"
 		data = json.loads(request.data)
-		f =collection.hotkey.find_one({'hotkeyvalue':data['hotkeyvalue']},{'_id':False,'message':True})
+		print data
+		f =collection.hotkey.find_one({'hotkeystring':data['hotkeyvalue']},{'_id':False,'message':True})
 		print f
 		print type(f)
 		print f
