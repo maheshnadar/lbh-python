@@ -423,8 +423,8 @@ body {
 }
 
 .custom-tooltip {
- visibility: hidden;
- opacity: 0;
+  visibility: hidden;
+  opacity: 0;
   position: absolute;
   background: #2d3436f0;
   color: white;
@@ -444,18 +444,50 @@ body {
 }
 
 .userInfo:hover .custom-tooltip {
-visibility: visible;
-opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
-.no-user{
+.no-user {
   color: white;
   text-align: center;
   text-transform: uppercase;
   padding: 2rem;
 }
 
-.navbar{
+.navbar {
   background: white;
-  border:none;
+  border: none;
+}
+
+.navbar-brand>img {
+  width: 250px;
+}
+
+.navbar .nav>li>a {
+  color: #4d3438;
+  font-weight: bold;
+}
+
+.logout_menu {
+  position: absolute;
+  z-index: 1;
+  color: black;
+  background: #d8d0d0;
+  padding: 8px 5px;
+  right: 0px;
+  width: 130%;
+  text-align: center;
+}
+
+.logout_menu a {
+  color: #4d3438;
+}
+
+.menu_content {
+  display: none;
+}
+
+.menu:hover .menu_content {
+ display:block;
 }

@@ -82,7 +82,7 @@ function scrollbottom(){
 
 var app = angular.module("Agent", []);
 
-app.controller("agentController", function ($scope) {
+app.controller("agentController", function ($scope, $window) {
     // $scope.users = [];
     // $scope.chatHistory = [];
     $scope.chatHistory = chathistory;
@@ -308,12 +308,43 @@ app.controller("agentController", function ($scope) {
         console.log("Agent Msg Clear Input", $scope.agentReplay.text);
     }
 
-    $scope.sendViaEnter = function ($event, msg, user) {
+    // $scope.sendViaEnter = function ($event, msg, user) {
+    //     var keycode = $event.which || $event.keycode;
+    //     if (keycode === 13) {
+    //         $scope.sendMessage(msg, user);
+    //     }
+    // }    
+
+    $scope.ctrlDown = false;
+    $scope.ctrlKey = 17, $scope.vKey = 86, $scope.cKey = 67;
+
+    $scope.keyDownFunc = function($event, msg, user) {
         var keycode = $event.which || $event.keycode;
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-    }
+        if ($scope.ctrlDown && ($event.keyCode == $scope.cKey)) {
+            alert('Ctrl + C pressed');
+        }
+        // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
+        //     alert('Ctrl + V pressed');
+        // } else if ($scope.ctrlDown && String.fromCharCode($event.which).toLowerCase() == 's') {
+        //     $event.preventDefault();
+        //     alert('Ctrl + S pressed');
+        // }
+    };
+    angular.element($window).bind("keyup", function($event) {
+        if ($event.keyCode == $scope.ctrlKey)
+            $scope.ctrlDown = false;
+        $scope.$apply();
+    });
+    angular.element($window).bind("keydown", function($event) {
+        if ($event.keyCode == $scope.ctrlKey)
+            $scope.ctrlDown = true;
+        $scope.$apply();
+    });
+        
+
 
     $scope.break = function () {
         var name = $('.agentname').text();
