@@ -20,7 +20,11 @@
 // });
 
 var socket = io.connect('http://' + document.domain + ':' + location.port);
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+
+// var private_socket = io.connect('http://127.0.0.1:5000/private');
+var private_socket = io.connect('http://' + document.domain + ':' + location.port+'/private');
+console.log('http://' + document.domain + ':' + location.port+'/private');
+
 
 function scrollbottom(){
     setTimeout(function(){
