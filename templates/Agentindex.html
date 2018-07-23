@@ -253,7 +253,24 @@
     var agentname = data.agentname;
     var chathistory = data.history;
     var agentlist = data.agentlist;
+
+    var rightcolor="#768670";
+    var leftcolor="#222222";
     console.log(data, agentname, chathistory);
+
+    //assigning custom color in chatbox
+    $(document).ready(function() {
+    console.log( "ready!" );  
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = ".right-chat { background-color:"+ rightcolor+";}  .right-chat:after{border-color: transparent "+rightcolor+";}";
+    style.innerHTML += ".left-chat { background-color:"+ leftcolor+"}   .left-chat:after{border-color: transparent "+leftcolor+";}";
+    document.getElementsByTagName('head')[0].appendChild(style);
+    // document.getElementById('someElementId').className = 'cssClass';
+      }
+    )
+    //end of custom color in chatbox
+
   </script>
 </body>
 
