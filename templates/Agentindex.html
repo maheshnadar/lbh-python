@@ -3,11 +3,8 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="../static/css/bootstrap.min.css">
   <link rel="stylesheet" href="../static/css/agentindex.css">
-  <!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
-  <!-- <script src="{{ url_for('static', filename='js/navbarcustomscript.js') }}"></script> -->
   <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet">
   <script src="../static/js/angular.js"></script>
 
@@ -21,86 +18,88 @@
 
 <body ng-app="Agent">
   <div class="agentname">{{data.agentname}}</div>
-  <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-  <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
-  <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-  <!------ Include the above in your HEAD tag ---------->
-  <!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-  <!------ Include the above in your HEAD tag ---------->
   <div ng-controller="agentController">
 
     <style>
-      .container-fluid{
+      .container-fluid {
         padding-left: 0px;
         padding-right: 0px;
       }
-      .nav-container li .glyphicon{
+
+      .nav-container li .glyphicon {
         margin-right: 6px;
       }
-      .navbar{
-        border-radius:0px;
+
+      .navbar {
+        border-radius: 0px;
         margin-bottom: 0px;
       }
     </style>
 
 
     <div class="container-fluid">
-        <nav class="navbar ">
-            <div class="container-fluid">
-              <!-- Brand and toggle get grouped for better mobile display -->
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                  aria-expanded="false">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand"> <img src="../static/images/rslogo.jpg"></a>
-              </div>
-    
-              <!-- Collect the nav links, forms, and other content for toggling -->
-              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                  <li>
-                    <a href="#" ng-click="break(); changeButtonTxt = !changeButtonTxt">
-                      <span class="glyphicon glyphicon-hourglass"></span>
-                      <span ng-bind="toggleText"></span>
-                    </a>
-                  </li>
-              
-                  <!-- <li>
+      <nav class="navbar ">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">
+              <img src="../static/images/rslogo.jpg">
+            </a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a style="cursor: pointer;" data-toggle="modal" data-target="#myModal">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                  HotKeys
+                </a>
+              </li>
+              <li>
+                <a href="#" ng-click="break(); changeButtonTxt = !changeButtonTxt">
+                  <span class="glyphicon glyphicon-hourglass"></span>
+                  <span ng-bind="toggleText"></span>
+                </a>
+              </li>
+
+              <!-- <li>
                     <a href="{{ url_for('agent_logout') }}" ng-click="logout()">
                       <span class="glyphicon glyphicon-off"></span>
                       Logout
                     </a>
                   </li> -->
-                  <li class="menu">
-                    <a href="#">Hi  {{data.agentname}}</a>
-                    <div class="logout_menu menu_content">
-                      <a href="{{ url_for('agent_logout') }}" ng-click="logout()">
-                        <span class="glyphicon glyphicon-off"></span>
-                        Logout
-                        </a>
-                      </div>
-                    </li>
-             
-                  
-                </ul>
-              </div>
-              <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
-          </nav>
+              <li class="menu">
+                <a href="#">Hi {{data.agentname}}</a>
+                <div class="logout_menu menu_content">
+                  <a href="{{ url_for('agent_logout') }}" ng-click="logout()">
+                    <span class="glyphicon glyphicon-off"></span>
+                    Logout
+                  </a>
+                </div>
+              </li>
+
+
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
     </div>
 
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
 
         <div id="chattab" class="col-xs-3">
-          <div ng-if="chatHistory.length==0"  class="no-user" >No User</div>
+          <div ng-if="chatHistory.length==0" class="no-user">No User</div>
           <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user)">
             <span class="user-close" ng-if="user.isChatEnd" ng-click="removeUser(user)">X</span>
             <a>
@@ -162,7 +161,7 @@
                 <button class="btn btn-default btn-primary dropdown-toggle" type="button" ng-click="getLiveAgent()" id="menu1" data-toggle="dropdown">Transfer
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" >
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                   <li role="presentation" ng-repeat="agent in agentOnline" ng-if="agentOnline.length>0" ng-click="transferAgent(agent,selectedUser)">
                     <a role="menuitem" tabindex="-1" href="#">
                       <span ng-bind="agent.agentname"></span>
@@ -171,7 +170,7 @@
 
                   <li role="presentation" ng-if="agentOnline.length==0">
                     <a role="menuitem" tabindex="-1" href="#">
-                      <span >no agent available</span>
+                      <span>no agent available</span>
                     </a>
                   </li>
                 </ul>
@@ -184,69 +183,68 @@
 
       </div>
 
+
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Hotkeys Information </h4>
+            </div>
+            <div class="modal-body">
+              <!-- NG REPEAT -->
+                <!-- <span ng-bind="item"></span> -->
+                <!-- <ul>
+                  <li>
+                    
+                    
+                  </li>
+                </ul> -->
+
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th style="width:13%; text-align:center">Special Keys</th>
+                        <th style="width:13%; text-align:center">Keys</th>
+                        <th>Message</th>
+                      </tr>
+                    </thead>
+                    <tbody ng-repeat="item in hotkeys">
+                      <tr>
+                        <td style="text-align: center">
+                          <span ng-bind="item.specialkeyvalue"></span>
+                        </td>
+                        <td style="text-align: center">
+                          <span ng-bind="item.hotkeyvalue"></span>
+                        </td>
+                        <td>
+                          <span ng-bind="item.message"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="col-xs-5">
+                    </div>
+                    <div class="col-xs-7">
+                      
+                    </div>
+                    <br> -->
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+
     </div>
-
-
-  </div> 
-
-  <!--     <div class="col-sm-12 frame">
-      <ul></ul>
-      <div>
-        <div class="msj-rta macro">
-            <textarea rows="1" class="mytext" type="text" placeholder="Type a message" id="private_message"></textarea>
-        </div>
-        <div style="padding:10px;">
-          <span class="glyphicon glyphicon-share-alt send-glyp" id="send_private_message"></span>
-        </div>
-      </div>
-    </div> -->
-  <!-- <div id="London" class="tabcontent">
-  	<div id = "chat" class="container">
-  		<img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
-  		<p>Hello. How are you today?</p>
-  		<span class="time-right">11:00</span>
-    </div>-->
-
-  <!-- </div> -->
-
-  <!--<div id="Paris" class="tabcontent">
-  <h3>Paris</h3>:1px solid #ccc
-  <p>Paris is the capital of France.</p> 
-</div>
-
-<div id="Tokyo" class="tabcontent">
-  <h3>Tokyo</h3>
-  <p>Tokyo is the capital of Japan.</p>
-</div>
- -->
-  <!-- </div>
-<li><a href="{{ url_for('agent_logout') }}">Log Out</a></li>
-      <div id="chat">
-      </div>
-
-  Message: <input type="text" id="private_message">
-    <button id="send_private_message">Send</button> -->
-  <!-- <script>
-    function openCity(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-
-    // Get the element with id="defaultOpen" and click on it
-    // document.getElementById("defaultOpen").click();
-  </script> -->
-
-  <!-- <script type="text/javascript" charset="utf-8"></script> -->
-  <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   </div>
 
   <script>

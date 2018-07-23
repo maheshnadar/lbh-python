@@ -100,6 +100,12 @@ app.factory("api",function($http){
                 data:{'hotkeyvalue':value}
             }).then(callback);
         },
+        getKeys:function(callback){
+            $http({
+                url: url + 'hot_keys',
+                method: 'get',
+            }).then(callback);
+        },
     }
 })
     
@@ -339,6 +345,11 @@ app.controller("agentController", function ($scope,api, $window) {
     $scope.altDown = false;
     $scope.altKey = 18;
 
+    api.getKeys(function(data){
+        console.log(data);
+        $scope.hotkeys = data.data;
+    })
+
     $scope.keyDownFunc = function($event, msg, user) {
         var keycode = $event.which || $event.keycode;
         if (keycode === 13) {
@@ -347,10 +358,10 @@ app.controller("agentController", function ($scope,api, $window) {
         if ($scope.altDown) {
             // alert('Ctrl + C pressed');
             if($event.keyCode !== 18){
-                console.log($event.keyCode);
+                // console.log($event.keyCode);
                 var alphaKey = $event.keyCode;
                 api.sendKeys(alphaKey,function(data){
-                    console.log(data.data.message);
+                    // console.log(data.data.message);
                     $scope.agentReplay.text = "";
                     $scope.agentReplay.text = data.data.message;
                 })
