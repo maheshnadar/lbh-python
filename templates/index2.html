@@ -179,13 +179,13 @@ body {
       console.log('Websocket connected!');
       socket.emit('Connection');  
     });
-   function myFunction() {
-    var private_socket = io.connect('http://127.0.0.1:5000/private');  
-    var message_to_send = $('#private_message').val();
-    private_socket.emit('private_message', {'message' : message_to_send});
-    document.getElementById("send_private_message").innerHTML = "YOU CLICKED ME!";
-}
-var private_socket = io.connect('http://127.0.0.1:5000/private');
+//    function myFunction() {
+//     var private_socket = io.connect('http://127.0.0.1:5000/private');  
+//     var message_to_send = $('#private_message').val();
+//     private_socket.emit('private_message', {'message' : message_to_send});
+//     document.getElementById("send_private_message").innerHTML = "YOU CLICKED ME!";
+// }
+// var private_socket = io.connect('http://127.0.0.1:5000/private');
   
               // var add_chat_html = `
               //   <div class="col-md-4" id="`+message_id+`">

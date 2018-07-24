@@ -389,4 +389,4 @@ def private_message(payload):
 		pass
 if __name__ == '__main__':
 	# app.secret_key = os.urandom(12)
-	socketio.run(app, debug=True)
+	socketio.run(app, host='0.0.0.0',port=8095,debug=True)
