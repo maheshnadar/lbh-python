@@ -347,8 +347,9 @@ def private_message(payload):
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
 				try:
-					if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
-						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
+					new_agent = collection.agentloggedin.find_one({'Email':idleidfind['Email']})
+					if len(new_agent['chatingwith'])>= new_agent['Chatlimit']:
+						collection.agentloggedin.update({'Email':new_agent['Email']},{"$set":{'room':False}},upsert=False)			
 				except:
 					pass
 			mes= collection.thememasters.find_one({})
