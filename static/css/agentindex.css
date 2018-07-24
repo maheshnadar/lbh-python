@@ -506,3 +506,11 @@ body {
 .u {
   text-decoration: underline;
 }
+
+.danger{
+  color: red;
+  text-align: center;
+  padding: 5rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
