@@ -153,6 +153,7 @@
                 </div>
 
               </div>
+              <div class="danger" ng-if="selectedUser.chatlist && !(selectedUser.chatlist.length>0 && !selectedUser.isChatEnd)">chat has been ended</div>
             </div>
 
             <div class="bottom" ng-if="selectedUser.chatlist.length>0 && !selectedUser.isChatEnd">
