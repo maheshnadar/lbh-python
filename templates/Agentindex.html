@@ -66,7 +66,9 @@
               <li>
                 <a href="#" ng-click="break(); changeButtonTxt = !changeButtonTxt">
                   <span class="glyphicon glyphicon-hourglass"></span>
-                  <span ng-bind="toggleText"></span>
+                  <!-- <span ng-bind="toggleText"></span> -->
+                  <span ng-if="breakStatus">Resume</span>
+                  <span ng-if="!breakStatus">Away</span>
                 </a>
               </li>
 
@@ -253,7 +255,7 @@
     var agentname = data.agentname;
     var chathistory = data.history;
     var agentlist = data.agentlist;
-
+var break_status=data.break_status;
     var rightcolor="#768670";
     var leftcolor="#222222";
     console.log(data, agentname, chathistory);
