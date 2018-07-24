@@ -120,7 +120,7 @@ def user_login():
 def user_logout():
 	print "user logout"
 	print session['user_Name']
-	mess={'toname':session['user_Name'],'user_email':session['user_Email']}
+	mess={'username':session['user_Name'],'useremail':session['user_Email']}
 	emit('user_end_chat',mess,broadcast=True,namespace='/private')
 	# on_Endchat({'toname':session['user_Name'],'user_email':session['user_Email']})
 	# emit('user_end_chat',{'toname':session['user_Name'],'user_email':session['user_Email']},namespace='/private')
@@ -130,7 +130,7 @@ def user_logout():
 	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
 	d ={'user1':session['user_Name']}
 	print d
-	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnected':"True"}},upsert=False)
+	collection.agentchat.update({'user1':session['user_Email'],'disconnected':"False"},{'$set':{'disconnected':"True"}},upsert=False)
 	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnectby':session['user_Email']}},upsert=False)
 	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
 	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$pull':{'chatingwith':session['user_Name']}})
