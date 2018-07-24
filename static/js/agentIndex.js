@@ -115,7 +115,8 @@ app.controller("agentController", function ($scope,api, $window) {
     $scope.chatHistory = chathistory;
     $scope.messages = [];
     $scope.selectedUser = {};
-    $scope.toggleText = "break";
+    // $scope.toggleText = (break_status?"away":"resume");
+    $scope.breakStatus = break_status;
 
     $scope.agentOnline = agentlist;
     $scope.agentReplay = {};
@@ -393,13 +394,14 @@ app.controller("agentController", function ($scope,api, $window) {
         private_socket.emit('break_message', {
             "agentname": name,
         });
+        $scope.breakStatus=!$scope.breakStatus;
     }
 
-    $scope.changeButtonTxt = true;
+    // $scope.changeButtonTxt = true;
 
-    $scope.$watch('changeButtonTxt', function () {
-        $scope.toggleText = $scope.changeButtonTxt ? 'Break' : 'Resume';
-    })
+    // $scope.$watch('changeButtonTxt', function () {
+    //     $scope.toggleText = $scope.changeButtonTxt ? 'Away' : 'Resume';
+    // })
 
     $scope.endChat = function (user) {
         var name = $('.agentname').text();

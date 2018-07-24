@@ -60,10 +60,12 @@ def agenthome():
 	else:
 		agentlist = list(collection.agentloggedin.find({'Email': {'$nin': [session['agent_Email']]}},{'agentname':1,'Email':1,'_id':0}))
 		print agentlist
+		break_status = collection.agentloggedin.find_one({'Email':session['agent_Email']},{'break':1})
+		print break_status['break'] 
 		#hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
 		#print hist
-		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist}
+		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist,'break_status':break_status['break']}
 		return render_template('Agentindex.html',data=data)
 #agents area
 @app.route("/agentlogin", methods=["GET", "POST"])
