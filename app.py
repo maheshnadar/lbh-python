@@ -54,7 +54,38 @@ def off():
 @app.route('/offline',methods = ["POST"])
 def offline():
 	print request.form
-	collection.userofflinemessage.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
+	d={ 
+    # "_id" : ObjectId("5b321641763fcc199433d2e5"), 
+    "createdAt" : datetime.datetime.now(), 
+    "updatedAt" : datetime.datetime.now(), 
+    "session_id" : "", 
+    "user" : request.form['Name'], 
+    "livechat" : 0, 
+    "unanswered" : 1, 
+    "unshandled" : 0, 
+    "chatlist" : [
+        {
+            "offline" : 1, 
+            "unansview" : 0, 
+            "unshandled" : 0, 
+            "unanswered" : 1, 
+            "livechat" : 0, 
+            "respdiff" : 0.38, 
+            "outputDate" : datetime.datetime.now(), 
+            "inputDate" : datetime.datetime.now(), 
+            "topic" : "", 
+            "Journey_Name" : "", 
+            "responsetype" : "", 
+            "email":request.form["Email"],
+            "phone":request.form["Phone"],
+            # "user_input" : "I am looking for a topaz ring", 
+			"message" :request.form["send_username"]
+			        }
+			    ], 
+			    "__v" : 0
+			}
+	collection.chathistory.insert_one(d)
+		# collection.chathistory.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
 	return render_template("messagesend.html")
 
 @app.route('/agent')
