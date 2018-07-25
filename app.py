@@ -228,7 +228,8 @@ def transer_agent(payload):
 	
 	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
 	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email},{'_id':0})
-	chat
+	chat = json.dumps(chat,default=json_util.default)
+	chat = json.loads(chat)
 	emit('agent_new_chat',chat,broadcast=True);
 # @socketio.on('disconnect')
 # def disconnect_user():
@@ -305,11 +306,14 @@ def break_message(payload):
 def second_private_message(payload):
 	if payload['type'] == 'user':
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])
+		mess = json.dumps(mess,default=json_util.default)
+		mess = json.loads(mess)
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])		
-		
+		mess = json.dumps(mess,default=json_util.default)
+		mess = json.loads(mess)
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 
