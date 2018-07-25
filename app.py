@@ -254,15 +254,17 @@ def receive_username(username):
 #user
 @socketio.on('Connection')
 def Connection():
-	try:
-		connectedagentname = session['connectedagentname']
-	except:
-		connectedagentname = None
-	# if session['username']:
-	user = {'username':session['user_Name'],'Email':session['user_Email'],'SID':request.sid,"connectedagentname":connectedagentname}
-	#collection = mongo_connection()
-	collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
-	# collection.close()
+	print "Connnected ########$$$$$$$$$$$$$$$$$$$$"
+	collection.useronwebsite.update({ '$inc': { 'users': 1 } })
+	# try:
+	# 	connectedagentname = session['connectedagentname']
+	# except:
+	# 	connectedagentname = None
+	# # if session['username']:
+	# user = {'username':session['user_Name'],'Email':session['user_Email'],'SID':request.sid,"connectedagentname":connectedagentname}
+	# #collection = mongo_connection()
+	# collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
+	# # collection.close()
 	# print "payload"
 #agent
 @socketio.on('AgentConnection')
