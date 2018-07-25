@@ -151,15 +151,15 @@
 
                 .left-chat {
                   margin-left: 15px;
-                  color: #333;
-                  background-color: #f9e4e4f7;
+                  /* color: #333; */
+                  /* background-color: #f9e4e4f7; */
                   max-width: 70%;
                 }
 
                 .right-chat {
                   /* margin-left: 15px; */
-                  color: #000;
-                  background-color: rgba(255, 255, 255, 1);
+                  /* color: #000; */
+                  /* background-color: rgba(255, 255, 255, 1); */
                   max-width: 70%;
                   margin-right: 15px;
                 }
@@ -181,13 +181,13 @@
                 .left-chat:after {
                   left: -10px;
                   border-width: 10px 10px 10px 0;
-                  border-color: transparent #ecbebeb0;
+                  /* border-color: transparent #ecbebeb0; */
                 }
 
                 .right-chat:after {
                   right: -10px;
                   border-width: 10px 0 10px 10px;
-                  border-color: transparent rgb(173, 168, 168);
+                  /* border-color: transparent rgb(173, 168, 168); */
                 }
 
                 .chat-info-detail-left,
@@ -224,9 +224,10 @@
                 }
               </style>
               <div ng-repeat="chat in chatHistory.chatlist track by $index" class="chat-list" ng-class="{'left-text':chat.type=='agent','right-text':chat.type=='user'}">
+
                 <div ng-if="chat.type=='agent'">
                   <span class="bot-img">
-                    <img src="../static/images/bot-img.png" alt="BOT">
+                    <img class="bot-img-id" src="../static/images/bot-img.png" alt="BOT">
                   </span>
                   <div class="left-chat">
                     <span ng-bind="chat.msg" class=""></span>
@@ -238,21 +239,26 @@
                       </span> -->
                       <span class="time">
                         <span ng-bind="chat.date.$date |  date:'MMM d, h:mm:ss a'" class=""></span>
-                    </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div class="right-chat" ng-if="chat.type=='user'">
-                  <span ng-bind="chat.msg" class=""></span>
-                  <br>
-                  <div class="chat-info-detail-right">
-                    <!-- <span class="userInfo">User Info</span> -->
-                    <!-- <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span> -->
-                    <span ng-bind="chat.date.$date |  date:'MMM d, h:mm:ss a'" class=""></span>
-                 
+
+                <div ng-if="chat.type=='user'">                  
+                  <div class="right-chat">
+                    <span ng-bind="chat.msg" class=""></span>
+                    <br>
+                    <div class="chat-info-detail-right">
+                      <!-- <span class="userInfo">User Info</span> -->
+                      <!-- <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span> -->
+                      <span ng-bind="chat.date.$date |  date:'MMM d, h:mm:ss a'" class=""></span>
+                    </div>
                   </div>
+                  <span class="bot-img">
+                    <img class="user-img-id" src="../static/images/bot-img.png" alt="BOT">
+                  </span>
                 </div>
-                <div  class="agent-transfer" ng-if="chat.type=='transfer'" >
+                <div class="agent-transfer" ng-if="chat.type=='transfer'">
                   <span ng-bind="chat.msg"></span>
                 </div>
               </div>
@@ -331,10 +337,9 @@
     var useremail = data.useremail;
     var theme = data.theme;
 
-    console.log(data, username, agent, useremail, chathistory, theme);
+    console.log(data, username, agent, useremail, chathistory);
 
-    
-
+    // console.log("######################",theme.agent_bubble)
   </script>
 
   <script src="../static/js/socket.io.js"></script>
@@ -343,6 +348,25 @@
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script src="../static/js/index.js"></script>
   <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+
+  <script>
+    $(document).ready(function () {
+      console.log("ready!");
+      var left_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_avatar;
+      var right_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_bot;
+      $('.bot-img-id').attr('src', left_img);
+      $('.user-img-id').attr('src', right_img);
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = ".right-chat { background-color:" + theme.user_bubble + "; color:" + theme.user_font +
+        ";}  .right-chat:after{border-color: transparent " + theme.user_bubble + ";}";
+      style.innerHTML += ".left-chat { background-color:" + theme.agent_bubble + "; color:" + theme.agent_font +
+        ";}   .left-chat:after{border-color: transparent " + theme.agent_bubble + ";}";
+      style.innerHTML += ".top { background:" + theme.theme_color + ";}";
+      document.getElementsByTagName('head')[0].appendChild(style);
+      // document.getElementById('someElementId').className = 'cssClass';
+    })
+  </script>
 
 </body>
 
