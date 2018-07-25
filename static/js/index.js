@@ -19,10 +19,10 @@
 //     console.log("ready!");
 // });
 
-var socket = io.connect('http://' + document.domain + ':' + location.port);
+var socket = io.connect('http://' + document.domain + ':' + 8095);
 
 // var private_socket = io.connect('http://127.0.0.1:5000/private');
-var private_socket = io.connect('http://' + document.domain + ':' + location.port+'/private');
+var private_socket = io.connect('http://' + document.domain + ':' + 8095+'/private');
 console.log('http://' + document.domain + ':' + location.port+'/private');
 
 
@@ -244,9 +244,9 @@ app.controller('chatWindowController', function ($scope) {
 
 
     // verify our websocket connection is established
-    socket.on('connect', function () {
+    private_socket.on('connect', function () {
         console.log('Websocket connected!');
-        // socket.emit('Connection');
+        socket.emit('Connection');
     });
     socket.on('disconnect', function () {
         console.log('Websocket connected!');

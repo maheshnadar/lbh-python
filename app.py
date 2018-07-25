@@ -32,13 +32,13 @@ def home():
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
-		
+		theme = collection.thememasters.find_one({},{'_id':0})
 		try:
 			print session['user_Email']
 			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
-			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f,'theme':theme}
 		except:
-			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':"",'theme':theme}
 		return render_template('index.html',data = user)
 #agents area
 @app.route('/off')
@@ -60,10 +60,12 @@ def agenthome():
 	else:
 		agentlist = list(collection.agentloggedin.find({'Email': {'$nin': [session['agent_Email']]}},{'agentname':1,'Email':1,'_id':0}))
 		print agentlist
+		break_status = collection.agentloggedin.find_one({'Email':session['agent_Email']},{'break':1})
+		print break_status['break'] 
 		#hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
 		#print hist
-		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist}
+		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist,'break_status':break_status['break']}
 		return render_template('Agentindex.html',data=data)
 #agents area
 @app.route("/agentlogin", methods=["GET", "POST"])
@@ -118,7 +120,7 @@ def user_login():
 def user_logout():
 	print "user logout"
 	print session['user_Name']
-	mess={'toname':session['user_Name'],'user_email':session['user_Email']}
+	mess={'username':session['user_Name'],'useremail':session['user_Email']}
 	emit('user_end_chat',mess,broadcast=True,namespace='/private')
 	# on_Endchat({'toname':session['user_Name'],'user_email':session['user_Email']})
 	# emit('user_end_chat',{'toname':session['user_Name'],'user_email':session['user_Email']},namespace='/private')
@@ -128,7 +130,7 @@ def user_logout():
 	collection.userloggedin.delete_many({'username':session['user_Name'],'Email':session['user_Email']})
 	d ={'user1':session['user_Name']}
 	print d
-	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnected':"True"}},upsert=False)
+	collection.agentchat.update({'user1':session['user_Email'],'disconnected':"False"},{'$set':{'disconnected':"True"}},upsert=False)
 	collection.agentchat.update({'user1':session['user_Email']},{'$set':{'disconnectby':session['user_Email']}},upsert=False)
 	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
 	collection.agentloggedin.update({'chatingwith':session['user_Name']},{'$pull':{'chatingwith':session['user_Name']}})
@@ -200,7 +202,7 @@ def on_Endchat(payload):
 	mess={'username':payload['toname'],'useremail':payload['user_email']}
 	collection.userloggedin.delete_many({'Email':payload['user_email']})
 
-	collection.agentchat.update({'user1':payload['user_email']},{'$set':{'disconnected':"True"}},upsert=False)
+	print collection.agentchat.update({'user1':payload['user_email'],'disconnected':'False'},{'$set':{'disconnected':"True"}},upsert=False)
 	collection.agentchat.update({'user1':payload['user_email']},{'$set':{'disconnectby':payload['user_email']}},upsert=False)
 	# collection.agentloggedin.update({'Email':idleidfind['Email']},{"$pull":{'chatingwith':session['user_Name']}},upsert=False)
 	collection.agentloggedin.update({'chatingwith':payload['toname']},{'$set':{'room':True}})					
@@ -252,15 +254,17 @@ def receive_username(username):
 #user
 @socketio.on('Connection')
 def Connection():
-	try:
-		connectedagentname = session['connectedagentname']
-	except:
-		connectedagentname = None
-	# if session['username']:
-	user = {'username':session['user_Name'],'Email':session['user_Email'],'SID':request.sid,"connectedagentname":connectedagentname}
-	#collection = mongo_connection()
-	collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
-	# collection.close()
+	print "Connnected ########$$$$$$$$$$$$$$$$$$$$"
+	collection.useronwebsite.update({ '$inc': { 'users': 1 } })
+	# try:
+	# 	connectedagentname = session['connectedagentname']
+	# except:
+	# 	connectedagentname = None
+	# # if session['username']:
+	# user = {'username':session['user_Name'],'Email':session['user_Email'],'SID':request.sid,"connectedagentname":connectedagentname}
+	# #collection = mongo_connection()
+	# collection.userloggedin.update({'username':session['user_Name']},{"$set":user},upsert=True)
+	# # collection.close()
 	# print "payload"
 #agent
 @socketio.on('AgentConnection')
@@ -345,8 +349,9 @@ def private_message(payload):
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
 				try:
-					if len(idleidfind['chatingwith'])>= idleidfind['Chatlimit']:
-						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)			
+					new_agent = collection.agentloggedin.find_one({'Email':idleidfind['Email']})
+					if len(new_agent['chatingwith'])>= new_agent['Chatlimit']:
+						collection.agentloggedin.update({'Email':new_agent['Email']},{"$set":{'room':False}},upsert=False)			
 				except:
 					pass
 			mes= collection.thememasters.find_one({})
@@ -389,4 +394,4 @@ def private_message(payload):
 		pass
 if __name__ == '__main__':
 	# app.secret_key = os.urandom(12)
-	socketio.run(app, debug=True)
+	socketio.run(app, host='0.0.0.0',port=8095,debug=True)
