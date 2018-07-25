@@ -233,9 +233,12 @@
                     <br>
                     <div class="chat-info-detail-left">
 
+                      <!-- <span class="time">
+                          <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class=""></span>
+                      </span> -->
                       <span class="time">
-                          <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span>
-                      </span>
+                        <span ng-bind="chat.date.$date |  date:'MMM d, h:mm:ss a'" class=""></span>
+                    </span>
                     </div>
                   </div>
                 </div>
@@ -244,7 +247,9 @@
                   <br>
                   <div class="chat-info-detail-right">
                     <!-- <span class="userInfo">User Info</span> -->
-                    <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span>
+                    <!-- <span ng-bind="chat.date.split(' ')[1].split('.')[0]" class="">Hello</span> -->
+                    <span ng-bind="chat.date.$date |  date:'MMM d, h:mm:ss a'" class=""></span>
+                 
                   </div>
                 </div>
                 <div  class="agent-transfer" ng-if="chat.type=='transfer'" >

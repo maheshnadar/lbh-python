@@ -7,8 +7,10 @@ import time
 import datetime
 import os
 import pymongo
+from bson import json_util
+
 import json
-from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist
+from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist,CustomEncoder,myconverter
 # def mongo_connection():
 con = pymongo.MongoClient()
 collection = con.lbh
@@ -36,6 +38,9 @@ def home():
 		try:
 			print session['user_Email']
 			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
+			print f
+			f = json.dumps(f,default=json_util.default)
+			f = json.loads(f)
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f,'theme':theme}
 		except:
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':"",'theme':theme}
@@ -49,7 +54,38 @@ def off():
 @app.route('/offline',methods = ["POST"])
 def offline():
 	print request.form
-	collection.userofflinemessage.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
+	d={ 
+    # "_id" : ObjectId("5b321641763fcc199433d2e5"), 
+    "createdAt" : datetime.datetime.now(), 
+    "updatedAt" : datetime.datetime.now(), 
+    "session_id" : "", 
+    "user" : request.form['Name'], 
+    "livechat" : 0, 
+    "unanswered" : 1, 
+    "unshandled" : 0, 
+    "chatlist" : [
+        {
+            "offline" : 1, 
+            "unansview" : 0, 
+            "unshandled" : 0, 
+            "unanswered" : 1, 
+            "livechat" : 0, 
+            "respdiff" : 0.38, 
+            "outputDate" : datetime.datetime.now(), 
+            "inputDate" : datetime.datetime.now(), 
+            "topic" : "", 
+            "Journey_Name" : "", 
+            "responsetype" : "", 
+            "email":request.form["Email"],
+            "phone":request.form["Phone"],
+            # "user_input" : "I am looking for a topaz ring", 
+			"message" :request.form["send_username"]
+			        }
+			    ], 
+			    "__v" : 0
+			}
+	collection.chathistory.insert_one(d)
+		# collection.chathistory.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
 	return render_template("messagesend.html")
 
 @app.route('/agent')
@@ -64,7 +100,8 @@ def agenthome():
 		print break_status['break'] 
 		#hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
-		#print hist
+		hist = json.dumps(hist,default=json_util.default)
+		hist = json.loads(hist)
 		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist,'break_status':break_status['break']}
 		return render_template('Agentindex.html',data=data)
 #agents area
@@ -226,7 +263,8 @@ def transer_agent(payload):
 	
 	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
 	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email},{'_id':0})
-	print chat
+	chat = json.dumps(chat,default=json_util.default)
+	chat = json.loads(chat)
 	emit('agent_new_chat',chat,broadcast=True);
 # @socketio.on('disconnect')
 # def disconnect_user():
@@ -252,7 +290,7 @@ def receive_username(username):
     print('Username added!')
 
 #user
-@socketio.on('Connection')
+@socketio.on('Connection',namespace='/private')
 def Connection():
 	print "Connnected ########$$$$$$$$$$$$$$$$$$$$"
 	collection.useronwebsite.update({ '$inc': { 'users': 1 } })
@@ -301,25 +339,16 @@ def break_message(payload):
 
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
-	print payload
-	print "!!!!!!!!!!!!!!!!!!!!!!!"
 	if payload['type'] == 'user':
-		# {
-  #               "type": "user",
-  #               "date": new Date(),
-  #               "from_id": useremail,
-  #               "fromname": username,
-  #               "to_id": "none",
-  #               "message": message,
-  #               "toname": agent,
-  #               "type": "user",
-  #           }
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])
+		mess = json.dumps(mess,default=json_util.default)
+		mess = json.loads(mess)
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 	else:
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])		
-		
+		mess = json.dumps(mess,default=json_util.default)
+		mess = json.loads(mess)
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
 
@@ -362,12 +391,23 @@ def private_message(payload):
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
 			third_response = second_save_chatlist('agent',message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess,payload['user_details'])
 			message['frist_agent_message'] = agentmess
+			print "#############second_response"
+			second_response = json.dumps(second_response,default=json_util.default)
+			second_response = json.loads(second_response)
 			emit('new_private_message', second_response, broadcast=True)
+			print "DSSSSSSSDFASDF"
+			third_response = json.dumps(third_response,default=json_util.default)
+			third_response = json.loads(third_response)
 			emit('new_private_message', third_response, broadcast=True)
 			d = {'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':"False"}
 			print d,'$$$$$$$$$$$$$$$$'
 			agentmessage = collection.agentchat.find_one({'user1':message['useremail'],'user2':idleidfind['Email'],'disconnected':"False"},{'_id': False})
+			print agentmessage
+			# agentmessage =json.loads(agentmessage)
+			# print agentm
 			print agentmessage,"@@@@@@@@@@@@@@@@"	
+			agentmessage = json.dumps(agentmessage,default=json_util.default)
+			agentmessage = json.loads(agentmessage)
 			emit('agent_new_chat',agentmessage,broadcast=True)
 			print "done",message
 			# collection.close()
@@ -392,6 +432,11 @@ def private_message(payload):
 		print "Message by agent "
 
 		pass
+
+@socketio.on('connection', namespace='/private')
+def connection(payload):
+	print "#############@@@@@@@@@"
+
 if __name__ == '__main__':
 	# app.secret_key = os.urandom(12)
 	socketio.run(app, host='0.0.0.0',port=8095,debug=True)

@@ -137,7 +137,7 @@
                       </span>
                       User Info</span>
                     <span class="time">
-                      <span ng-bind="message.date.split(' ')[1].split('.')[0]"> </span>
+                      <span ng-bind="message.date.$date |  date:'MMM d, h:mm:ss a'"> </span>
                     </span>
 
                   </div>
@@ -148,7 +148,7 @@
                   <br>
                   <div class="chat-info-detail-right">
                     <!-- <span class="userInfo">User Info</span> -->
-                    <span ng-bind="message.date.split(' ')[1].split('.')[0]"> </span>
+                    <span ng-bind="message.date.$date |  date:'MMM d, h:mm:ss a'"> </span>
                   </div>
                 </div>
 
