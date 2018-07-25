@@ -38,6 +38,9 @@ def home():
 		try:
 			print session['user_Email']
 			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
+			print f
+			f = json.dumps(f,default=json_util.default)
+			f = json.loads(f)
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f,'theme':theme}
 		except:
 			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':"",'theme':theme}
@@ -66,7 +69,8 @@ def agenthome():
 		print break_status['break'] 
 		#hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False",'agentlist':agentlist},{'_id': False}))
 		hist = list(collection.agentchat.find({'user2':session['agent_Email'],'disconnected':"False"},{'_id': False}))
-		#print hist
+		hist = json.dumps(hist,default=json_util.default)
+		hist = json.loads(hist)
 		data = {'agentemail':session['agent_Email'],'agentname':session['agent_name'],'history':hist,'agentlist':agentlist,'break_status':break_status['break']}
 		return render_template('Agentindex.html',data=data)
 #agents area
