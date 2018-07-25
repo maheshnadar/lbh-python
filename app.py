@@ -32,13 +32,13 @@ def home():
 	if not session.get('user_logged_in'):
 		return render_template('user.html')
 	else:
-		
+		theme = collection.thememasters.find_one({},{'_id':0})
 		try:
 			print session['user_Email']
 			f = collection.agentchat.find_one({'user1':session['user_Email'],'disconnected':"False"},{'_id': False})
-			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':f,'theme':theme}
 		except:
-			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':""}
+			user ={'user':session['user_Name'],'useremail':session['user_Email'],'agent':session['agent'],'history':"",'theme':theme}
 		return render_template('index.html',data = user)
 #agents area
 @app.route('/off')

@@ -27,6 +27,7 @@ def save_chat(useremail,agentemail,message,userdetails):
 	print "in save_chat"
 	print useremail,agentemail,message
 	timeint = str(datetime.datetime.now(tz))
+	# timeint = datetime.datetime.now(tz)
 	agenthistory = {
 					"createdAt": timeint,
 					"updatedAt": timeint,
@@ -48,6 +49,7 @@ def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fr
 	print "second_save_chatlist"
 	print typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message
 	timeint = str(datetime.datetime.now(tz))
+	# timeint = datetime.datetime.now(tz)
 	chat = {
 			"type":typeq,
 			"user_email":user_email,
