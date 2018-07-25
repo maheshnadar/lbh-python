@@ -7,8 +7,10 @@ import time
 import datetime
 import os
 import pymongo
+from bson import json_util
+
 import json
-from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist
+from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist,CustomEncoder,myconverter
 # def mongo_connection():
 con = pymongo.MongoClient()
 collection = con.lbh
@@ -226,7 +228,7 @@ def transer_agent(payload):
 	
 	collection.agentchat.update({'user1':user_email,'user2':previous_agent_email},{'$set':{'user2':new_agent_email,'transfer_agent_email':previous_agent_email}})
 	chat = collection.agentchat.find_one({'user1':user_email,'user2':new_agent_email},{'_id':0})
-	print chat
+	chat
 	emit('agent_new_chat',chat,broadcast=True);
 # @socketio.on('disconnect')
 # def disconnect_user():
@@ -252,7 +254,7 @@ def receive_username(username):
     print('Username added!')
 
 #user
-@socketio.on('Connection')
+@socketio.on('Connection',namespace='/private')
 def Connection():
 	print "Connnected ########$$$$$$$$$$$$$$$$$$$$"
 	collection.useronwebsite.update({ '$inc': { 'users': 1 } })
@@ -301,19 +303,7 @@ def break_message(payload):
 
 @socketio.on('second_private_message', namespace='/private')
 def second_private_message(payload):
-	print payload
-	print "!!!!!!!!!!!!!!!!!!!!!!!"
 	if payload['type'] == 'user':
-		# {
-  #               "type": "user",
-  #               "date": new Date(),
-  #               "from_id": useremail,
-  #               "fromname": username,
-  #               "to_id": "none",
-  #               "message": message,
-  #               "toname": agent,
-  #               "type": "user",
-  #           }
 		mess = second_save_chatlist(payload['type'],payload['user_email'],payload['agent_email'],payload['from_id'],payload['from_id'],payload['to_id'],payload['fromname'],payload['toname'],payload['message'],payload['user_details'])
 		emit('user_ongoing_chat', mess, broadcast=True)
 		emit('agent_ongoing_chat', mess, broadcast=True)
@@ -367,6 +357,9 @@ def private_message(payload):
 			d = {'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':"False"}
 			print d,'$$$$$$$$$$$$$$$$'
 			agentmessage = collection.agentchat.find_one({'user1':message['useremail'],'user2':idleidfind['Email'],'disconnected':"False"},{'_id': False})
+			print agentmessage
+			agentmessage =json.loads(agentmessage)
+			# print agentm
 			print agentmessage,"@@@@@@@@@@@@@@@@"	
 			emit('agent_new_chat',agentmessage,broadcast=True)
 			print "done",message
@@ -392,6 +385,11 @@ def private_message(payload):
 		print "Message by agent "
 
 		pass
+
+@socketio.on('connection', namespace='/private')
+def connection(payload):
+	print "#############@@@@@@@@@"
+
 if __name__ == '__main__':
 	# app.secret_key = os.urandom(12)
 	socketio.run(app, host='0.0.0.0',port=8095,debug=True)

@@ -26,11 +26,12 @@ def save_chat(useremail,agentemail,message,userdetails):
 
 	print "in save_chat"
 	print useremail,agentemail,message
-	# timeint = str(datetime.datetime.now(tz))
-	timeint = datetime.datetime.now(tz)
+	timeint = str(datetime.datetime.now(tz))
+	# timeint = datetime.datetime.now(tz)
 	agenthistory = {
 					"createdAt": timeint,
 					"updatedAt": timeint,
+					#"strdate" : strtimeint,
 					"disconnected": "False",
 					"user1": useremail,
 					"user2": agentemail,
@@ -48,8 +49,8 @@ def save_chat(useremail,agentemail,message,userdetails):
 def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message,userdetails):
 	print "second_save_chatlist"
 	print typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message
-	# timeint = str(datetime.datetime.now(tz))
-	timeint = datetime.datetime.now(tz)
+	timeint = str(datetime.datetime.now(tz))
+	# timeint = datetime.datetime.now(tz)
 	chat = {
 			"type":typeq,
 			"user_email":user_email,
@@ -60,6 +61,7 @@ def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fr
             "toname" : toname, 
             "msg" : message, 
             "date" : timeint,
+            # "strdate":strtimeint,
 			"userdetails":userdetails
         }
 	# print chat
@@ -69,3 +71,15 @@ def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fr
 #user_got_connected("d","dev@lbh.com")
 # save_chat('asdf@asdf', 'dev@lbh.com',"d")
 # second_save_chatlist('asdf@asdf', 'asdf@asdf', 'dev@lbh.com', 'asdf', 'dev', 'Hi, I am dev and I will be assisting you today!')
+from json import JSONEncoder, dumps
+
+class CustomEncoder(JSONEncoder):
+    def default(self, obj):
+        if set(['quantize', 'year']).intersection(dir(obj)):
+            return str(obj)
+        elif hasattr(obj, 'next'):
+            return list(obj)
+        return JSONEncoder.default(self, obj)
+def myconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
