@@ -1,7 +1,7 @@
 import pymongo
 import datetime
-from pytz import timezone
-tz = timezone('EST')
+# from pytz import timezone
+# tz = timezone('EST')
 # datetime.now(tz) 
 con = pymongo.MongoClient()
 collection = con.lbh
@@ -26,8 +26,8 @@ def save_chat(useremail,agentemail,message,userdetails):
 
 	print "in save_chat"
 	print useremail,agentemail,message
-	timeint = str(datetime.datetime.now(tz))
-	# timeint = datetime.datetime.now(tz)
+	# timeint = str(datetime.datetime.now())
+	timeint = datetime.datetime.now()
 	agenthistory = {
 					"createdAt": timeint,
 					"updatedAt": timeint,
@@ -49,8 +49,8 @@ def save_chat(useremail,agentemail,message,userdetails):
 def second_save_chatlist(typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message,userdetails):
 	print "second_save_chatlist"
 	print typeq,user_email,agent_email,useremail,from_id,to_id,fromname,toname,message
-	timeint = str(datetime.datetime.now(tz))
-	# timeint = datetime.datetime.now(tz)
+	# timeint = str(datetime.datetime.now())
+	timeint = datetime.datetime.now()
 	chat = {
 			"type":typeq,
 			"user_email":user_email,

@@ -352,15 +352,23 @@ def private_message(payload):
 			agentmess = "Hi, I am {}{}".format(idleidfind['agentname'],mes['agent_message'])
 			third_response = second_save_chatlist('agent',message['useremail'],idleidfind['Email'],message['useremail'],message['useremail'],idleidfind['Email'],message['username'],idleidfind['agentname'],agentmess,payload['user_details'])
 			message['frist_agent_message'] = agentmess
+			print "#############second_response"
+			second_response = json.dumps(second_response,default=json_util.default)
+			second_response = json.loads(second_response)
 			emit('new_private_message', second_response, broadcast=True)
+			print "DSSSSSSSDFASDF"
+			third_response = json.dumps(third_response,default=json_util.default)
+			third_response = json.loads(third_response)
 			emit('new_private_message', third_response, broadcast=True)
 			d = {'user1':message['useremail'],'user2':idleidfind['agentname'],'disconnected':"False"}
 			print d,'$$$$$$$$$$$$$$$$'
 			agentmessage = collection.agentchat.find_one({'user1':message['useremail'],'user2':idleidfind['Email'],'disconnected':"False"},{'_id': False})
 			print agentmessage
-			agentmessage =json.loads(agentmessage)
+			# agentmessage =json.loads(agentmessage)
 			# print agentm
 			print agentmessage,"@@@@@@@@@@@@@@@@"	
+			agentmessage = json.dumps(agentmessage,default=json_util.default)
+			agentmessage = json.loads(agentmessage)
 			emit('agent_new_chat',agentmessage,broadcast=True)
 			print "done",message
 			# collection.close()
