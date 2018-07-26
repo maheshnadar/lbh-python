@@ -266,8 +266,9 @@ def transer_agent(payload):
 	chat = json.dumps(chat,default=json_util.default)
 	chat = json.loads(chat)
 	emit('agent_new_chat',chat,broadcast=True);
-# @socketio.on('disconnect')
-# def disconnect_user():
+@socketio.on('disconnected')
+def disconnect_user():
+	print 'disconnect'
 #     # logout_user()
 # 	print 'disconnected'
 # 	session.pop('user_logged_in',None)
@@ -355,7 +356,7 @@ def second_private_message(payload):
 @socketio.on('private_message', namespace='/private')
 def private_message(payload):
 	print "private_message"
-	print payload
+	# print payload
 	if payload['type'] == 'user':
 		message = {'message': payload['message']}
 		message['username'] = payload['fromname']
@@ -363,7 +364,7 @@ def private_message(payload):
 
 
 		idleidfind = collection.agentloggedin.find_one({'break':False,'room':True},sort=[("updatedat", 1)],limit=1)		
-		print idleidfind,"@@@@@@@@@@@@@@"
+		# print idleidfind,"@@@@@@@@@@@@@@"
 
 		if idleidfind:
 
@@ -377,12 +378,25 @@ def private_message(payload):
 			if idleidfind:
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$push":{'chatingwith':payload['fromname']}},upsert=False)
 				collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'updatedat':datetime.datetime.now()}},upsert=False)
-				try:
-					new_agent = collection.agentloggedin.find_one({'Email':idleidfind['Email']})
-					if len(new_agent['chatingwith'])>= new_agent['Chatlimit']:
-						collection.agentloggedin.update({'Email':new_agent['Email']},{"$set":{'room':False}},upsert=False)			
-				except:
-					pass
+				if 'chatingwith' in idleidfind:
+					print "chatingwith inside"
+					print len(idleidfind['chatingwith'])<= idleidfind['Chatlimit']+1
+					if len(idleidfind['chatingwith'])+1>= idleidfind['Chatlimit']:
+						
+						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)
+				else:
+					if idleidfind['Chatlimit'] == 1:
+						collection.agentloggedin.update({'Email':idleidfind['Email']},{"$set":{'room':False}},upsert=False)
+				# try:
+				# 	if idleidfind['chatingwith']:
+				# 		len(idleidfind['chatingwith'])
+				# 	#new_agent = collection.agentloggedin.find_one({'Email':idleidfind['Email']})
+				# 	# print "got new_agent",new_agent
+				# 	if len(new_agent['chatingwith'])>= new_agent['Chatlimit']:
+				# 		print "new_agent"
+				# 		collection.agentloggedin.update({'Email':new_agent['Email']},{"$set":{'room':False}},upsert=False)			
+				# except:
+				# 	pass
 			mes= collection.thememasters.find_one({})
 			firstmess = "Hi {}!{}".format(message['username'],mes['welcome_message'])
 			save_chat(message['useremail'],idleidfind['Email'],message['message'],payload['user_details'])
