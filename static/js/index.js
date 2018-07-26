@@ -295,10 +295,14 @@ app.controller('chatWindowController', function ($scope) {
         $scope.$digest();
         // }
     });
-    private_socket.on('offline_message', function (msg) {
-        console.log('offline message !', msg);
+    private_socket.on('offline_message', function (endUser) {
+        console.log('offline message !', endUser);
         // window.location.href = "http://stackoverflow.com";
-        window.location.href = 'off';
+        
+
+         if(endUser.username==username){
+            window.location.href = 'off';
+        }
 
         // socket.emit('Connection');
     });
