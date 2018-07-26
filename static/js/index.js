@@ -246,7 +246,7 @@ app.controller('chatWindowController', function ($scope) {
     // verify our websocket connection is established
     private_socket.on('connect', function () {
         console.log('Websocket connected! on private');
-        socket.emit('connection');
+        socket.emit('disconnected');
     });
     socket.on('disconnect', function () {
         console.log('Websocket connected!');
