@@ -8,6 +8,7 @@ import datetime
 import os
 import pymongo
 from bson import json_util
+from flask_cors import CORS
 
 import json
 from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist,CustomEncoder,myconverter
@@ -21,6 +22,8 @@ app.config.update(
     DEBUG = True,
     SECRET_KEY = 'secret_xxx'
 )
+CORS(app)
+
 socketio = SocketIO(app)
 ROOMS = {} # dict to track active rooms
  #user area
