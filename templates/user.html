@@ -13,7 +13,7 @@
 <body ng-app="user">
   <div ng-controller="userController">
     <div class="chat-container" ng-class="{'chat-close':!chatOpen}">
-      <div class="top">
+      <div class="top themecolor">
         <img src="../static/images/chat.png" class="chat-icon">
         <span>LIVE CHAT</span>
 
@@ -30,7 +30,7 @@
             <br/>
             <input type="email" name="Email" placeholder="Email*" required>
             <br/>
-            <button type="submit" name="send_username" class="btn  chat-login" ng-disabled="chatLogin.$invalid">Lets chat</button>
+            <button type="submit" name="send_username" class="btn  chat-login themecolor" ng-disabled="chatLogin.$invalid">Lets chat</button>
           </form>
         </div>
 
@@ -61,11 +61,8 @@
       $('.user-img-id').attr('src', right_img);
       var style = document.createElement('style');
       style.type = 'text/css';
-      style.innerHTML = ".right-chat { background-color:" + theme.user_bubble + "; color:" + theme.user_font +
-        ";}  .right-chat:after{border-color: transparent " + theme.user_bubble + ";}";
-      style.innerHTML += ".left-chat { background-color:" + theme.agent_bubble + "; color:" + theme.agent_font +
-        ";}   .left-chat:after{border-color: transparent " + theme.agent_bubble + ";}";
-      style.innerHTML += ".top { background:" + theme.theme_color + ";}";
+    
+      style.innerHTML += ".themecolor { background:" + theme.theme_color + ";}";
       document.getElementsByTagName('head')[0].appendChild(style);
       // document.getElementById('someElementId').className = 'cssClass';
     })

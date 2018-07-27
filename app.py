@@ -82,7 +82,7 @@ def offline():
             "responsetype" : "", 
             "email":request.form["Email"],
             "phone":request.form["Phone"],
-            # "user_input" : "I am looking for a topaz ring", 
+            "user_input" : "Off line", 
 			"message" :request.form["send_username"]
 			        }
 			    ], 
