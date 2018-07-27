@@ -109,9 +109,10 @@ app.factory("api",function($http){
     }
 })
     
-app.controller("agentController", function ($scope,api, $window) {
+app.controller("agentController", function ($scope,api, $window,$timeout) {
     // $scope.users = [];
     // $scope.chatHistory = [];
+   $scope.logoutLoader=false;
     $scope.chatHistory = chathistory;
     $scope.messages = [];
     $scope.selectedUser = {};
@@ -146,7 +147,12 @@ app.controller("agentController", function ($scope,api, $window) {
             
         }
         console.log("change to agent logout");
-        window.location.href = 'agentlogout';
+        $scope.logoutLoader=true;
+        $timeout(function(){
+            $scope.logoutLoader=false;
+            window.location.href = 'agentlogout';
+        },3000)
+       
     }
 
     $scope.getChat = function (user) {
