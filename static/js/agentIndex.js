@@ -143,9 +143,10 @@ app.controller("agentController", function ($scope,api, $window) {
                 user_email: $scope.chatHistory[i].chatlist[1].to_id,
                 user_details: {}
             });
+            
         }
-       
-
+        console.log("change to agent logout");
+        window.location.href = 'agentlogout';
     }
 
     $scope.getChat = function (user) {
