@@ -35,7 +35,8 @@ def home():
 		data = off['inactive_messages']
 		return render_template('agent-offline.html',data=data)
 	if not session.get('user_logged_in'):
-		return render_template('user.html')
+		theme = collection.thememasters.find_one({},{'_id':0})
+		return render_template('user.html',data={'theme':theme})
 	else:
 		theme = collection.thememasters.find_one({},{'_id':0})
 		try:
