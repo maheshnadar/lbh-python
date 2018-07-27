@@ -88,6 +88,7 @@ def offline():
 		# collection.chathistory.insert_one({'username':request.form['Name'],'email':request.form['Email'],'phone':request.form['Phone'],'message':request.form['send_username']})
 	return render_template("messagesend.html")
 
+
 @app.route('/agent')
 def agenthome():
 	print "agenthome"
@@ -231,6 +232,13 @@ def agent_logout():
 # def index():
 #     """Serve the index HTML"""
 #     return render_template('index.html')
+
+@app.route('/bot',methods=['GET'])
+def bot():
+	d =collection.checkbotstatus.find_one({})
+	print d
+	response = d['botenable']
+	return response
 
 @socketio.on('end_user_message', namespace='/private')
 def on_Endchat(payload):
@@ -433,7 +441,7 @@ def private_message(payload):
 			message['useremail'] = payload['from_id']
 			message['message'] = "No user available"
 			emit('offline_message', message ,broadcast=True)
-			pass
+			
 	else:
 		print "agent",payload
 		message = {'message': payload['message']}
