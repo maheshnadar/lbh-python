@@ -38,7 +38,12 @@
     </div>
   </div>
 </body>
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
 <script>
+      var data = {{data | tojson}}
+      var theme = data.theme;
+  console.log(data);
   var app = angular.module("user", []);
 
   app.controller('userController', function ($scope) {
@@ -47,6 +52,21 @@
   })
 </script>
 {% endif %} {% endblock %}
-
-<script src="../static/js/jquery-3.3.1.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+      console.log("ready!");
+      var left_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_avatar;
+      var right_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_bot;
+      $('.bot-img-id').attr('src', left_img);
+      $('.user-img-id').attr('src', right_img);
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = ".right-chat { background-color:" + theme.user_bubble + "; color:" + theme.user_font +
+        ";}  .right-chat:after{border-color: transparent " + theme.user_bubble + ";}";
+      style.innerHTML += ".left-chat { background-color:" + theme.agent_bubble + "; color:" + theme.agent_font +
+        ";}   .left-chat:after{border-color: transparent " + theme.agent_bubble + ";}";
+      style.innerHTML += ".top { background:" + theme.theme_color + ";}";
+      document.getElementsByTagName('head')[0].appendChild(style);
+      // document.getElementById('someElementId').className = 'cssClass';
+    })
+  </script>
