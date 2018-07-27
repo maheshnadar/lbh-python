@@ -363,9 +363,12 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-        if ($scope.altDown) {
-            // alert('Ctrl + C pressed');
-            if($event.keyCode !== 18){
+             // alert('Ctrl + C pressed');
+        //     if($event.keycode==9){
+        //    $scope.altDown = false;
+                
+        //     }
+            if($event.keyCode !== 18 && $event.altKey){
                 // console.log($event.keyCode);
                 var alphaKey = $event.keyCode;
                 api.sendKeys(alphaKey,function(data){
@@ -374,7 +377,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
                     $scope.agentReplay.text = data.data.message;
                 })
             }
-        }
+    
         // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
         //     alert('Ctrl + V pressed');
         // } else if ($scope.ctrlDown && String.fromCharCode($event.which).toLowerCase() == 's') {
@@ -382,16 +385,16 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         //     alert('Ctrl + S pressed');
         // }
     };
-    angular.element($window).bind("keyup", function($event) {
-        if ($event.keyCode == $scope.altKey)
-            $scope.altDown = false;
-        $scope.$apply();
-    });
-    angular.element($window).bind("keydown", function($event) {
-        if ($event.keyCode == $scope.altKey)
-            $scope.altDown = true;
-        $scope.$apply();
-    });
+    // angular.element($window).bind("keyup", function($event) {
+    //     if ($event.keyCode == $scope.altKey)
+    //         $scope.altDown = false;
+    //     $scope.$apply();
+    // });
+    // angular.element($window).bind("keydown", function($event) {
+    //     if ($event.keyCode == $scope.altKey)
+    //         $scope.altDown = true;
+    //     $scope.$apply();
+    // });
         
 
 
