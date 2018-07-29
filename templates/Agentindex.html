@@ -98,6 +98,19 @@
       </nav>
     </div>
 
+    <style>
+    .blinking{
+	    animation:blinking 0.8s infinite;
+    }
+    @keyframes blinking{
+      0%{		color: #000;	}
+      49%{	color: #000;	}
+      50%{	color: transparent;	}
+      99%{	color:transparent;	}
+      100%{	color: #000;	}
+    }
+    </style>
+    <spna class="blinking">Hello</spna>
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
 
