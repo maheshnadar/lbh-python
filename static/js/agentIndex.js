@@ -109,9 +109,10 @@ app.factory("api",function($http){
     }
 })
     
-app.controller("agentController", function ($scope,api, $window) {
+app.controller("agentController", function ($scope,api, $window,$timeout) {
     // $scope.users = [];
     // $scope.chatHistory = [];
+   $scope.logoutLoader=false;
     $scope.chatHistory = chathistory;
     $scope.messages = [];
     $scope.selectedUser = {};
@@ -146,7 +147,12 @@ app.controller("agentController", function ($scope,api, $window) {
             
         }
         console.log("change to agent logout");
-        window.location.href = 'agentlogout';
+        $scope.logoutLoader=true;
+        $timeout(function(){
+            $scope.logoutLoader=false;
+            window.location.href = 'agentlogout';
+        },3000)
+       
     }
 
     $scope.getChat = function (user) {
@@ -357,9 +363,12 @@ app.controller("agentController", function ($scope,api, $window) {
         if (keycode === 13) {
             $scope.sendMessage(msg, user);
         }
-        if ($scope.altDown) {
-            // alert('Ctrl + C pressed');
-            if($event.keyCode !== 18){
+             // alert('Ctrl + C pressed');
+        //     if($event.keycode==9){
+        //    $scope.altDown = false;
+                
+        //     }
+            if($event.keyCode !== 18 && $event.altKey){
                 // console.log($event.keyCode);
                 var alphaKey = $event.keyCode;
                 api.sendKeys(alphaKey,function(data){
@@ -368,7 +377,7 @@ app.controller("agentController", function ($scope,api, $window) {
                     $scope.agentReplay.text = data.data.message;
                 })
             }
-        }
+    
         // else if ($scope.ctrlDown && ($event.keyCode == $scope.vKey)) {
         //     alert('Ctrl + V pressed');
         // } else if ($scope.ctrlDown && String.fromCharCode($event.which).toLowerCase() == 's') {
@@ -376,16 +385,16 @@ app.controller("agentController", function ($scope,api, $window) {
         //     alert('Ctrl + S pressed');
         // }
     };
-    angular.element($window).bind("keyup", function($event) {
-        if ($event.keyCode == $scope.altKey)
-            $scope.altDown = false;
-        $scope.$apply();
-    });
-    angular.element($window).bind("keydown", function($event) {
-        if ($event.keyCode == $scope.altKey)
-            $scope.altDown = true;
-        $scope.$apply();
-    });
+    // angular.element($window).bind("keyup", function($event) {
+    //     if ($event.keyCode == $scope.altKey)
+    //         $scope.altDown = false;
+    //     $scope.$apply();
+    // });
+    // angular.element($window).bind("keydown", function($event) {
+    //     if ($event.keyCode == $scope.altKey)
+    //         $scope.altDown = true;
+    //     $scope.$apply();
+    // });
         
 
 

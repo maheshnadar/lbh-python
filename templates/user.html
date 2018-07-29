@@ -13,7 +13,7 @@
 <body ng-app="user">
   <div ng-controller="userController">
     <div class="chat-container" ng-class="{'chat-close':!chatOpen}">
-      <div class="top">
+      <div class="top themecolor">
         <img src="../static/images/chat.png" class="chat-icon">
         <span>LIVE CHAT</span>
 
@@ -30,7 +30,7 @@
             <br/>
             <input type="email" name="Email" placeholder="Email*" required>
             <br/>
-            <button type="submit" name="send_username" class="btn  chat-login" ng-disabled="chatLogin.$invalid">Lets chat</button>
+            <button type="submit" name="send_username" class="btn  chat-login themecolor" ng-disabled="chatLogin.$invalid">Lets chat</button>
           </form>
         </div>
 
@@ -38,7 +38,12 @@
     </div>
   </div>
 </body>
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
 <script>
+      var data = {{data | tojson}}
+      var theme = data.theme;
+  console.log(data);
   var app = angular.module("user", []);
 
   app.controller('userController', function ($scope) {
@@ -47,6 +52,18 @@
   })
 </script>
 {% endif %} {% endblock %}
-
-<script src="../static/js/jquery-3.3.1.min.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+      console.log("ready!");
+      var left_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_avatar;
+      var right_img = "http://54.203.188.32/lbh/uploads/avatar/" + theme.theme_bot;
+      $('.bot-img-id').attr('src', left_img);
+      $('.user-img-id').attr('src', right_img);
+      var style = document.createElement('style');
+      style.type = 'text/css';
+    
+      style.innerHTML += ".themecolor { background:" + theme.theme_color + ";}";
+      document.getElementsByTagName('head')[0].appendChild(style);
+      // document.getElementById('someElementId').className = 'cssClass';
+    })
+  </script>

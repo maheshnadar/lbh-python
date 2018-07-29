@@ -8,6 +8,7 @@ import datetime
 import os
 import pymongo
 from bson import json_util
+from flask_cors import CORS
 
 import json
 from config_update import user_got_connected,user_got_disconnected,save_chat,second_save_chatlist,CustomEncoder,myconverter
@@ -21,6 +22,8 @@ app.config.update(
     DEBUG = True,
     SECRET_KEY = 'secret_xxx'
 )
+CORS(app)
+
 socketio = SocketIO(app)
 ROOMS = {} # dict to track active rooms
  #user area
@@ -32,7 +35,8 @@ def home():
 		data = off['inactive_messages']
 		return render_template('agent-offline.html',data=data)
 	if not session.get('user_logged_in'):
-		return render_template('user.html')
+		theme = collection.thememasters.find_one({},{'_id':0})
+		return render_template('user.html',data={'theme':theme})
 	else:
 		theme = collection.thememasters.find_one({},{'_id':0})
 		try:
@@ -78,7 +82,7 @@ def offline():
             "responsetype" : "", 
             "email":request.form["Email"],
             "phone":request.form["Phone"],
-            # "user_input" : "I am looking for a topaz ring", 
+            "user_input" : "Off line", 
 			"message" :request.form["send_username"]
 			        }
 			    ], 

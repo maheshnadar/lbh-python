@@ -514,3 +514,32 @@ body {
   font-size: 1.5rem;
   text-transform: uppercase;
 }
+
+.loading{
+  position: fixed;
+  background: #0000004f;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  color: black;
+  z-index: 10;
+  font-size: 25px;
+ 
+}
+
+.loading .load{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.loading img{
+  width: 35px;
+  margin-left: 0px;
+  margin-right: 12px;
+}
