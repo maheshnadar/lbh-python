@@ -47,6 +47,7 @@ function scrollbottom(){
   
 
 }
+
 //-- No use time. It is a javaScript effect.
 // function insertChat(who, text, time) {
 //     if (time === undefined) {
@@ -123,7 +124,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
     $scope.agentReplay = {};
     $scope.agentReplay.text = "";
 
-    /////--------------Logout ------------------------
+       /////--------------Logout ------------------------
     $scope.logout = function () {
 
         // var name = $('.agentname').text();
@@ -191,6 +192,8 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
             //         $scope.chatHistory[i].chatlist.push(msg)
             //     }
             // }
+            msg.isNew = true;
+            // msg=anchorme(msg);
             $scope.chatHistory.push(msg);
         }
         // if (msg == "No user available") {
@@ -247,10 +250,57 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         if (agentemail == msg.agent_email) {
             for (var i = 0; i < $scope.chatHistory.length; i++) {
                 if ($scope.chatHistory[i].user1 == msg.user_email) {
+                    msg.msg=anchorme(msg.msg);
+                    // $scope.html = msg.msg;
+                    // $scope.trustedHtml = $sce.trustAsHtml($scope.html);
+                    // msg.msg=$scope.trustedHtml;
+                    // $(".append-text-left").append("<b>Appended text</b>");
                     $scope.chatHistory[i].chatlist.push(msg)
                 }
+                if($scope.chatHistory[i].user1 == msg.from_id){
+                    $scope.chatHistory[i].isNew = true;
+                        notifyMe();
+                    }
             }
         }
+
+        // ---------------------- Notification Code ----------------------
+
+        var fullMsg = msg.msg;
+        // console.log(fullMsg);
+
+        Notification.requestPermission().then(function(result) {
+            console.log(result);
+        });
+        function notifyMe() {
+            // Let's check if the browser supports notifications
+            if (!("Notification" in window)) {
+                alert("This browser does not support system notifications");
+            }
+      
+            // Let's check whether notification permissions have already been granted
+            else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification(msg.from_id, {body:fullMsg});
+                setTimeout(notification.close.bind(notification), 5000);
+            }
+      
+            // Otherwise, we need to ask the user for permission
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification(msg.from_id, {body:fullMsg});
+                        setTimeout(notification.close.bind(notification), 5000);
+                    }
+                });
+            }
+      
+            // Finally, if the user has denied notifications and you 
+            // want to be respectful there is no need to bother them any more.
+        }
+
+        // ---------------------- End Notification Code ----------------------
 
         // for (var i = 0; i < $scope.chatHistory.length; i++) {
         //     var history = $scope.chatHistory[i][msg.username.toString()];
@@ -294,6 +344,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
 
     });
 
+    
 
     private_socket.on('user_end_chat', function (endUser) {
         //to end chat
@@ -482,3 +533,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         //     console.log("inside agent online",data);
         //     })
 });
+
+// var someText = "this is a text with a link www.github.com ..";
+// var result = anchorme(someText);
+// console.log(result);

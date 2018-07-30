@@ -292,9 +292,62 @@ app.controller('chatWindowController', function ($scope) {
             // insertChat("you", msg['message']);
             // insertChat("me", "hi i am  " + msg['agent'] + "    how can i help you");
         }
+        if(msg.from_id == msg.agent_email){
+            notifyMe();
+            // console.log("Getting in");
+        }
+
+        var fullMsg = msg.msg;
+        console.log(fullMsg);
+
+    // ---------------------- Notification Code ----------------------
+
+    Notification.requestPermission().then(function(result) {
+        console.log(result);
+    });
+    function notifyMe() {
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support system notifications");
+        }
+  
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            // If it's okay let's create a notification
+            var notification = new Notification(msg.from_id, {body:fullMsg});
+            setTimeout(notification.close.bind(notification), 5000);
+        }
+  
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function (permission) {
+            // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    var notification = new Notification(msg.from_id, {body:fullMsg});
+                    setTimeout(notification.close.bind(notification), 5000);
+                }
+            });
+        }
+  
+        // Finally, if the user has denied notifications and you 
+        // want to be respectful there is no need to bother them any more.
+    }
+
+    // ---------------------- End Notification Code ----------------------
+
+
+
+
+
+
+
         $scope.$digest();
         // }
-    });
+    });    
+
+    
+
+
     private_socket.on('offline_message', function (endUser) {
         console.log('offline message !', endUser);
         // window.location.href = "http://stackoverflow.com";

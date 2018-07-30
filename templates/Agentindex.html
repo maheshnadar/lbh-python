@@ -12,6 +12,7 @@
   <script src="../static/js/socket.io.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/anchorme.min.js"></script>
   <script src="../static/js/agentIndex.js"></script>
   <style></style>
 </head>
@@ -82,7 +83,7 @@
                 <a href="#">Hi {{data.agentname}}</a>
                 <div class="logout_menu menu_content">
                   <!-- <a href="{{ url_for('agent_logout') }}" ng-click="logout()"> -->
-                  <a  ng-click="logout()">
+                  <a ng-click="logout()">
                     <span class="glyphicon glyphicon-off"></span>
                     Logout
                   </a>
@@ -99,24 +100,35 @@
     </div>
 
     <style>
-    .blinking{
-	    animation:blinking 0.8s infinite;
-    }
-    @keyframes blinking{
-      0%{		color: #000;	}
-      49%{	color: #000;	}
-      50%{	color: transparent;	}
-      99%{	color:transparent;	}
-      100%{	color: #000;	}
-    }
+      .blinking {
+        animation: blinking 0.8s infinite;
+      }
+
+      @keyframes blinking {
+        0% {
+          opacity: 1;
+        }
+        49% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 0.9;
+        }
+        99% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
     </style>
-    <spna class="blinking">Hello</spna>
     <div class="container-fluid chatwindow">
       <div class="row show-agents-container">
 
         <div id="chattab" class="col-xs-3">
           <div ng-if="chatHistory.length==0" class="no-user">No User</div>
-          <div ng-repeat="user in chatHistory" class="userlist" ng-click="getChat(user)">
+          <div ng-repeat="user in chatHistory track by $index" class="userlist" ng-click="chatHistory[$index].isNew = false; getChat(user)"
+            ng-class="{ 'blinking':user.isNew }">
             <span class="user-close" ng-if="user.isChatEnd" ng-click="removeUser(user)">X</span>
             <a>
               <div ng-bind="user.user1"></div>
@@ -130,15 +142,16 @@
             <div class="message-panel">
               <div class="" ng-repeat="message in selectedUser.chatlist track by $index" class="chat-list" ng-class="{'left':message.type=='user','right':message.type=='agent'}">
                 <!-- <div ng-bind=message> -->
-                  <!-- <div  class="agent-transfer" ng-if="(selectedUser.chatlist[$index-1] && message.agent_email!=selectedUser.chatlist[$index-1].agent_email)" >
+                <!-- <div  class="agent-transfer" ng-if="(selectedUser.chatlist[$index-1] && message.agent_email!=selectedUser.chatlist[$index-1].agent_email)" >
                       Agent <span class="u" ng-bind="selectedUser.chatlist[$index-1].agent_email"></span>   transfered chat to 
                         <span class="u"  ng-bind="message.agent_email"></span>
                   </div> -->
-                  <div  class="agent-transfer" ng-if="message.type=='transfer'" >
+                <div class="agent-transfer" ng-if="message.type=='transfer'">
                   <span ng-bind="message.msg"></span>
                 </div>
                 <div class="left-chat" ng-if="message.type=='user'">
                   <span ng-bind="message.msg" class=""></span>
+                  <span class="append-text-left"></span>
                   <br>
                   <div class="chat-info-detail-left">
 
@@ -212,37 +225,37 @@
             </div>
             <div class="modal-body">
               <!-- NG REPEAT -->
-                <!-- <span ng-bind="item"></span> -->
-                <!-- <ul>
+              <!-- <span ng-bind="item"></span> -->
+              <!-- <ul>
                   <li>
                     
                     
                   </li>
                 </ul> -->
 
-                <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th style="width:13%; text-align:center">Special Keys</th>
-                        <th style="width:13%; text-align:center">Keys</th>
-                        <th>Message</th>
-                      </tr>
-                    </thead>
-                    <tbody ng-repeat="item in hotkeys">
-                      <tr>
-                        <td style="text-align: center">
-                          <span ng-bind="item.specialkeyvalue"></span>
-                        </td>
-                        <td style="text-align: center">
-                          <span ng-bind="item.hotkeyvalue"></span>
-                        </td>
-                        <td>
-                          <span ng-bind="item.message"></span>
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-                <!-- <div class="col-xs-5">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th style="width:13%; text-align:center">Special Keys</th>
+                    <th style="width:13%; text-align:center">Keys</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="item in hotkeys">
+                  <tr>
+                    <td style="text-align: center">
+                      <span ng-bind="item.specialkeyvalue"></span>
+                    </td>
+                    <td style="text-align: center">
+                      <span ng-bind="item.hotkeyvalue"></span>
+                    </td>
+                    <td>
+                      <span ng-bind="item.message"></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <div class="col-xs-5">
                     </div>
                     <div class="col-xs-7">
                       
@@ -265,12 +278,12 @@
 
 
     <div class="loading" ng-if="logoutLoader">
-       <span class="load"> Logging out........
+      <span class="load"> Logging out........
 
         <img src="../static/images/loader.gif">
-       
-       </span>
-      </div>
+
+      </span>
+    </div>
   </div>
 
   <script>
@@ -279,24 +292,24 @@
     var agentname = data.agentname;
     var chathistory = data.history;
     var agentlist = data.agentlist;
-var break_status=data.break_status;
-    var rightcolor="#768670";
-    var leftcolor="#222222";
+    var break_status = data.break_status;
+    var rightcolor = "#768670";
+    var leftcolor = "#222222";
     console.log(data, agentname, chathistory);
 
     //assigning custom color in chatbox
-    $(document).ready(function() {
-      console.log( "ready!" );  
+    $(document).ready(function () {
+      console.log("ready!");
       var style = document.createElement('style');
       style.type = 'text/css';
-      style.innerHTML = ".right-chat { background-color:"+ rightcolor+";}  .right-chat:after{border-color: transparent "+rightcolor+";}";
-      style.innerHTML += ".left-chat { background-color:"+ leftcolor+"}   .left-chat:after{border-color: transparent "+leftcolor+";}";
+      style.innerHTML = ".right-chat { background-color:" + rightcolor +
+        ";}  .right-chat:after{border-color: transparent " + rightcolor + ";}";
+      style.innerHTML += ".left-chat { background-color:" + leftcolor +
+        "}   .left-chat:after{border-color: transparent " + leftcolor + ";}";
       document.getElementsByTagName('head')[0].appendChild(style);
       // document.getElementById('someElementId').className = 'cssClass';
-      }
-    )
+    })
     //end of custom color in chatbox
-
   </script>
 </body>
 
