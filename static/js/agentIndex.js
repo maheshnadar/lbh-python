@@ -257,10 +257,10 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
                     // $(".append-text-left").append("<b>Appended text</b>");
                     $scope.chatHistory[i].chatlist.push(msg)
                 }
-                // if($scope.chatHistory[i].user1 == msg.from_id){
-                //     $scope.chatHistory[i].isNew = true;
-                //     notifyMe();
-                // }
+                if($scope.chatHistory[i].user1 == msg.from_id){
+                    $scope.chatHistory[i].isNew = true;
+                    notifyMe();
+                }
             }
         }
 
