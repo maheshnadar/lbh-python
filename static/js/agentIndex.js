@@ -250,17 +250,17 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         if (agentemail == msg.agent_email) {
             for (var i = 0; i < $scope.chatHistory.length; i++) {
                 if ($scope.chatHistory[i].user1 == msg.user_email) {
-                    msg.msg=anchorme(msg.msg);
+                    // msg.msg=anchorme(msg.msg);
                     // $scope.html = msg.msg;
                     // $scope.trustedHtml = $sce.trustAsHtml($scope.html);
                     // msg.msg=$scope.trustedHtml;
                     // $(".append-text-left").append("<b>Appended text</b>");
                     $scope.chatHistory[i].chatlist.push(msg)
                 }
-                if($scope.chatHistory[i].user1 == msg.from_id){
-                    $scope.chatHistory[i].isNew = true;
-                        notifyMe();
-                    }
+                // if($scope.chatHistory[i].user1 == msg.from_id){
+                //     $scope.chatHistory[i].isNew = true;
+                //     notifyMe();
+                // }
             }
         }
 
