@@ -52,7 +52,9 @@ def home():
 #agents area
 @app.route('/off')
 def off():
-	return render_template('agent-offline.html')
+	theme = collection.thememasters.find_one({},{'_id':0})
+		
+	return render_template('agent-offline.html',data={'theme':theme})
 
 
 @app.route('/offline',methods = ["POST"])
