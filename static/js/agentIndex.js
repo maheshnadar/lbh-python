@@ -270,7 +270,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         // console.log(fullMsg);
 
         Notification.requestPermission().then(function(result) {
-            console.log(result);
+            console.log("notification",result);
         });
         function notifyMe() {
             // Let's check if the browser supports notifications
@@ -281,7 +281,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
             // Let's check whether notification permissions have already been granted
             else if (Notification.permission === "granted") {
                 // If it's okay let's create a notification
-                var notification = new Notification(msg.from_id, {body:fullMsg});
+                var notification = new Notification(msg.from_id, {body:msg.msg});
                 setTimeout(notification.close.bind(notification), 5000);
             }
       
@@ -290,7 +290,7 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
                 Notification.requestPermission(function (permission) {
                 // If the user accepts, let's create a notification
                     if (permission === "granted") {
-                        var notification = new Notification(msg.from_id, {body:fullMsg});
+                        var notification = new Notification(msg.from_id, {body:msg.msg});
                         setTimeout(notification.close.bind(notification), 5000);
                     }
                 });
