@@ -55,7 +55,12 @@ def off():
 	theme = collection.thememasters.find_one({},{'_id':0})
 		
 	return render_template('agent-offline.html',data={'theme':theme})
+from enc import encrypt
+@app.route('/enc')
+def enc():
+	enc = encrypt('plaintextasdfasdfsdffasdfg7gtfyrfytgugytvysafdsdfadsf', 'key1111111111111')
 
+	return enc
 
 @app.route('/offline',methods = ["POST"])
 def offline():
