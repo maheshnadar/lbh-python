@@ -1,7 +1,14 @@
 // var url="http://127.0.0.1:5000/";
 var url='http://' + document.domain + ':' + location.port+'/';
 console.log(url);
+
 var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+
+
+
+// url="http://192.168.0.175:5000/";
+var socket = io.connect(url);
 // verify our websocket connection is established
 socket.on('connect', function () {
     console.log('Websocket connected!');
@@ -104,6 +111,12 @@ app.factory("api",function($http){
         getKeys:function(callback){
             $http({
                 url: url + 'hot_keys',
+                method: 'get',
+            }).then(callback);
+        },
+        getenc:function(callback){
+            $http({
+                url: url + 'enc',
                 method: 'get',
             }).then(callback);
         },
@@ -532,7 +545,26 @@ app.controller("agentController", function ($scope,api, $window,$timeout) {
         // api.getAgentOnline(function(data){
         //     console.log("inside agent online",data);
         //     })
-});
+
+
+
+
+
+
+        api.getenc(function(data){
+            console.log("get enc",data);
+            var iv=data.data.substring(0,16);
+            var decrypt=data.data;
+// console.log( "----------------decrypted=",d("+█D║┬!YÇù`µ1┼HO¬τMç╬₧│k-¼£╕Å7╞!GδLt_╩▄£nx╙{(,ª£²8Lôδ#√Gú ","å╜╥▄y`(╦YτÖ¢τ┬ ") )
+ 
+;
+console.log('sdsadsdasddddddd',decrypts(data.data));
+})
+
+    
+
+
+    });
 
 // var someText = "this is a text with a link www.github.com ..";
 // var result = anchorme(someText);

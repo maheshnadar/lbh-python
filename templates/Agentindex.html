@@ -14,6 +14,11 @@
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="../static/js/anchorme.min.js"></script>
   <script src="../static/js/agentIndex.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/aes.js"></script> -->
+
+  
   <style></style>
 </head>
 
@@ -310,6 +315,73 @@
       // document.getElementById('someElementId').className = 'cssClass';
     })
     //end of custom color in chatbox
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------ crypto ------------------------------------
+
+
+// var key="key1111111111111";
+
+
+function e(data,x){
+
+var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), key,{ iv: x });
+
+return ciphertext.toString();
+}
+
+
+function d(ciphertext,x){
+  var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), key,{ iv: x });
+  console.log("bytes",bytes);
+  var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+ return decryptedData;
+}
+
+console.log("")
+
+
+
+//---------------------------------------------------------
+var key = CryptoJS.enc.Utf8.parse('key1111111111111');
+
+function encrypt(msgString, key) {
+    // msgString is expected to be Utf8 encoded
+    var iv = CryptoJS.lib.WordArray.random(16);
+    var encrypted = Crypto.AES.encrypt(msgString, key, {
+        iv: iv
+    });
+    return iv.concat(encrypted.ciphertext).toString(CryptoJS.enc.Base64);
+}
+
+function decrypts(ciphertextStr) {
+    var ciphertext = CryptoJS.enc.Base64.parse(ciphertextStr);
+
+    // split IV and ciphertext
+    var iv = ciphertext.clone();
+    iv.sigBytes = 16;
+    iv.clamp();
+    ciphertext.words.splice(0, 4); // delete 4 words = 16 bytes
+    ciphertext.sigBytes -= 16;
+
+    // decryption
+    var decrypted = CryptoJS.AES.decrypt({ciphertext: ciphertext}, key, {
+        iv: iv
+    });
+
+    console.log("decrypted",decrypted);
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
   </script>
 </body>
 
